@@ -53,7 +53,7 @@ Browser Support
 
 Change Logs
 ----------
-You can display all release notes with **[this link](https://gurayyarar.github.io/AdminBSBMaterialDesign/pages/changelogs.html)**
+You can display all release notes with **[this link](https://gurayyarar.github.io/AdminBSBMaterialDesign/pages/changelogs.php)**
 
 
 FAQ

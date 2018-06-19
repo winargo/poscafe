@@ -1,5 +1,5 @@
 <?php
-        if(!isset($_SESSION["user"]) || $_SESSION["user"]=="" || !isset($_SESSION["admin"]) || $_SESSION["admin"]==""){
+        if(!isset($_SESSION["username"]) || $_SESSION["username"]==""){
           header ("Location: login.php");
           exit();
         }

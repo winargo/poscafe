@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<?php
+    session_start();
+
+ ?>
 <html lang="en">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,16 +24,25 @@
     <hgroup>
   <img class="logo" src="./images/logo.png">
 </hgroup>
-<form method="post" action="./config/checkuser">
+<form method="post" action="./action/checklogin.php">
   <div class="group">
-    <input type="text"><span class="highlight"></span><span class="bar"></span>
+    <input type="text" name="username"><span class="highlight"></span><span class="bar"></span>
     <label>Username</label>
   </div>
   <div class="group">
-    <input type="password"><span class="highlight"></span><span class="bar"></span>
+    <input type="password" name="password"><span class="highlight"></span><span class="bar"></span>
     <label>Password</label>
   </div>
-  <button type="button" class="button buttonBlue">Login
+  <?php
+        if($_SESSION["error"]==null){
+            $_SESSION["error"]="";
+        }
+        if($_SESSION["error"]!=""){
+        echo '<p>'.$_SESSION["error"].'</p>';
+            $_SESSION["error"]="";
+        }
+        ?>
+  <button type="submit" class="button buttonBlue">Login
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
   </button>
 </form>
