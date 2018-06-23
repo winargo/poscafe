@@ -791,7 +791,23 @@
                             <h2>
                                 &nbsp;
                                 <div style="width:49%;float:left;">
-                                    <h2>User List</h2>
+                                    <h2>User List
+                                      <?php
+                                        if($_SESSION["error"]==null){
+                                            $_SESSION["error"]="";
+                                        }
+                                        else if($_SESSION["error"]!=""){
+                                        echo '<p>'.$_SESSION["error"].'</p>';
+                                           echo' <script>
+                                                $(document).ready(function(){
+                                                $("#showCoupon").trigger("click");
+                                            });
+
+                                            </script>';
+                                            $_SESSION["error"]="";
+                                        }
+                                        ?>
+                               </h2>
                                 </div>
                                 <div style="width:49%;float:left;">
                                     &nbsp;
@@ -812,7 +828,7 @@
                                 <?php
                    
                     include('../../config/db_connect.php');
-                    $user=$_SESSION["useradmin"];
+                    //$user=$_SESSION["useradmin"];
                     $sql = "Select * from `xuser`" ;
                                 // where username!='".$user."'
                     $result = mysqli_query($conn,$sql);
@@ -874,6 +890,7 @@
         </div>
     </section>
     
+        
     <div id="id01" class="modal">
       <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
       <form class="modal-content" action="../config/adduser.php" method="post">
@@ -881,26 +898,13 @@
           <h1>New User</h1>
           <p>Please fill in this form to Add new User.</p>
           <hr>
-          <label for="email"><b>Username (User_id)</b></label>
-          <input type="text" placeholder="Enter User's id" name="username" required>
-
+          <label for="email"><b>User ID</b></label>
+          <input type="text" placeholder="Enter User's id" name="userid" required>
+            <label for="email"><b>Username</b></label>
+          <input type="text" placeholder="Enter Username" name="username" required>
           <label for="psw"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" name="psw" required>
-          <?php
-        if($_SESSION["error"]==null){
-            $_SESSION["error"]="";
-        }
-        if($_SESSION["error"]!=""){
-        echo '<p>'.$_SESSION["error"].'</p>';
-           echo' <script>
-                $(document).ready(function(){
-                $("#showCoupon").trigger("click");
-            });
-
-            </script>';
-            $_SESSION["error"]="";
-        }
-        ?>
+          <input type="password" placeholder="Enter Password" name="password" required>
+         
           <div class="clearfix">
             <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn" style="
     color: white;

@@ -5,6 +5,7 @@
         server with default setting (user 'root' with no password) */
         include('../../config/db_connect.php');
         $sql="";
+        $userid=isset($_POST['userid']) ? $_POST['userid'] : '';
         $username=isset($_POST['username']) ? $_POST['username'] : '';
         echo $username;
         echo $password;
@@ -23,20 +24,15 @@
               header("Location: ../pages/usermanagement.php");
             exit;
       }else{
-            if($_POST['password']!=$_POST['repassword']){
-                $_SESSION['error']="<b style='color: red;'>Password Retype Doesn't Match</b>";
-                    header("Location: ../pages/usermanagement.php");
-                    exit;
-            }
             //if($_POST['command']=="clear"){
              //   $sql="update `user` set password='' where username='".$_POST['username']."'";
             //}
-                $sql="insert into `xuser` (username,password,isadmin,status,tgl_gabung,online) values('".$_POST['username']."',md5('".$_POST['password']."'),1,'".$_POST['status']."',now(),0)";
+                $sql="insert into `xuser` (user_id,user_name,password,admin,status,tanggal1,online) values('".$_POST['username']."','".$_POST['userid']."',md5('".$_POST['password']."'),0,1,now(),0)";
             //else{
                // $sql="delete from `user` where username='".$_POST['username']."'";
             //}
             if(mysqli_query($conn, $sql)){
-                header("Location: ..\account\list_accounts.php");
+                header("Location: ../pages/usermanagement.php");
                 exit;
             }   
             else{

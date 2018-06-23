@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <?php
     session_start();
+        if(!isset($_SESSION["error"])) {
+            $_SESSION["error"]="";
+        }
 
  ?>
 <html lang="en">
@@ -37,7 +40,7 @@
         if($_SESSION["error"]==null){
             $_SESSION["error"]="";
         }
-        if($_SESSION["error"]!=""){
+        else if($_SESSION["error"]!=""){
         echo '<p>'.$_SESSION["error"].'</p>';
             $_SESSION["error"]="";
         }
