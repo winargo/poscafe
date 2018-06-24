@@ -14,11 +14,12 @@
 
 	  <link rel="stylesheet" href="./css/bootstrap.min.css">
 
-    <link rel="stylesheet" href="./css/login.css">
+    
 
     <script src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/login.js"></script>
+    <link rel="stylesheet" href="./css/login.css">
 
   </head>
 
@@ -46,7 +47,7 @@
         }
         ?>
   <button type="submit" class="button buttonBlue">Login
-    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+    <div class="ripples waves-effect buttonRipples"><span class="ripplesCircle"></span></div>
   </button>
 </form>
 <footer>

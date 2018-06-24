@@ -34,6 +34,7 @@
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="./admin/css/themes/all-themes.css" rel="stylesheet" />
     <link rel="stylesheet" href="./admin/css/styleum.css">
+    <link rel="stylesheet" href="./css/order.css">
 </head>
 
 <body class="theme-red">
@@ -51,12 +52,40 @@
     <!-- #Top Bar -->
     
     <div class="wrapper item">
+       <div class="menureceipt"> 
+            <div class="catalog">
+                <div class="boxitem">
+                    
+                </div>
+                <div class="boxitem">
+                    
+                </div>
+                <div class="boxitem">
+                    
+                </div>
+                <div class="boxitem">
+                    
+                </div>
+                <div class="boxitem">
+                    
+                </div>
+                <div class="boxadd">
+                    <img src="./images/add.png" class="additemimage" >
+                 </div>
+            </div> 
+            
+        </div>
         <div class="receipt">
-            
+            <div class="receipt-data">
+               <div class="checkoutdata">
+                   <p>dara</p>
+               </div>
+                <div class="checkout">
+                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-print"> Check Out</button>
+                </div>
+            </div> 
         </div>
-        <div class="menu">
-            
-        </div>
+
     </div>
     
     <!-- Jquery Core Js -->
