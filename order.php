@@ -50,35 +50,41 @@
         </div>
     </nav>
     <!-- #Top Bar -->
-    
     <div class="wrapper item">
        <div class="menureceipt"> 
-            <div class="catalog">
+           <button type="button" class="btn btn-default waves-effect m-r-20" data-toggle="modal" data-target="#defaultModal" style="float:right;margin-top:-30px;">+</button>
+            <div class="catalog" style="margin-top:10px;">
                 <div class="boxitem">
-                    
+                    &nbsp;
                 </div>
                 <div class="boxitem">
-                    
+                    &nbsp;
                 </div>
                 <div class="boxitem">
-                    
-                </div>
-                <div class="boxitem">
-                    
-                </div>
-                <div class="boxitem">
-                    
+                    &nbsp;
                 </div>
                 <div class="boxadd">
                     <img src="./images/add.png" class="additemimage" >
                  </div>
             </div> 
-            
         </div>
         <div class="receipt">
             <div class="receipt-data">
                <div class="checkoutdata">
                    <p>dara</p>
+                   <p>jaka</p>
+                   <p>jaka</p>
+                   <p>jaka</p>
+                   <p>jaka</p>
+                   <p>jaka</p>
+                   <p>jaka</p>
+                   <p>jaka</p>
+                   <p>jaka</p>
+                   <p>jaka</p>
+                   <p>jaka</p>
+                   <p>jaka</p>
+                   <p>jaka</p>
+                   <p>jaka</p>
                </div>
                 <div class="checkout">
                     <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-print"> Check Out</button>
