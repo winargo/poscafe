@@ -13,33 +13,27 @@
                  <div class="col-md-6" style="margin-top:5%">
                     <form>
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Menu Code</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Menu Code">
+                        <label for="exampleInputEmail1">Category Code</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Category Code">
 <!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputPassword1">Menu Name</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Menu Name">
+                        <label for="exampleInputPassword1">Category Name</label>
+                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Category Name">
                       </div>
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Menu Unit</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Menu Unit">
+                        <label for="exampleInputEmail1">Extra Category 1</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Extra Category 1">
 <!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                       </div>
                       <div class="form-group">
-                        <label for="menucateogry">Menu Category</label>
-                        <select name="menucategory" id="menucateogry" class="form-control">
-                            <option value="0" selected>...</option>
-                        </select>
+                        <label for="exampleInputEmail1">Extra Category 2</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Extra Category 2">
 <!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputPassword1">Initial Stock</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Initial Stock">
                       </div>
 
                       <div class="button-margin">
-                          <button class="btn btn-success">Add Menu</button>
+                          <button class="btn btn-success">Edit Category</button>
                       </div>
                     </form>                           
                  </div>
@@ -50,21 +44,19 @@
                 </div>
                 <div class="col-md-10" style="margin-top:10px;">
                     <table class="table table-bordered table-hover">
-                       <caption>Table Menu</caption>
+                       <caption>Table Category</caption>
                         <thead>
                             <tr>
-                                <td>Menu Code</td>
-                                <td>Menu Name</td>
-                                <td>Menu Unit</td>
-                                <td>Menu Category</td>
-                                <td>Stock Left</td>
+                                <td>Category Code</td>
+                                <td>Category Name</td>
+                                <td>Extra Category 1</td>
+                                <td>Extra Category 2</td>
                                 <td>Edit</td>
                                 <td>Remove</td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>

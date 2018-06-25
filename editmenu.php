@@ -1,6 +1,6 @@
 <html>
    <head>
-       <title>New Category</title>
+       <title>Edit Menu</title>
    </head>
    
    <link rel="stylesheet" href="./bootstrap/css/bootstrap.css">
@@ -58,7 +58,7 @@
                                 <td>Menu Unit</td>
                                 <td>Menu Category</td>
                                 <td>Stock Left</td>
-                                <td>Edit</td>
+                                
                                 <td>Remove</td>
                             </tr>
                         </thead>
@@ -69,7 +69,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td><button class="btn btn-success" type="button" style="width:100%;">Edit</button></td>
+                                
                                 <td><button class="btn btn-danger" type="button" style="width:100%;">Remove</button></td>
                             </tr>
                         </tbody>
