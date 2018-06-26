@@ -97,7 +97,7 @@
 -->
     <div class="row">
         <div class="col-md-7">
-            <div class="row" style="margin-top:20px;text-align:center;">
+            <div class="row" style="text-align:center;">
                 <div class="col-md-2" style="background-color:orange;border-radius:5px;">
                     <img src="./images/logo.PNG" alt="logo" style="width:100%;">
                     <h6>riandy</h6>
@@ -122,7 +122,7 @@
             </div>
         </div>
         
-        <div class="col-md-4" style="background-color:orange;margin-top:20px;">
+        <div class="col-md-4" style="background-color:orange;">
              <div class="checkoutdata">
                    <p>dara</p>
                    <p>jaka</p>
