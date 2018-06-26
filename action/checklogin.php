@@ -4,7 +4,7 @@
         $username=isset($_POST['username']) ? $_POST['username'] : '';
         $password=isset($_POST['password']) ? $_POST['password'] : '';
 
-        $sql = "Select password,admin from `xuser` where user_id ='$username'" ;
+        $sql = "Select password,admin,user_id from `xuser` where user_id ='$username'" ;
 
         echo $username;
         echo $password;
@@ -27,7 +27,8 @@
             }
               $_SESSION["username"] = $username;
               $_SESSION["admin"] = 1;
-              header ("Location: order.php");
+              $_SESSION["usernamedb"] = $row['user_id'];
+              header ("Location: ..\orders.php");
            }
           else{
               $sql = "update `xuser` set online=1 where user_id ='$username'";
@@ -36,7 +37,8 @@
             printf("Error: %s\n", mysqli_error($conn));
           }else {
             $_SESSION["username"] = $username;
-            header ("Location: ..\order.php");
+            $_SESSION["usernamedb"] = $row['user_id'];
+            header ("Location: ..\orders.php");
             }
           }
           exit();

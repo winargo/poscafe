@@ -2,7 +2,7 @@
 <html lang="en">
 <?php
     session_start();
-    if($_SESSION['error'])
+    include('./config/block.php')
     ?>
 <head>
     <meta charset="UTF-8">
@@ -41,10 +41,17 @@
         </ul>
         <div class="btn-group float-right">
               <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Username
+                <?php
+                  echo $_SESSION['usernamedb'];
+                  ?>
               </button>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Logout</a>
+               <?php
+                  if($_SESSION["admin"]==1){
+                      echo "<a class='dropdown-item' href='.\admin\index.php'>Admin page</a>";
+                  }
+                  ?>
+                <a class="dropdown-item" href="./action/logout.php">Logout</a>
               </div>
             </div>
       </div>

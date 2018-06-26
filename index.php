@@ -4,6 +4,10 @@
         if(!isset($_SESSION["error"])) {
             $_SESSION["error"]="";
         }
+        if($_SESSION['username']!=""){
+            header ("Location: .\orders.php");
+            exit();
+        }
 
  ?>
 <html lang="en">
