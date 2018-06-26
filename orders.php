@@ -95,32 +95,33 @@
 
     </div>
 -->
-<div class="container">
     <div class="row">
         <div class="col-md-7">
             <div class="row" style="margin-top:20px;text-align:center;">
-                <div class="col-md-3" style="background-color:orange;border-radius:5px;margin-right:0.1%">
+                <div class="col-md-2" style="background-color:orange;border-radius:5px;">
                     <img src="./images/logo.PNG" alt="logo" style="width:100%;">
                     <h6>riandy</h6>
                 </div>
-                <div class="col-md-3" style="background-color:orange;border-radius:5px;">
+                <div class="col-md-2" style="background-color:orange;border-radius:5px;">
                     <img src="./images/logo.PNG" alt="logo" style="width:100%;">
                     <h6>riandy</h6>
                 </div>
-                <div class="col-md-3" style="background-color:orange;border-radius:5px;">    
+                <div class="col-md-2" style="background-color:orange;border-radius:5px;">    
                     <img src="./images/logo.PNG" alt="logo" style="width:100%;">
                     <h6>riandy</h6>
                 </div>
-                <div class="col-md-3" style="background-color:orange;border-radius:5px;">
+                <div class="col-md-2" style="background-color:orange;border-radius:5px;">
+                    <img src="./images/logo.PNG" alt="logo" style="width:100%;">
+                    <h6>riandy</h6>
+                </div>
+                <div class="col-md-2" style="background-color:orange;border-radius:5px;">
                     <img src="./images/logo.PNG" alt="logo" style="width:100%;">
                     <h6>riandy</h6>
                 </div>
                 
             </div>
         </div>
-        <div class="col-md-1">
-            &nbsp;
-        </div>
+        
         <div class="col-md-4" style="background-color:orange;margin-top:20px;">
              <div class="checkoutdata">
                    <p>dara</p>
@@ -144,7 +145,6 @@
             </div> 
         </div>
     </div>
-</div>
 </body>
 <script type="text/javascript" src="./bootstrap/js/jquery.js"></script>
 <script type="text/javascript" src="./bootstrap/js/bootstrap.js"></script>
