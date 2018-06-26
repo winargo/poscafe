@@ -21,6 +21,13 @@
                         <label for="exampleInputPassword1">Menu Name</label>
                         <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Menu Name">
                       </div>
+                      
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Item Price - Rp</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Default Price">
+<!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                      </div>
+                      
                       <div class="form-group">
                         <label for="exampleInputEmail1">Menu Unit</label>
                         <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Menu Unit">
@@ -55,6 +62,7 @@
                             <tr>
                                 <td>Menu Code</td>
                                 <td>Menu Name</td>
+                                <td>Menu Price</td>
                                 <td>Menu Unit</td>
                                 <td>Menu Category</td>
                                 <td>Stock Left</td>
@@ -64,6 +72,7 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
