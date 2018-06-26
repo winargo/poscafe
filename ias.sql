@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 25, 2018 at 04:43 PM
--- Server version: 10.1.32-MariaDB
--- PHP Version: 7.2.5
+-- Generation Time: Jun 26, 2018 at 06:03 PM
+-- Server version: 10.1.16-MariaDB
+-- PHP Version: 7.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -21,6 +19,27 @@ SET time_zone = "+00:00";
 --
 -- Database: `ias`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `category`
+--
+
+CREATE TABLE `category` (
+  `category_id` int(11) NOT NULL,
+  `category_code` varchar(20) NOT NULL,
+  `category_name` varchar(100) NOT NULL,
+  `extra_category_1` varchar(100) NOT NULL,
+  `extra_category_2` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `category`
+--
+
+INSERT INTO `category` (`category_id`, `category_code`, `category_name`, `extra_category_1`, `extra_category_2`) VALUES
+(1, 'lolOL', 'lol', 'lolol', 'lol');
 
 -- --------------------------------------------------------
 
@@ -107,7 +126,7 @@ CREATE TABLE `iampilihan1` (
 
 CREATE TABLE `iamproduk` (
   `KODE_PRODUK` varchar(6) NOT NULL,
-  `TDK_AKTIF` smallint(6) NOT NULL,
+  `TDK_AKTIF` smallint(6) NOT NULL DEFAULT '0',
   `NAMA_PRODUK` varchar(50) NOT NULL,
   `NAMA_SUB_PRODUK` varchar(50) NOT NULL DEFAULT '',
   `NAMA_SUB_PRODUK2` varchar(50) NOT NULL DEFAULT '',
@@ -594,6 +613,12 @@ CREATE TABLE `xuserlog` (
 --
 
 --
+-- Indexes for table `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`category_id`);
+
+--
 -- Indexes for table `iamexpedisi`
 --
 ALTER TABLE `iamexpedisi`
@@ -769,6 +794,15 @@ ALTER TABLE `xuserlog`
   ADD PRIMARY KEY (`USER_ID`,`COMPUTER_NAME`);
 
 --
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `category`
+--
+ALTER TABLE `category`
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- Constraints for dumped tables
 --
 
@@ -795,28 +829,6 @@ ALTER TABLE `iamstock`
 --
 ALTER TABLE `iamstockseri`
   ADD CONSTRAINT `FK_IAMSTOCKSERI_IAMSTOCK` FOREIGN KEY (`KODE_STOCK`) REFERENCES `iamstock` (`KODE_STOCK`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
--- Constraints for table `iappenjualan`
---
-ALTER TABLE `iappenjualan`
-  ADD CONSTRAINT `FK_IAPPENJUALAN_IAMCUSTOMER1` FOREIGN KEY (`KODE_CUSTOMER`) REFERENCES `iamcustomer` (`KODE_CUSTOMER`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_IAPPENJUALAN_IAMLOKASI` FOREIGN KEY (`KODE_LOKASI`) REFERENCES `iamlokasi` (`KODE_LOKASI`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_IAPPENJUALAN_IAMMATA_UANG` FOREIGN KEY (`KODE_MATAUANG`) REFERENCES `iammata_uang` (`KODE_MATAUANG`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_IAPPENJUALAN_IAMSALESMAN` FOREIGN KEY (`KODE_SALESMAN`) REFERENCES `iamsalesman` (`KODE_SALESMAN`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
--- Constraints for table `iatpenjualan1`
---
-ALTER TABLE `iatpenjualan1`
-  ADD CONSTRAINT `FK_IATPENJUALAN1_IAMSTOCK` FOREIGN KEY (`KODE_STOCK`) REFERENCES `iamstock` (`KODE_STOCK`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
--- Constraints for table `pospenjualan1`
---
-ALTER TABLE `pospenjualan1`
-  ADD CONSTRAINT `FK_POSPENJUALAN1_IAMSTOCK` FOREIGN KEY (`KODE_STOCK`) REFERENCES `iamstock` (`KODE_STOCK`) ON DELETE NO ACTION ON UPDATE CASCADE;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
