@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 26, 2018 at 06:03 PM
+-- Generation Time: Jun 27, 2018 at 11:24 AM
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 7.0.9
 
@@ -135,6 +135,16 @@ CREATE TABLE `iamproduk` (
   `KOMISI_SALES` decimal(19,4) NOT NULL DEFAULT '0.0000',
   `KODE_DEPT` varchar(6) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `iamproduk`
+--
+
+INSERT INTO `iamproduk` (`KODE_PRODUK`, `TDK_AKTIF`, `NAMA_PRODUK`, `NAMA_SUB_PRODUK`, `NAMA_SUB_PRODUK2`, `USER_ID`, `KOMISI_HEAD`, `KOMISI_SALES`, `KODE_DEPT`) VALUES
+('098lfk', 0, 'vinsz', 'vinsz', 'vinsz', 'tester1', '0.0000', '0.0000', 'vin101'),
+('lol123', 0, 'llasdllasl', '', '', '1', '0.0000', '0.0000', '123las'),
+('tes123', 0, 'uranium', 'uranium', 'uranium', '1', '0.0000', '0.0000', 'dep203'),
+('tes123', 0, 'uranium', 'uranium1', 'uranium2', '1', '0.0000', '0.0000', 'dep203');
 
 -- --------------------------------------------------------
 

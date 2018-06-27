@@ -40,6 +40,7 @@
             &nbsp; 
         </ul>
         <div class="btn-group float-right">
+             <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">add menu</button>
               <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <?php
                   echo $_SESSION['usernamedb'];
@@ -53,6 +54,42 @@
                   ?>
                 <a class="dropdown-item" href="./action/logout.php">Logout</a>
               </div>
+              
+              <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Menu</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+<!--                      form-->
+                      <form action="cekmenu.php" method="post">
+                          
+                      <div class="modal-body">
+                        <div class="form-group">
+                           <label for="1">Product Code</label>
+                            <input type="text" class="form-control" name="produkcode" placeholder="enter Product Code" id="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="2">Product Name</label>
+                            <input type="text" class="form-control" name="produkname" placeholder="enter product name" id="2">
+                        </div>
+                        <label for="3">Kode Department</label>
+                        <input type="text" class="form-control" id="3" name="kodedepartemen" placeholder="enter kode departemen">
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" name="addmenu">Add</button>
+                      </div>
+                      </form>
+<!--                      end form-->
+                    </div>
+                  </div>
+                </div>
+<!--                end of modal-->
             </div>
       </div>
     </nav>
@@ -105,27 +142,20 @@
     <div class="row">
         <div class="col-md-7">
             <div class="row" style="text-align:center;">
-                <div class="col-md-2" style="background-color:orange;border-radius:5px;">
-                    <img src="./images/logo.PNG" alt="logo" style="width:100%;">
-                    <h6>riandy</h6>
-                </div>
-                <div class="col-md-2" style="background-color:orange;border-radius:5px;">
-                    <img src="./images/logo.PNG" alt="logo" style="width:100%;">
-                    <h6>riandy</h6>
-                </div>
-                <div class="col-md-2" style="background-color:orange;border-radius:5px;">    
-                    <img src="./images/logo.PNG" alt="logo" style="width:100%;">
-                    <h6>riandy</h6>
-                </div>
-                <div class="col-md-2" style="background-color:orange;border-radius:5px;">
-                    <img src="./images/logo.PNG" alt="logo" style="width:100%;">
-                    <h6>riandy</h6>
-                </div>
-                <div class="col-md-2" style="background-color:orange;border-radius:5px;">
-                    <img src="./images/logo.PNG" alt="logo" style="width:100%;">
-                    <h6>riandy</h6>
-                </div>
-                
+                <?php 
+                    include "connection.php";
+                    
+                    $sql = "select * from iamproduk";
+                    $query = mysqli_query($conn,$sql);
+                    while($row = mysqli_fetch_array($query)){
+                        ?>
+                    <div class="col-md-2" style="background-color:orange;border-radius:5px;">
+                        <img src="./images/logo.PNG" alt="logo" style="width:100%;">
+                        <h6><?php echo $row["NAMA_PRODUK"] ?></h6>
+                    </div>        
+                <?php
+                    }
+                ?> 
             </div>
         </div>
         
