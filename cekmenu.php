@@ -10,6 +10,7 @@ $userid = $_SESSION["usernamedb"];
 $produkcode = $_POST['produkcode'];
 $produkname = $_POST['produkname'];
 $kodedep = $_POST['kodedepartemen'];
+$selcate = $_POST['selcate'];
 
 //Query dari mysql untuk memanggil data di database
 $cekmenu=mysqli_query($conn,"SELECT * FROM iamproduk
@@ -19,7 +20,7 @@ $ketemu=mysqli_num_rows($cekmenu);
 
 if ($ketemu == 0){
   
-    $sql = "insert into iamproduk (KODE_PRODUK,NAMA_PRODUK,NAMA_SUB_PRODUK,NAMA_SUB_PRODUK2,USER_ID,KODE_DEPT) values ('$produkcode','$produkname','$produkname','$produkname','$userid','$kodedep')";
+    $sql = "insert into iamproduk (KODE_PRODUK,NAMA_PRODUK,NAMA_SUB_PRODUK,NAMA_SUB_PRODUK2,USER_ID,KODE_DEPT,category_code) values ('$produkcode','$produkname','$produkname','$produkname','$userid','$kodedep','$selcate')";
     $query = mysqli_query($conn,$sql);
     
     if($query)

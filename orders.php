@@ -77,6 +77,26 @@
                             <label for="2">Product Name</label>
                             <input type="text" class="form-control" name="produkname" placeholder="enter product name" id="2">
                         </div>
+                        <div class="form-group">
+                            <label for="4">Select Category</label>
+                            <select name="selcate" id="4" class="form-control">
+                               <?php 
+                                    include "connection.php";
+                                
+                                    $sql = "select * from category";
+                                    $query = mysqli_query($conn,$sql);
+                                    
+                                while($row = mysqli_fetch_array($query))
+                                {
+                                    ?>
+                                    <option value="<?php echo $row["category_code"]; ?>"><?php echo $row["category_name"];?></option>
+                                    
+                                    <?php
+                                }
+                                    
+                                ?>
+                            </select>
+                        </div>
                         <label for="3">Kode Department</label>
                         <input type="text" class="form-control" id="3" name="kodedepartemen" placeholder="enter kode departemen">
                       </div>
