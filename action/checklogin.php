@@ -46,7 +46,7 @@
      else {
          $_SESSION["error"] = "<b style='color: red;'>Your Username or Password is Incorrect</b>";
            header ("Location: ..\index.php");
-
+           exit();
        }
       }
 ?>

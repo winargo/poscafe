@@ -79,9 +79,9 @@
                         </div>
                         <div class="form-group">
                             <label for="4">Select Category</label>
-                            <select name="selcate" id="4" class="form-control">
+                            <select name="selcate" id="4" class="form-control" >
                                <?php 
-                                    include "connection.php";
+                                    include "./config/connection.php";
                                 
                                     $sql = "select * from category";
                                     $query = mysqli_query($conn,$sql);
@@ -100,19 +100,18 @@
                         <div class="form-group">
                             <a href="./category.php"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="location.href='category.php' ">New Category</button></a>
                         </div>
+                        <div class="form-group">
                         <label for="3">Kode Department</label>
-                        <input type="text" class="form-control" id="3" name="kodedepartemen" placeholder="enter kode departemen" required>
-                        
-                        <div id="selectImage">
-                                <label>Select Your Image</label><br/>
-
-                                <input type="file" name="fileToUpload" id="fileToUpload"><br>
-                                <!--<input type="file" id="file" name="file" required />
-                                <input type="hidden" id="banner_image" name="banner_image" required />
-                                <input type="submit" value="Upload" class="submit btn btn-success" />-->
-                                <span class="form_error"></span>
+                        <input type="text" class="form-control" id="3" name="kodedepartemen" placeholder="enter kode departemen" value="00" required>
+                          </div>
+                        <div class="form-group">
+                               <img src="./images/images.jpg" id="imageemergency" width="300px" height="200px">
+                               
                             </div>
-                      </div>
+                            <div class="form-group">
+                                <input type="file" name="fileToUpload" id="fileToUpload">
+                            </div>
+                          </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <input  name="addmenu" type="submit" id="save" class="btn btn-primary" value="Add" tabindex="11">
@@ -176,7 +175,7 @@
         <div class="col-md-7">
             <div class="row" style="text-align:center;">
                 <?php 
-                    include "connection.php";
+                    include "./config/connection.php";
                     
                     $sql = "select * from iamproduk";
                     $query = mysqli_query($conn,$sql);
