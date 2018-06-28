@@ -66,16 +66,16 @@
                         </button>
                       </div>
 <!--                      form-->
-                      <form action="cekmenu.php" method="post">
+                      <form action="cekmenu.php" method="post" id="uploadimage" enctype="multipart/form-data">
                           
                       <div class="modal-body">
                         <div class="form-group">
                            <label for="1">Product Code</label>
-                            <input type="text" class="form-control" name="produkcode" placeholder="enter Product Code" id="1">
+                            <input type="text" class="form-control" name="produkcode" placeholder="enter Product Code" id="1" required>
                         </div>
                         <div class="form-group">
                             <label for="2">Product Name</label>
-                            <input type="text" class="form-control" name="produkname" placeholder="enter product name" id="2">
+                            <input type="text" class="form-control" name="produkname" placeholder="enter product name" id="2" required>
                         </div>
                         <div class="form-group">
                             <label for="4">Select Category</label>
@@ -97,14 +97,27 @@
                                 ?>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <a href="./category.php"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="location.href='category.php' ">New Category</button></a>
+                        </div>
                         <label for="3">Kode Department</label>
-                        <input type="text" class="form-control" id="3" name="kodedepartemen" placeholder="enter kode departemen">
+                        <input type="text" class="form-control" id="3" name="kodedepartemen" placeholder="enter kode departemen" required>
+                        
+                        <div id="selectImage">
+                                <label>Select Your Image</label><br/>
+
+                                <input type="file" name="fileToUpload" id="fileToUpload"><br>
+                                <!--<input type="file" id="file" name="file" required />
+                                <input type="hidden" id="banner_image" name="banner_image" required />
+                                <input type="submit" value="Upload" class="submit btn btn-success" />-->
+                                <span class="form_error"></span>
+                            </div>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" name="addmenu">Add</button>
+                        <input  name="addmenu" type="submit" id="save" class="btn btn-primary" value="Add" tabindex="11">
                       </div>
-                      </form>
+                        </form>
 <!--                      end form-->
                     </div>
                   </div>
