@@ -177,13 +177,13 @@
                 <?php 
                     include "./config/connection.php";
                     
-                    $sql = "select * from iamproduk";
+                    $sql = "select * from iamstock where tdk_aktif='0'";
                     $query = mysqli_query($conn,$sql);
                     while($row = mysqli_fetch_array($query)){
                         ?>
                     <div class="col-md-2" style="background-color:orange;border-radius:5px;">
                         <img src="./images/logo.PNG" alt="logo" style="width:100%;">
-                        <h6><?php echo $row["NAMA_PRODUK"] ?></h6>
+                        <h6><?php echo $row["NAMA_STOCK"] ?></h6>
                     </div>        
                 <?php
                     }
@@ -193,27 +193,63 @@
         
         <div class="col-md-4" style="background-color:orange;">
              <div class="checkoutdata">
-                   <p>dara</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
+                 
+                  <div class="menu-head">
+                     <img src="./images/logo.PNG" width="150" height="150">     
+                     <p>Address<br>Phone Number Data<br>Additional Data</p>
+                     <p style="text-align:left;">
+                        No : nomor
+                        <span style="float:right;"><?php
+                            echo date("d/m/Y");
+                        
+                            ?></span>
+                     </p>
+                     <p style="text-align:left;">
+                        Cashier : <?php echo $_SESSION['username'] ; ?>
+                        <span style="float:right;"><?php
+                            echo date("h:i:s");
+                        
+                            ?></span>
+                     </p>
+                     
+                     <hr style="height: 1px;background-color:black;">
+                     <div class="menu-item">
+                         <p style="text-align:left;">data menu</p>
+                         <div style="text-align:left;"> <div style="display: inline-block;min-width:40px;">100</div> <div style="display: inline-block;min-width:80px;">bowl&nbsp;&nbsp;&nbsp;X</div><div style="display: inline-block;min-width:100px;">45,000</div><div style="display: inline-block;min-width:50px;">5%</div><div style="text-align:right;float:right;min-width:120px;">6,000,000</div>  </div>
+                     </div>
+                     <div class="menu-item">
+                         <p style="text-align:left;">data menu</p>
+                         <div style="text-align:left;"> <div style="display: inline-block;min-width:40px;">100</div> <div style="display: inline-block;min-width:80px;">bowl&nbsp;&nbsp;&nbsp;X</div><div style="display: inline-block;min-width:100px;">45,000</div><div style="display: inline-block;min-width:50px;">5%</div><div style="text-align:right;float:right;min-width:120px;">6,000,000</div>  </div>
+                     </div>
+                     <div class="menu-item">
+                         <p style="text-align:left;">data menu</p>
+                         <div style="text-align:left;"> <div style="display: inline-block;min-width:40px;">100</div> <div style="display: inline-block;min-width:80px;">bowl&nbsp;&nbsp;&nbsp;X</div><div style="display: inline-block;min-width:100px;">45,000</div><div style="display: inline-block;min-width:50px;">5%</div><div style="text-align:right;float:right;min-width:120px;">6,000,000</div>  </div>
+                     </div>
+                     <div class="menu-item">
+                         <p style="text-align:left;">data menu</p>
+                         <div style="text-align:left;"> <div style="display: inline-block;min-width:40px;">100</div> <div style="display: inline-block;min-width:80px;">bowl&nbsp;&nbsp;&nbsp;X</div><div style="display: inline-block;min-width:100px;">45,000</div><div style="display: inline-block;min-width:50px;">5%</div><div style="text-align:right;float:right;min-width:120px;">6,000,000</div>  </div>
+                     </div>
+                     
+                     <hr style="height: 1px;background-color:black;">
+                     
+                     <p style="text-align:left;">
+                        Disc    
+                        <span style="float:right;min-width:200px;text-align:right;">Value</span>
+                        <span style="float:right;">=</span>
+                     </p>
+                     <p style="text-align:left;">
+                        Total     
+                        <span style="float:right;min-width:200px;text-align:right;">Value</span>
+                        <span style="float:right;">=</span>
+                     </p>
+                  </div>
+                   
                </div>
                 <div class="checkout">
-                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-print"> Check Out</button>
+                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-print"></span> Check Out</button>
                 </div>
             </div> 
         </div>
-    </div>
 </body>
 <script type="text/javascript" src="./bootstrap/js/jquery.js"></script>
 <script type="text/javascript" src="./bootstrap/js/bootstrap.js"></script>
