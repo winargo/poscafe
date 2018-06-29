@@ -49,7 +49,7 @@
                       </div>
                     </form>          
                     <?php 
-                        include "./config/coneection.php";
+                        include "./config/conection.php";
                         
                         $categorycode = $_POST['categorycode'];
                         $categoeyname = $_POST['categoryname'];

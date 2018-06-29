@@ -20,6 +20,8 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
     
+    <script type="text/javascript" src="./bootstrap/js/jquery.js"></script>
+    <script type="text/javascript" src="./bootstrap/js/bootstrap.js"></script>
     <!--    bootstrap-->
 <!--
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -56,6 +58,21 @@
               </div>
               
               <!-- Modal -->
+               <script>
+                       function readURL(input) {
+                        if (input.files && input.files[0]) {
+                            var reader = new FileReader();
+
+                            reader.onload = function (e) {
+                                $('#imageemergency')
+                                    .attr('src', e.target.result).width(300)
+                                        .height(200);
+                            };
+
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    }
+                       </script>
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -102,14 +119,14 @@
                         </div>
                         <div class="form-group">
                         <label for="3">Kode Department</label>
-                        <input type="text" class="form-control" id="3" name="kodedepartemen" placeholder="enter kode departemen" value="00" required>
+                        <input type="text" class="form-control" id="3" name="kodedepartemen" placeholder="enter kode departemen" value="00" required readonly>
                           </div>
                         <div class="form-group">
                                <img src="./images/images.jpg" id="imageemergency" width="300px" height="200px">
                                
                             </div>
                             <div class="form-group">
-                                <input type="file" name="fileToUpload" id="fileToUpload">
+                                <input type="file" name="fileToUpload" id="fileToUpload"  onchange="readURL(this);" required>
                             </div>
                           </div>
                       <div class="modal-footer">
@@ -251,7 +268,6 @@
             </div> 
         </div>
 </body>
-<script type="text/javascript" src="./bootstrap/js/jquery.js"></script>
-<script type="text/javascript" src="./bootstrap/js/bootstrap.js"></script>
+
     
 </html>
