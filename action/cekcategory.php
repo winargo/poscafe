@@ -9,8 +9,8 @@ $extra1 = $_POST['extra1'];
 $extra2 = $_POST['extra2'];
 
 //Query dari mysql untuk memanggil data di database
-$cekcategory=mysqli_query($conn,"SELECT * FROM iamproduk
-					WHERE category_code ='$categorycode'
+$cekcategory=mysqli_query($conn,"SELECT * FROM `iamproduk`
+					WHERE KODE_PRODUK ='$categorycode'
 					");
 $ketemu=mysqli_num_rows($cekcategory);
 
@@ -26,8 +26,9 @@ if ($ketemu == 0){
         exit();
     }
 }else{
-    
+    $_SESSION['error']="<b style='color: red;'>Duplicate Data registered Please Recheck</b>";
+    header ("Location: ..\category.php");
+    exit();
 }
-
 
 ?>

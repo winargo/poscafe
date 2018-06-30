@@ -10,13 +10,12 @@ function console_log( $data ){
 }
 //error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 session_start();
-    include("blockadmin.php");
-include('db_connect.php');
+include('..\config\db_connect.php');
 $data=isset($_POST['command']) ? $_POST['command'] : '';
 $number=0;
 if($data!=''){
     
-    $sql = "select count(*)+1 as number from `carousel`";
+    $sql = "select count(*)+1 as number from `iamstock`";
     $result = mysqli_query($conn,$sql);
         if (!$result) {
             printf("Error: %s\n", mysqli_error($conn));
@@ -31,7 +30,7 @@ if($data!=''){
 $reportid="DR".(rand(0,9999999999999999999));
     console_log( $reportid );
 $target_dir = "../uploads/";
-    $real_dir = "../uploads/";
+    $real_dir = "./uploads/";
     $admin_dir="";
     console_log( $target_dir );
 $target_file = $target_dir . basename($reportid.$_FILES["fileToUpload"]["name"]);
@@ -82,16 +81,35 @@ if ($uploadOk == 0) {
         $temp=$real_dir.$dir;
         $admin_dir= $target_file;
         $_SESSION['error']="The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-            $sql = "INSERT INTO `carousel` (order_number,image_dir,admin_dir,direct,username) VALUES(".$number.",'".$temp."','".$admin_dir."','".$_POST['direct']."','".$_SESSION['adminname']."')";
-        console_log( $_POST['direct'] );
-            if(mysqli_query($conn, $sql)){
-                header("Location: ../account/daftar_banner.php");
+        $userid = $_SESSION["usernamedb"];
+//Form data
+        $produkcode = $_POST['produkcode'];
+        $produkname = $_POST['produkname'];
+        $produkcategory = $_POST['produkcategory'];
+        $kodedep = $_POST['kodedepartemen'];
+        $selcate = $_POST['selcate'];
+
+        //Query dari mysql untuk memanggil data di database
+        $cekmenu=mysqli_query($conn,"SELECT * FROM iamstock
+                            WHERE NAMA_PRODUK ='$produkname'
+                            ");
+        $ketemu=mysqli_num_rows($cekmenu);
+
+        if ($ketemu == 0){
+
+            $sql = "insert into iamstock (KODE_STOCK,NAMA_STOCK,,KODE_TYPE,KODE_PRODUK,IMAGEDIR,KEMAS1,SALDOAWAL,USER_ID) values ('$produkcode','$produkname','Stock','$produkcategory','$temp','$produkunit','$produkname','$userid','$kodedep','$selcate')";
+            $query = mysqli_query($conn,$sql);
+
+            if($query)
+            {
+                header("Location: ../orders.php");
                 exit;
-            }   
-            else{
+            }
+            else
+            {
             $_SESSION['error']="ERROR: Could not able to execute $sql. " . mysqli_error($link);
             };
-        
+        }
         // Close connection
         mysqli_close($link);
     } else {
@@ -104,28 +122,6 @@ if ($uploadOk == 0) {
 
 //get session user
 
-$userid = $_SESSION["usernamedb"];
-//Form data
-$produkcode = $_POST['produkcode'];
-$produkname = $_POST['produkname'];
-$kodedep = $_POST['kodedepartemen'];
-$selcate = $_POST['selcate'];
 
-//Query dari mysql untuk memanggil data di database
-$cekmenu=mysqli_query($conn,"SELECT * FROM iamproduk
-					WHERE NAMA_PRODUK ='$produkname'
-					");
-$ketemu=mysqli_num_rows($cekmenu);
-
-if ($ketemu == 0){
-  
-    $sql = "insert into iamproduk (KODE_PRODUK,NAMA_PRODUK,NAMA_SUB_PRODUK,NAMA_SUB_PRODUK2,USER_ID,KODE_DEPT,category_code) values ('$produkcode','$produkname','$produkname','$produkname','$userid','$kodedep','$selcate')";
-    $query = mysqli_query($conn,$sql);
-    
-    if($query)
-    {
-        echo "<script>window.location=('orders.php');</script>";    
-    }
-}
 
 ?>

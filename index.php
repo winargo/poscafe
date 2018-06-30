@@ -2,6 +2,7 @@
 <?php
     session_start();
     $_SESSION["error"]="";
+    $_SESSION["username"]="";
         if($_SESSION['username']!=""){
             header ("Location: .\orders.php");
             exit();

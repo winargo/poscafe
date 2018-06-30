@@ -1,4 +1,7 @@
-
+<?php
+    session_start();
+    include('./config/block.php');
+?>
 
 <html>
    <head>
@@ -16,7 +19,7 @@
                     <form method="post" action=".\action\cekcategory.php">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Category Code</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Category Code" name="categorycode">
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Category Code" name="categorycode" required>
 <!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                       </div>
                       <div class="form-group">
@@ -25,15 +28,23 @@
                       </div>
                       <div class="form-group">
                         <label for="exampleInputEmail1">Extra Category 1</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Extra Category 1" name="extra1">
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Extra Category 1" name="extra1" required>
 <!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                       </div>
                       <div class="form-group">
                         <label for="exampleInputEmail1">Extra Category 2</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Extra Category 2" name="extra2">
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Extra Category 2" name="extra2" required>
 <!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                       </div>
-
+                        <?php
+                                if($_SESSION["error"]==null){
+                                    $_SESSION["error"]="";
+                                }
+                                else if($_SESSION["error"]!=""){
+                                echo '<p>'.$_SESSION["error"].'</p>';
+                                    $_SESSION["error"]="";
+                                }
+                                ?>
                       <div class="button-margin">
                           <button type="submit" class="btn btn-success">Add Category</button>
                       </div>
@@ -87,21 +98,16 @@
                                     </form>
                                 </td>
                                 <td>
-                                <button class='btn btn-danger' type='button' style='width:100%;'>Remove</button>
+                                <form  action='.\action\delcategory.php' method='post'>
+                                        <input type='hidden' name='productcode' value='".$row['KODE_PRODUK']."'>
+                                        <button class='btn btn-danger' type='submit' style='width:100%;'>Remove</button>
+                                    </form>
+                                
                                 </td>
-                    <td>
-            </td>
             </tr>";
                     $a++;
                     }
                     ?>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                
-                            </tr>
                         </tbody>
                     </table>
                 </div>

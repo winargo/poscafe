@@ -1,6 +1,23 @@
 <html>
   <?php
     session_start();
+    include('.\config\block.php');
+    include '.\config\connection.php';
+
+    if(isset($_POST['command'])){
+        $categorycode = $_POST['categorycode'];
+        $categoeyname = $_POST['categoryname'];
+        $extra1 = $_POST['extra1'];
+        $extra2 = $_POST['extra2'];
+
+        $sql = "update iamproduk set kode_produk = '$categoryname',nama_produk = '$categoryname',nama_sub_produk = '$extra1',nama_sub_produk2 = '$extra2' where kode_produk = '$temp'";
+        $query = mysqli_query($conn,$sql);
+
+        if($query)
+        {
+            header("location : .\category.php");
+        }
+    }
     ?>
    <head>
        <title>New Category</title>
@@ -15,6 +32,9 @@
                 <div class="col-md-3">&nbsp;</div>
                  <div class="col-md-6" style="margin-top:5%">
                     <form action="" method="post">
+                     <input type="hidden" name="oldproductcode" value="<?php
+                                                 echo $_POST['productcode'];
+                        ?>">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Category Code</label>
                         <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Category Code" name="categorycode" value="<?php 
@@ -45,25 +65,11 @@
                       </div>
 
                       <div class="button-margin">
+                         <input type="hidden" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Extra Category 2" name="command">
                           <button class="btn btn-success">Edit Category</button>
                       </div>
                     </form>          
-                    <?php 
-                        include "./config/conection.php";
-                        
-                        $categorycode = $_POST['categorycode'];
-                        $categoeyname = $_POST['categoryname'];
-                        $extra1 = $_POST['extra1'];
-                        $extra2 = $_POST['extra2'];
-
-                        $sql = "update iamproduk set kode_produk = '$categoryname',nama_produk = '$categoryname',nama_sub_produk = '$extra1',nama_sub_produk2 = '$extra2' where kode_produk = '$temp'";
-                        $query = mysqli_query($conn,$sql);
-                        
-                        if($query)
-                        {
-                            header("location : .\category.php");
-                        }
-                     ?>                 
+                      
                  </div>
             </div>
         </div>
