@@ -6,7 +6,7 @@
     ?>
 <head>
     <meta charset="UTF-8">
-    <title>User Management</title>
+    <title>Happy Belly</title>
     <!--    boostrap css-->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 
@@ -43,7 +43,7 @@
         </ul>
         <div class="btn-group float-right"  style="margin-right : 5%;">
              <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Add Menu</button>
-            <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Edit Menu</button>
+            <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal1">Edit Menu</button>
               <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <?php
                   echo $_SESSION['usernamedb'];
@@ -84,7 +84,7 @@
                         </button>
                       </div>
 <!--                      form-->
-                      <form action="cekmenu.php" method="post" id="uploadimage" enctype="multipart/form-data">
+                      <form action=".\action\cekmenu.php" method="post" id="uploadimage" enctype="multipart/form-data">
 
                       <div class="modal-body">
                         <div class="form-group">
@@ -119,6 +119,14 @@
                             <a href="./category.php"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="location.href='category.php' ">New Category</button></a>
                         </div>
                         <div class="form-group">
+                            <label for="22">Product price - Rp</label>
+                            <input type="number" class="form-control" name="produkprice" placeholder="enter product Price" id="22" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="23">Product Unit</label>
+                            <input type="text" class="form-control" name="produkunit" placeholder="(pcs,bowl,pack, etc)" id="23" required>
+                        </div>
+                        <div class="form-group">
                         <label for="3">Kode Department</label>
                         <input type="text" class="form-control" id="3" name="kodedepartemen" placeholder="enter kode departemen" value="00" required readonly>
                           </div>
@@ -129,10 +137,24 @@
                             <div class="form-group">
                                 <input type="file" name="fileToUpload" id="fileToUpload"  onchange="readURL(this);" required>
                             </div>
+                            <div class="form-group">
+                              <?php
+                                      if($_SESSION["error"]==null){
+                                          $_SESSION["error"]="";
+                                      }
+                                      else if($_SESSION["error"]!=""){
+                                      echo '<p>'.$_SESSION["error"].'</p>'."<script type='text/javascript'>
+                                        $('#exampleModal').modal('show')
+
+                                      </script>";
+                                          $_SESSION["error"]="";
+                                      }
+                                      ?>
+                                </div>
                           </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <input  name="addmenu" type="submit" id="save" class="btn btn-primary" value="Add" tabindex="11">
+                        <input  name="submit" type="submit" id="save" class="btn btn-primary" value="Add" tabindex="11">
                       </div>
                         </form>
 <!--                      end form-->
@@ -199,9 +221,15 @@
                     $query = mysqli_query($conn,$sql);
                     while($row = mysqli_fetch_array($query)){
                         ?>
-                    <div class="col-md-2" style="background-color:orange;border-radius:5px;">
-                        <img src="./images/logo.PNG" alt="logo" style="width:100%;">
-                        <h6><?php echo $row["NAMA_STOCK"] ?></h6>
+                    <div class="col-md-3 " style="border-radius:5px;">
+                        <div class="card">
+                        <img class="card-img-top" src="<?php echo $row["IMAGEDIR"] ?>" alt="Card image cap">
+                        <div class="card-body">
+                          <p class="card-title"><?php echo $row["NAMA_STOCK"] ?></p>
+                          <p class="card-text"><?php echo $row["HARGAJUAL1"] ?></p>
+                          <p class="card-text"><?php echo $row["SALDOAWAL"] ?></p>
+                        </div>
+                      </div>
                     </div>
                 <?php
                     }
@@ -270,10 +298,5 @@
         </div>
 </body>
 
-<script type="text/javascript">
-$('#exampleModal').on('shown.bs.modal', function () {
-$('.modal fade').removeClass();
-})
 
-</script>
 </html>

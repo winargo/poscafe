@@ -1,7 +1,5 @@
 <?php
 
-include "connection.php";
-session_start();
 
 function console_log( $data ){
   echo '<script>';
@@ -11,23 +9,30 @@ function console_log( $data ){
 //error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 session_start();
 include('..\config\db_connect.php');
-$data=isset($_POST['command']) ? $_POST['command'] : '';
+$data=isset($_POST['produkcode']) ? $_POST['produkcode'] : '';
 $number=0;
+$temp = '';
+$reportid='';
+$real_dir='';
+
+$dir = basename($reportid.$_FILES["fileToUpload"]["name"]);
+$temp = $real_dir.$dir;
+//Form data
+$produkcode = $_POST['produkcode'];
+$produkname = $_POST['produkname'];
+$produkunit = $_POST['produkunit'];
+$produkprice = $_POST['produkprice'];
+$produkcategory = $_POST['selcate'];
+$kodedep = $_POST['kodedepartemen'];
+$selcate = $_POST['selcate'];
+
+$data=isset($_POST['produkcode']) ? $_POST['produkcode'] : '';
+
 if($data!=''){
-    
-    $sql = "select count(*)+1 as number from `iamstock`";
-    $result = mysqli_query($conn,$sql);
-        if (!$result) {
-            printf("Error: %s\n", mysqli_error($conn));
-            exit();
-        }
-        else{
-            $row=mysqli_fetch_array($result);
-                $number=$row['number'];
-                console_log( $number );
-        }
-    
-$reportid="DR".(rand(0,9999999999999999999));
+
+                $number=1;
+
+$reportid="ER".(rand(00000000,99999999));
     console_log( $reportid );
 $target_dir = "../uploads/";
     $real_dir = "./uploads/";
@@ -40,9 +45,9 @@ $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
     console_log( $imageFileType );
     console_log( $_POST["submit"]);
-    
+
 // Check if image file is a actual image or fake image
-if(isset($_POST["submit"])) {
+if(isset($_POST["submit"]) && isset($_FILES['file'])) {
     console_log( "working" );
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
     if($check !== false) {
@@ -59,7 +64,7 @@ if (file_exists($target_file)) {
     $uploadOk = 0;
 }
 // Check file size
-if ($_FILES["fileToUpload"]["size"] > 5000000) {
+if ($_FILES["fileToUpload"]["size"] > 50000000) {
     $_SESSION['error']="Sorry, your file is too large.";
     $uploadOk = 0;
 }
@@ -81,46 +86,53 @@ if ($uploadOk == 0) {
         $temp=$real_dir.$dir;
         $admin_dir= $target_file;
         $_SESSION['error']="The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-        $userid = $_SESSION["usernamedb"];
-//Form data
-        $produkcode = $_POST['produkcode'];
-        $produkname = $_POST['produkname'];
-        $produkcategory = $_POST['produkcategory'];
-        $kodedep = $_POST['kodedepartemen'];
-        $selcate = $_POST['selcate'];
 
-        //Query dari mysql untuk memanggil data di database
         $cekmenu=mysqli_query($conn,"SELECT * FROM iamstock
-                            WHERE NAMA_PRODUK ='$produkname'
+                            WHERE KODE_STOCK ='$produkcode'
                             ");
         $ketemu=mysqli_num_rows($cekmenu);
 
         if ($ketemu == 0){
+          $sqls = "select NAMA_SUB_PRODUK, NAMA_SUB_PRODUK2 from iamproduk where KODE_PRODUK = '$produkcategory'";
+          $querys = mysqli_query($conn,$sqls);
+          while ($row = mysqli_fetch_array($querys)) {
+              $sql = "insert into iamstock (KODE_STOCK,NAMA_STOCK,KODE_TYPE,KODE_PRODUK,HARGAJUAL1,IMAGEDIR,KEMAS1,SALDOAWAL,USER_ID,NAMA_SUB_PRODUK,NAMA_SUB_PRODUK2) values ('$produkcode','$produkname','Stock','$produkcategory',$produkprice,'$temp','$produkunit',0,'".$_SESSION['username']."','".$row["NAMA_SUB_PRODUK"]."','".$row["NAMA_SUB_PRODUK2"]."')";
+              echo $sql;
+              $query = mysqli_query($conn,$sql);
+              if($query)
+              {
+                echo $sql;
+                  header("Location: ../orders.php");
+                  exit();
+              }
+              else
+              {
+              $_SESSION['error']=  $_SESSION['error']."<b style='color: red;'>ERROR: Could not able to execute $sql. " . mysqli_error($link)."</b>";
+              header("Location: ../orders.php");
+              exit();
+              }
+          }
 
-            $sql = "insert into iamstock (KODE_STOCK,NAMA_STOCK,,KODE_TYPE,KODE_PRODUK,IMAGEDIR,KEMAS1,SALDOAWAL,USER_ID) values ('$produkcode','$produkname','Stock','$produkcategory','$temp','$produkunit','$produkname','$userid','$kodedep','$selcate')";
-            $query = mysqli_query($conn,$sql);
+          // if($query)
+          // {
+          //     header("Location: ../orders.php");
+          //     exit();
+          // }
+          // else
+          // {
+          // $_SESSION['error']=  $_SESSION['error']."<b style='color: red;'>ERROR: Could not able to execute $sql. " . mysqli_error($link)."</b>";
+          // header("Location: ../orders.php");
+          // exit();
+          // }
 
-            if($query)
-            {
-                header("Location: ../orders.php");
-                exit;
-            }
-            else
-            {
-            $_SESSION['error']="ERROR: Could not able to execute $sql. " . mysqli_error($link);
-            };
+          // Close connection
+        }else {
+
         }
-        // Close connection
-        mysqli_close($link);
-    } else {
-        $_SESSION['error']="Sorry, there was an error uploading your file.";
+      }
     }
-}
-}else{
-    
-}
+  }
 
-//get session user
 
 
 
