@@ -10,8 +10,7 @@
     <!--    boostrap css-->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 
-    <!--    custom-->
-    <link rel="stylesheet" href="./css/order.css">
+    
 
     <!-- Favicon-->
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
@@ -29,8 +28,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 -->
+    <!--    custom-->
+    <link rel="stylesheet" href="./css/order.css">
 
 </head>
+    <style>
+        th{
+            border: none;
+        }
+    </style>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color:orange">
       <img src="./images/logo.PNG" alt="Logo" class="navbar-brand" height="65" width="65">
@@ -44,11 +50,7 @@
         </ul>
         <div class="btn-group float-right"  style="margin-right : 5%;">
              <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Add Menu</button>
-<<<<<<< HEAD
             <a href="viewmenu.php"><button class="btn btn-success" data-toggle="modal" data-target="#exampleModal1">Edit Menu</button></a>
-=======
-             <a href="menu-edit.php" class="btn btn-success" type="button">EditMenu</a>
->>>>>>> 87979ce8f21f1ab0e24858401c17fe0f81646e9c
               <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <?php
                   echo $_SESSION['usernamedb'];
@@ -251,51 +253,70 @@
 
                   <div class="menu-head">
                      <img src="./images/logo.PNG" width="150" height="150">
-                     <p>Address<br>Phone Number Data<br>Additional Data</p>
+                     <p>Let's Happy Bellying!<br>Frying now @ Brastagi Tiara<br>Operation Hours(Daily):<br>10:00 a.m - 10:00 p.m</p>
+                      <hr style="border-top: dashed 2px;margin:0;">
+                      <hr style="border-top: dashed 2px;margin-top:5px;">
                      <p style="text-align:left;">
-                        No : nomor
-                        <span style="float:right;"><?php
-                            echo date("d/m/Y");
-
-                            ?></span>
-                     </p>
-                     <p style="text-align:left;">
-                        Cashier : <?php echo $_SESSION['username'] ; ?>
-                        <span style="float:right;"><?php
-                            echo date("h:i:s");
-
-                            ?></span>
+                        Order No : nomor<br>
+                        Date : <?php
+                            echo date("d/m/Y");?>&nbsp;<?php
+                            echo date("h:i a");
+                            ?><br>
+                         Transaction By: <?php echo $_SESSION['username'] ; ?>
                      </p>
 
-                     <hr style="height: 1px;background-color:black;">
-                     <div class="menu-item">
-                         <p style="text-align:left;">data menu</p>
-                         <div style="text-align:left;"> <div style="display: inline-block;min-width:40px;">100</div> <div style="display: inline-block;min-width:80px;">bowl&nbsp;&nbsp;&nbsp;X</div><div style="display: inline-block;min-width:100px;">45,000</div><div style="display: inline-block;min-width:50px;">5%</div><div style="text-align:right;float:right;min-width:120px;">6,000,000</div>  </div>
-                     </div>
-                     <div class="menu-item">
-                         <p style="text-align:left;">data menu</p>
-                         <div style="text-align:left;"> <div style="display: inline-block;min-width:40px;">100</div> <div style="display: inline-block;min-width:80px;">bowl&nbsp;&nbsp;&nbsp;X</div><div style="display: inline-block;min-width:100px;">45,000</div><div style="display: inline-block;min-width:50px;">5%</div><div style="text-align:right;float:right;min-width:120px;">6,000,000</div>  </div>
-                     </div>
-                     <div class="menu-item">
-                         <p style="text-align:left;">data menu</p>
-                         <div style="text-align:left;"> <div style="display: inline-block;min-width:40px;">100</div> <div style="display: inline-block;min-width:80px;">bowl&nbsp;&nbsp;&nbsp;X</div><div style="display: inline-block;min-width:100px;">45,000</div><div style="display: inline-block;min-width:50px;">5%</div><div style="text-align:right;float:right;min-width:120px;">6,000,000</div>  </div>
-                     </div>
-                     <div class="menu-item">
-                         <p style="text-align:left;">data menu</p>
-                         <div style="text-align:left;"> <div style="display: inline-block;min-width:40px;">100</div> <div style="display: inline-block;min-width:80px;">bowl&nbsp;&nbsp;&nbsp;X</div><div style="display: inline-block;min-width:100px;">45,000</div><div style="display: inline-block;min-width:50px;">5%</div><div style="text-align:right;float:right;min-width:120px;">6,000,000</div>  </div>
-                     </div>
-
-                     <hr style="height: 1px;background-color:black;">
-
-                     <p style="text-align:left;">
-                        Disc
-                        <span style="float:right;min-width:200px;text-align:right;">Value</span>
-                        <span style="float:right;">=</span>
+                      <div class="table-responsive">          
+                          <table class="table">
+                            <thead  style="margin-bottom:5px;">
+                              <tr>
+                                <th style="padding:0;border: none;">No</th>
+                                <th style="padding:0;text-align:left;border: none;" >Description</th>
+                                <th style="padding:0;text-align:right;border: none;">Amt (Rp.)</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td style="padding:0;border: none;">&nbsp</td>
+                                <td style="padding:0;text-align:left;border: none;" >&nbsp</td>
+                                <td style="padding:0;text-align:right;border: none;">&nbsp</td>
+                              </tr>
+                                <tr>
+                                <td style="padding:0;border: none;">1</td>
+                                <td style="padding:0;text-align:left;border: none;" >Anna</td>
+                                <td style="padding:0;text-align:right;border: none;">Pitt</td>
+                              </tr>
+                                <tr>
+                                <td style="padding:0;border: none;">1</td>
+                                <td style="padding:0;text-align:left;border: none;" >Anna</td>
+                                <td style="padding:0;text-align:right;border: none;">Pitt</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          </div>
+                      <hr style="border-top: dashed 2px;margin-top:2px;">
+                      <p style="text-align:left;">
+                        Subtotal (item qty)
+                        <span style="float:right;">Value Price</span>
                      </p>
-                     <p style="text-align:left;">
-                        Total
-                        <span style="float:right;min-width:200px;text-align:right;">Value</span>
-                        <span style="float:right;">=</span>
+                      <hr style="border-top: dashed 2px;margin-top:2px;">
+
+                    <p style="text-align:left;margin-left:15%;">
+                        <span style="font-size:25pt">Total
+                        <span style="float:right;">Value Price</span></span><br>
+                        Cash
+                        <span style="float:right;">25,000</span><br>
+                        Amt Due
+                        <span style="float:right;">0</span>
+                     </p>
+
+                     <hr style="border-top: dashed 2px;margin-top:5px;">
+
+                     <p style="text-align:center;">
+                        Cater for office meeting , event birthday<br>
+                         Please contact us :<br>
+                         WA : 085922380750<br>
+                         Line : happybellying<br>
+                         Instagram : happybellying<br>
                      </p>
                   </div>
 

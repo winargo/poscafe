@@ -53,8 +53,12 @@
               echo "
               <td>
                            <form  action='category-edit.php' method='post'>
-                                        <input type='hidden' name='productcode' value='".$row['KODE_PRODUK']."'>
-                                        <input type='hidden' name='productname' value='".$row['NAMA_PRODUK']."'>
+                                        <input type='hidden' name='productcode' value='".$row['KODE_STOCK']."'>
+                                        <input type='hidden' name='productname' value='".$row['KODE_PRODUK']."'>
+                                        <input type='hidden' name='productsub1' value='".$row['NAMA_SUB_PRODUK']."'>
+                                        <input type='hidden' name='productsub2' value='".$row['NAMA_SUB_PRODUK2']."'>
+                                        <input type='hidden' name='productcode' value='".$row['KODE_STOCK']."'>
+                                        <input type='hidden' name='productname' value='".$row['KODE_PRODUK']."'>
                                         <input type='hidden' name='productsub1' value='".$row['NAMA_SUB_PRODUK']."'>
                                         <input type='hidden' name='productsub2' value='".$row['NAMA_SUB_PRODUK2']."'>
                                         <button class='btn btn-success' type='submit' style='width:100%;'>Edit</button>
