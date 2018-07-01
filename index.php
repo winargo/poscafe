@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <?php
     session_start();
-    $_SESSION["error"]="";
-    $_SESSION["username"]="";
+error_reporting(0);
+@ini_set('display_errors', 0);
+
+if(isset($_SESSION['username'])){
+    $_SESSION['username']="";
+}
+if(isset($_SESSION['error'])){
+    $_SESSION['error']="";
+}
+
         if($_SESSION['username']!=""){
             header ("Location: .\orders.php");
             exit();
         }
-
  ?>
 <html lang="en">
   <head>

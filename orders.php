@@ -41,8 +41,9 @@
         <ul class="navbar-nav mr-auto">
             &nbsp; 
         </ul>
-        <div class="btn-group float-right">
-             <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">add menu</button>
+        <div class="btn-group float-right"  style="margin-right : 5%;">
+             <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Add Menu</button>
+            <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Edit Menu</button>
               <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <?php
                   echo $_SESSION['usernamedb'];
