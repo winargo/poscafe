@@ -44,7 +44,11 @@
         </ul>
         <div class="btn-group float-right"  style="margin-right : 5%;">
              <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Add Menu</button>
+<<<<<<< HEAD
             <a href="viewmenu.php"><button class="btn btn-success" data-toggle="modal" data-target="#exampleModal1">Edit Menu</button></a>
+=======
+             <a href="menu-edit.php" class="btn btn-success" type="button">EditMenu</a>
+>>>>>>> 87979ce8f21f1ab0e24858401c17fe0f81646e9c
               <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <?php
                   echo $_SESSION['usernamedb'];
