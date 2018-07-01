@@ -19,8 +19,9 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
-
+    <!-- <script type="text/javascript" src="./js/axios.min.js"></script> -->
     <script type="text/javascript" src="./bootstrap/js/jquery.js"></script>
+
     <script type="text/javascript" src="./bootstrap/js/bootstrap.js"></script>
     <!--    bootstrap-->
 <!--
@@ -225,9 +226,13 @@
                         <div class="card">
                         <img class="card-img-top" src="<?php echo $row["IMAGEDIR"] ?>" alt="Card image cap">
                         <div class="card-body">
-                          <p class="card-title"><?php echo $row["NAMA_STOCK"] ?></p>
-                          <p class="card-text"><?php echo $row["HARGAJUAL1"] ?></p>
-                          <p class="card-text"><?php echo $row["SALDOAWAL"] ?></p>
+                          <p class="card-title"><?php echo $row["NAMA_STOCK"]; ?></p>
+                          <p class="card-text"><?php echo $row["HARGAJUAL1"]; ?></p>
+                          <p class="card-text"><?php echo $row["SALDOAWAL"]; ?></p>
+                          <form action="./action/cekcheckout.php" method="post">
+                            <input type="hidden" name="namastock" id="namastock" value="<?php echo $row["NAMA_STOCK"] ?>">
+                            <input type="submit" name="addMenu" value="+" class="btn btn-primary" onclick="addMenu(<?php echo $row["NAMA_STOCK"] ?>)" id="addMenu">
+                          </form>
                         </div>
                       </div>
                     </div>
@@ -298,5 +303,26 @@
         </div>
 </body>
 
+<script type="text/javascript">
+$( "#addMenu" ).click(function() {
+  var test = $("#namastock").val();
+  for (var x in test)
+  {
+    alert(x);
+  }
+  $.ajax({
+    url : "./action/cekcheckout.php",
+    type : "POST",
+    data : test
+    success : function(response) {
+      if(response.status == 4)
+      {
+        alert(response.status);
+      }
+    }
+  })
+
+
+</script>
 
 </html>
