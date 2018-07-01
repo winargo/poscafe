@@ -8,82 +8,85 @@
 
     <body>
         <div class="container">
+           
             <div class="row">
                 <div class="col-md-3">&nbsp;</div>
                  <div class="col-md-6" style="margin-top:5%">
-                    <form action=".\action\cekmenu.php" method="post">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Menu Code</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Menu Code">
-<!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputPassword1">Menu Name</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Menu Name">
-                      </div>
+                   <form action=".\action\cekmenu.php" method="post" id="uploadimage" enctype="multipart/form-data">
 
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Item Price - Rp</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Default Price">
-<!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                      </div>
+                      <div class="modal-body">
+                        <div class="form-group">
+                           <label for="1">Product Code</label>
+                            <input type="text" class="form-control" name="produkcode" placeholder="enter Product Code" id="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="2">Product Name</label>
+                            <input type="text" class="form-control" name="produkname" placeholder="enter product name" id="2" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="4">Select Category</label>
+                            <select name="selcate" id="4" class="form-control" >
+                               <?php
+                                    include "./config/connection.php";
 
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Menu Unit</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Menu Unit">
-<!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                      </div>
-                      <div class="form-group">
-                        <label for="menucateogry">Menu Category</label>
-                        <select name="menucategory" id="menucateogry" class="form-control">
-                            <option value="0" selected>...</option>
-                        </select>
-<!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputPassword1">Initial Stock</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Initial Stock">
-                      </div>
+                                    $sql = "select * from iamproduk";
+                                    $query = mysqli_query($conn,$sql);
 
-                      <div class="button-margin">
-                          <button class="btn btn-success">Add Menu</button>
+                                while($row = mysqli_fetch_array($query))
+                                {
+                                    ?>
+                                    <option value="<?php echo $row["KODE_PRODUK"]; ?>"><?php echo $row["NAMA_PRODUK"];?></option>
+
+                                    <?php
+                                }
+
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <a href="./category.php"><button type="button" class="btn btn-primary" data-dismiss="modal" onclick="location.href='category.php' ">New Category</button></a>
+                        </div>
+                        <div class="form-group">
+                            <label for="22">Product price - Rp</label>
+                            <input type="number" class="form-control" name="produkprice" placeholder="enter product Price" id="22" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="23">Product Unit</label>
+                            <input type="text" class="form-control" name="produkunit" placeholder="(pcs,bowl,pack, etc)" id="23" required>
+                        </div>
+                        <div class="form-group">
+                        <label for="3">Kode Department</label>
+                        <input type="text" class="form-control" id="3" name="kodedepartemen" placeholder="enter kode departemen" value="00" required readonly>
+                          </div>
+                        <div class="form-group">
+                               <img src="./images/images.jpg" id="imageemergency" width="300px" height="200px">
+
+                            </div>
+                            <div class="form-group">
+                                <input type="file" name="fileToUpload" id="fileToUpload"  onchange="readURL(this);" required>
+                            </div>
+                            <div class="form-group">
+                              <?php
+                                        session_start();
+                                      if(isset($_SESSION["error"])){
+                                          $_SESSION["error"]="";
+                                      }
+                                      else if($_SESSION["error"]!=""){
+                                      echo '<p>'.$_SESSION["error"].'</p>'."<script type='text/javascript'>
+                                        $('#exampleModal').modal('show')
+
+                                      </script>";
+                                          $_SESSION["error"]="";
+                                      }
+                                      ?>
+                                </div>
+                          </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input  name="submit" type="submit" id="save" class="btn btn-primary" value="Add" tabindex="11">
                       </div>
-                    </form>
+                        </form>
                  </div>
-            </div>
-            <div class="row">
-                <div class="col-md-1">
-                    &nbsp;
-                </div>
-                <div class="col-md-10" style="margin-top:10px;">
-                    <table class="table table-bordered table-hover">
-                       <caption>Table Menu</caption>
-                        <thead>
-                            <tr>
-                                <td>Menu Code</td>
-                                <td>Menu Name</td>
-                                <td>Menu Price</td>
-                                <td>Menu Unit</td>
-                                <td>Menu Category</td>
-                                <td>Stock Left</td>
-                                <td>Edit</td>
-                                <td>Remove</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td><button class="btn btn-success" type="button" style="width:100%;">Edit</button></td>
-                                <td><button class="btn btn-danger" type="button" style="width:100%;">Remove</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </div>
     </body>

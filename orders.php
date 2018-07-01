@@ -44,7 +44,7 @@
         </ul>
         <div class="btn-group float-right"  style="margin-right : 5%;">
              <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Add Menu</button>
-            <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal1">Edit Menu</button>
+            <a href="viewmenu.php"><button class="btn btn-success" data-toggle="modal" data-target="#exampleModal1">Edit Menu</button></a>
               <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <?php
                   echo $_SESSION['usernamedb'];
@@ -242,7 +242,7 @@
             </div>
         </div>
 
-        <div class="col-md-4" style="background-color:orange;">
+        <div class="col-md-4" style="border : 4px solid orange; border-radius: 5px;">
              <div class="checkoutdata">
 
                   <div class="menu-head">
