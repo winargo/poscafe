@@ -214,32 +214,52 @@
 -->
     <div class="row">
         <div class="col-md-7">
-            <div class="row" style="text-align:center;">
-                <?php
-                    include "./config/connection.php";
-
-                    $sql = "select * from iamstock where tdk_aktif=0";
-                    $query = mysqli_query($conn,$sql);
-                    while($row = mysqli_fetch_array($query)){
-                        ?>
-                    <div class="col-md-3 " style="border-radius:5px;">
-                        <div class="card">
-                        <img class="card-img-top" src="<?php echo $row["IMAGEDIR"] ?>" alt="Card image cap">
-                        <div class="card-body">
-                          <p class="card-title"><?php echo $row["NAMA_STOCK"]; ?></p>
-                          <p class="card-text"><?php echo $row["HARGAJUAL1"]; ?></p>
-                          <p class="card-text"><?php echo $row["SALDOAWAL"]; ?></p>
-                          <form action="./action/cekcheckout.php" method="post">
-                            <input type="hidden" name="namastock" id="namastock" value="<?php echo $row["NAMA_STOCK"] ?>">
-                            <input type="submit" name="addMenu" value="+" class="btn btn-primary" onclick="addMenu(<?php echo $row["NAMA_STOCK"] ?>)" id="addMenu">
-                          </form>
+            <form action=".\action\addpenjualan.php" method="post">
+                      
+                <div class="form-group">
+                            <label for="4">Select Payment</label>
+                            <select name="selectpayment" id="4" class="form-control" >
+                                    <option value="CASH">CASH</option>
+                                    <option value="Credit Cart">Credit Card</option>
+                                <option value="Credit Cart">Debit Card</option>
+                            </select>
                         </div>
+                 <div class="form-group">
+                        <label for="exampleInputEmail1">Bank Name</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Bank Name" name="bankname" value="">
+<!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                       </div>
-                    </div>
-                <?php
-                    }
-                ?>
-            </div>
+                <div class="form-group">
+                        <label for="exampleInputEmail1">Bank Additional Info(optional)</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Bank Additional Info (Optional)" name="bankname" value="">
+<!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                      </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Discount</label>
+                        <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Discount" name="extra2" value="0">
+<!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                      </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Total</label>
+                        <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Total" name="extra2" value="" readonly>
+<!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                      </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Payment Amount</label>
+                        <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Extra Category 2" name="extra2" value="0">
+<!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                      </div>
+                    
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Return Amount</label>
+                        <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Extra Category 2" name="extra2" value="0" readonly>
+<!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                      </div>
+                    <div class="modal-footer" style="width:100%;">
+                        <a href="orders.php"><button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:200px;">Back</button></a>
+                        <input  name="submit" type="submit" id="save" class="btn btn-primary" value="Add" style="width:200px;" tabindex="11">
+                      </div>
+                    </form>
         </div>
 
         <div class="col-md-4" style="background-color:orange;">
@@ -296,9 +316,6 @@
                   </div>
 
                </div>
-                <div class="checkout">
-                    <a href="payment.php"><button class="btn btn-success"><span class="glyphicon glyphicon-print"></span> Check Out</button></a>
-                </div>
             </div>
         </div>
 </body>
@@ -326,3 +343,8 @@ $( "#addMenu" ).click(function() {
 </script>
 
 </html>
+
+                
+                
+                           
+                      
