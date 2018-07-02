@@ -268,7 +268,19 @@
                         <span style="font-size:25pt">Total
                         <span style="float:right;">Value Price</span></span><br>
                         Cash
-                        <span style="float:right;">25,000</span><br>
+                        <?php
+                          include "./config/connection.php";
+                          $q4 = "select * from cart where checkout_status = 0";
+                          $s4 = mysqli_query($conn,$q4);
+                          $total = 0;
+                          while ($row = mysqli_fetch_array($s4)) {
+                              $total +=$row["QTY"]*$row["HARGA"];
+                        ?>
+                        <?php
+                            }
+                            echo "<span style='float:right;'>$total</span>";
+                        ?>
+                        <span style="float:right;"></span><br>
                         Amt Due
                         <span style="float:right;">0</span>
                      </p>
