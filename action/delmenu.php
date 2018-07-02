@@ -18,7 +18,7 @@ if ($ketemu == 1){
     
     if($query)
     {        
-        header ("Location: ..\menu-edit.php");
+        header ("Location: ..\viewmenu.php");
         exit();
     }
     else{
