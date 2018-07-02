@@ -231,9 +231,9 @@
                           <table class="table">
                             <thead  style="margin-bottom:5px;">
                               <tr>
-                                <th style="padding:0;border: none;">No</th>
-                                <th style="padding:0;text-align:left;border: none;" >Description</th>
-                                <th style="padding:0;text-align:right;border: none;">Amt (Rp.)</th>
+                                <th class="no">No</th>
+                                <th class="nama">Description</th>
+                                <th class="harga">Amt (Rp.)</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -248,8 +248,8 @@
                                     ?>
                                       <tr>
                                         <td class="no"><?php echo $no; ?></td>
-                                        <td class="nama"><?php echo $row['KODE_STOCK']; ?></td>
-                                        <td class="harga"><?php echo $row['HARGA']; ?></td>
+                                        <td class="nama"><?php echo $row['KODE_STOCK']."(".$row['QTY'].")"; ?></td>
+                                        <td class="harga">Rp.<?php echo $row['QTY']*$row['HARGA']; ?></td>
                                       </tr>
 
                                     <?php
