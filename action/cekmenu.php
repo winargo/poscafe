@@ -26,8 +26,14 @@ $produkcategory = $_POST['selcate'];
 $kodedep = $_POST['kodedepartemen'];
 $selcate = $_POST['selcate'];
 
-$data=isset($_POST['fileToUpload']) ? $_POST['fileToUpload'] : '';
+$cekmenu=mysqli_query($conn,"SELECT * FROM iamstock
+                            WHERE KODE_STOCK ='$produkcode'
+                            ");
+        $ketemu=mysqli_num_rows($cekmenu);
 
+        if ($ketemu == 0){
+            
+            
 if($data!=''){
 
                 $number=1;
@@ -88,12 +94,7 @@ if ($uploadOk == 0) {
         $admin_dir= $target_file;
         $_SESSION['error']="The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
 
-        $cekmenu=mysqli_query($conn,"SELECT * FROM iamstock
-                            WHERE KODE_STOCK ='$produkcode'
-                            ");
-        $ketemu=mysqli_num_rows($cekmenu);
-
-        if ($ketemu == 0){
+        
           $sqls = "select NAMA_SUB_PRODUK, NAMA_SUB_PRODUK2 from iamproduk where KODE_PRODUK = '$produkcategory'";
           $querys = mysqli_query($conn,$sqls);
           while ($row = mysqli_fetch_array($querys)) {
@@ -127,59 +128,16 @@ if ($uploadOk == 0) {
           // }
 
           // Close connection
-        }else {
-
-        }
+        
       }
     }
   }
-else{
-    echo "data is empty";
-    $cekmenu=mysqli_query($conn,"SELECT * FROM iamstock
-                            WHERE KODE_STOCK ='$produkcode'
-                            ");
-        $ketemu=mysqli_num_rows($cekmenu);
 
-        if ($ketemu == 0){
-          $sqls = "select NAMA_SUB_PRODUK, NAMA_SUB_PRODUK2 from iamproduk where KODE_PRODUK = '$produkcategory'";
-          $querys = mysqli_query($conn,$sqls);
-          while ($row = mysqli_fetch_array($querys)) {
-              $sql = "insert into iamstock (KODE_STOCK,NAMA_STOCK,KODE_TYPE,KODE_PRODUK,HARGAJUAL1,KEMAS1,SALDOAWAL,USER_ID,NAMA_SUB_PRODUK,NAMA_SUB_PRODUK2) values ('$produkcode','$produkname','Stock','$produkcategory',$produkprice,'$produkunit',0,'".$_SESSION['username']."','".$row["NAMA_SUB_PRODUK"]."','".$row["NAMA_SUB_PRODUK2"]."')";
-              echo $sql;
-              $query = mysqli_query($conn,$sql);
-              if($query)
-              {
-                echo $sql;
-                  header("Location: ../orders.php");
-                  exit();
-              }
-              else
-              {
-              $_SESSION['error']=  $_SESSION['error']."<b style='color: red;'>ERROR: Could not able to execute $sql. " . mysqli_error($link)."</b>";
+            }else {
+            
+            $_SESSION['error']=  $_SESSION['error']."<b style='color: red;'>ERROR: Duplicate Data Detected</b>";
               header("Location: ../orders.php");
               exit();
-              }
-          }
-
-          // if($query)
-          // {
-          //     header("Location: ../orders.php");
-          //     exit();
-          // }
-          // else
-          // {
-          // $_SESSION['error']=  $_SESSION['error']."<b style='color: red;'>ERROR: Could not able to execute $sql. " . mysqli_error($link)."</b>";
-          // header("Location: ../orders.php");
-          // exit();
-          // }
-
-          // Close connection
-        }else {
-
         }
-}
-
-
-
 
 ?>

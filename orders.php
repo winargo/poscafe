@@ -2,7 +2,10 @@
 <html lang="en">
 <?php
     session_start();
-    include('./config/block.php')
+    include('./config/block.php');
+    function asDollars($value) {
+    return 'Rp' . number_format($value, 2);
+  } 
     ?>
 <head>
     <meta charset="UTF-8">
@@ -94,6 +97,18 @@
                       <form action=".\action\cekmenu.php" method="post" id="uploadimage" enctype="multipart/form-data">
 
                       <div class="modal-body">
+                          <?php
+                                      if($_SESSION["error"]==null){
+                                          $_SESSION["error"]="";
+                                      }
+                                      else if($_SESSION["error"]!=""){
+                                      echo '<p>'.$_SESSION["error"].'</p>'."<script type='text/javascript'>
+                                        $('#exampleModal').modal('show')
+
+                                      </script>";
+                                          $_SESSION["error"]="";
+                                      }
+                                      ?>
                         <div class="form-group">
                            <label for="1">Product Code</label>
                             <input type="text" class="form-control" name="produkcode" placeholder="enter Product Code" id="1" required>
@@ -145,18 +160,7 @@
                                 <input type="file" name="fileToUpload" id="fileToUpload"  onchange="readURL(this);" required>
                             </div>
                             <div class="form-group">
-                              <?php
-                                      if($_SESSION["error"]==null){
-                                          $_SESSION["error"]="";
-                                      }
-                                      else if($_SESSION["error"]!=""){
-                                      echo '<p>'.$_SESSION["error"].'</p>'."<script type='text/javascript'>
-                                        $('#exampleModal').modal('show')
-
-                                      </script>";
-                                          $_SESSION["error"]="";
-                                      }
-                                      ?>
+                              
                                 </div>
                           </div>
                       <div class="modal-footer">
@@ -188,9 +192,7 @@
                         <img class="card-img-top" src="<?php echo $row["IMAGEDIR"] ?>" alt="Card image cap">
                         <div class="card-body">
                           <p class="card-title"><?php echo $row["NAMA_STOCK"]; ?></p>
-                          <p class="card-text"><?php function asDollars($value) {
-                                                    return 'Rp' . number_format($value, 2);
-                                                  } echo asDollars($row["HARGAJUAL1"]); ?></p>
+                          <p class="card-text"><?php echo asDollars($row["HARGAJUAL1"]); ?></p>
                           <!-- <p class="card-text"><?php echo $row["SALDOAWAL"]; ?></p> -->
                           <form action="./action/cekcheckout.php" method="post">
                             <input type="hidden" name="namastock" id="namastock" value="<?php echo $row["NAMA_STOCK"] ?>">
