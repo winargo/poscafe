@@ -33,7 +33,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color:orange">
-      <img src="./images/logo.PNG" alt="Logo" class="navbar-brand" height="65" width="65">
+      <a href="index.php"><img src="./images/logo.PNG" alt="Logo" class="navbar-brand" height="65" width="65"></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -257,61 +257,80 @@
                       </div>
                     <div class="modal-footer" style="width:100%;">
                         <a href="orders.php"><button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:200px;">Back</button></a>
-                        <input  name="submit" type="submit" id="save" class="btn btn-primary" value="Add" style="width:200px;" tabindex="11">
+                        <input  name="submit" type="submit" id="save" class="btn btn-primary" value="Pay and Print" style="width:200px;" tabindex="11">
                       </div>
                     </form>
         </div>
 
-        <div class="col-md-4" style="background-color:orange;">
+        <div class="col-md-4" style="border : 4px solid orange; border-radius: 5px;">
              <div class="checkoutdata">
 
                   <div class="menu-head">
                      <img src="./images/logo.PNG" width="150" height="150">
-                     <p>Address<br>Phone Number Data<br>Additional Data</p>
+                     <p>Let's Happy Bellying!<br>Frying now @ Brastagi Tiara<br>Operation Hours(Daily):<br>10:00 a.m - 10:00 p.m</p>
+                      <hr style="border-top: dashed 2px;margin:0;">
+                      <hr style="border-top: dashed 2px;margin-top:5px;">
                      <p style="text-align:left;">
-                        No : nomor
-                        <span style="float:right;"><?php
-                            echo date("d/m/Y");
-
-                            ?></span>
-                     </p>
-                     <p style="text-align:left;">
-                        Cashier : <?php echo $_SESSION['username'] ; ?>
-                        <span style="float:right;"><?php
-                            echo date("h:i:s");
-
-                            ?></span>
+                        Order No : nomor<br>
+                        Date : <?php
+                            echo date("d/m/Y");?>&nbsp;<?php
+                            echo date("h:i a");
+                            ?><br>
+                         Transaction By: <?php echo $_SESSION['username'] ; ?>
                      </p>
 
-                     <hr style="height: 1px;background-color:black;">
-                     <div class="menu-item">
-                         <p style="text-align:left;">data menu</p>
-                         <div style="text-align:left;"> <div style="display: inline-block;min-width:40px;">100</div> <div style="display: inline-block;min-width:80px;">bowl&nbsp;&nbsp;&nbsp;X</div><div style="display: inline-block;min-width:100px;">45,000</div><div style="display: inline-block;min-width:50px;">5%</div><div style="text-align:right;float:right;min-width:120px;">6,000,000</div>  </div>
-                     </div>
-                     <div class="menu-item">
-                         <p style="text-align:left;">data menu</p>
-                         <div style="text-align:left;"> <div style="display: inline-block;min-width:40px;">100</div> <div style="display: inline-block;min-width:80px;">bowl&nbsp;&nbsp;&nbsp;X</div><div style="display: inline-block;min-width:100px;">45,000</div><div style="display: inline-block;min-width:50px;">5%</div><div style="text-align:right;float:right;min-width:120px;">6,000,000</div>  </div>
-                     </div>
-                     <div class="menu-item">
-                         <p style="text-align:left;">data menu</p>
-                         <div style="text-align:left;"> <div style="display: inline-block;min-width:40px;">100</div> <div style="display: inline-block;min-width:80px;">bowl&nbsp;&nbsp;&nbsp;X</div><div style="display: inline-block;min-width:100px;">45,000</div><div style="display: inline-block;min-width:50px;">5%</div><div style="text-align:right;float:right;min-width:120px;">6,000,000</div>  </div>
-                     </div>
-                     <div class="menu-item">
-                         <p style="text-align:left;">data menu</p>
-                         <div style="text-align:left;"> <div style="display: inline-block;min-width:40px;">100</div> <div style="display: inline-block;min-width:80px;">bowl&nbsp;&nbsp;&nbsp;X</div><div style="display: inline-block;min-width:100px;">45,000</div><div style="display: inline-block;min-width:50px;">5%</div><div style="text-align:right;float:right;min-width:120px;">6,000,000</div>  </div>
-                     </div>
-
-                     <hr style="height: 1px;background-color:black;">
-
-                     <p style="text-align:left;">
-                        Disc
-                        <span style="float:right;min-width:200px;text-align:right;">Value</span>
-                        <span style="float:right;">=</span>
+                      <div class="table-responsive">          
+                          <table class="table">
+                            <thead  style="margin-bottom:5px;">
+                              <tr>
+                                <th style="padding:0;border: none;">No</th>
+                                <th style="padding:0;text-align:left;border: none;" >Description</th>
+                                <th style="padding:0;text-align:right;border: none;">Amt (Rp.)</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td style="padding:0;border: none;">&nbsp</td>
+                                <td style="padding:0;text-align:left;border: none;" >&nbsp</td>
+                                <td style="padding:0;text-align:right;border: none;">&nbsp</td>
+                              </tr>
+                                <tr>
+                                <td style="padding:0;border: none;">1</td>
+                                <td style="padding:0;text-align:left;border: none;" >Anna</td>
+                                <td style="padding:0;text-align:right;border: none;">Pitt</td>
+                              </tr>
+                                <tr>
+                                <td style="padding:0;border: none;">1</td>
+                                <td style="padding:0;text-align:left;border: none;" >Anna</td>
+                                <td style="padding:0;text-align:right;border: none;">Pitt</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          </div>
+                      <hr style="border-top: dashed 2px;margin-top:2px;">
+                      <p style="text-align:left;">
+                        Subtotal (item qty)
+                        <span style="float:right;">Value Price</span>
                      </p>
-                     <p style="text-align:left;">
-                        Total
-                        <span style="float:right;min-width:200px;text-align:right;">Value</span>
-                        <span style="float:right;">=</span>
+                      <hr style="border-top: dashed 2px;margin-top:2px;">
+
+                    <p style="text-align:left;margin-left:15%;">
+                        <span style="font-size:25pt">Total
+                        <span style="float:right;">Value Price</span></span><br>
+                        Cash
+                        <span style="float:right;">25,000</span><br>
+                        Amt Due
+                        <span style="float:right;">0</span>
+                     </p>
+
+                     <hr style="border-top: dashed 2px;margin-top:5px;">
+
+                     <p style="text-align:center;">
+                        Cater for office meeting , event birthday<br>
+                         Please contact us :<br>
+                         WA : 085922380750<br>
+                         Line : happybellying<br>
+                         Instagram : happybellying<br>
                      </p>
                   </div>
 
