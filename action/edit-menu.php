@@ -26,8 +26,14 @@ $produkcategory = $_POST['selcate'];
 $kodedep = $_POST['kodedepartemen'];
 $selcate = $_POST['selcate'];
 
-$data=isset($_POST['produkcode']) ? $_POST['produkcode'] : '';
+$cekmenu=mysqli_query($conn,"SELECT * FROM iamstock
+                            WHERE KODE_STOCK ='$produkcode'
+                            ");
+        $ketemu=mysqli_num_rows($cekmenu);
 
+        if ($ketemu == 0){
+            
+            
 if($data!=''){
 
                 $number=1;
@@ -80,6 +86,7 @@ if ($uploadOk == 0) {
     $_SESSION['error']="Sorry, your file was not uploaded.";
 // if everything is ok, try to upload file
 } else {
+    echo "data is not empty";
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file) && $number!=0) {
         $dir= basename( $reportid.$_FILES["fileToUpload"]["name"]);
          $_SESSION['error']=basename( $_FILES["fileToUpload"]["name"]);
@@ -87,12 +94,7 @@ if ($uploadOk == 0) {
         $admin_dir= $target_file;
         $_SESSION['error']="The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
 
-        $cekmenu=mysqli_query($conn,"SELECT * FROM iamstock
-                            WHERE KODE_STOCK ='$produkcode'
-                            ");
-        $ketemu=mysqli_num_rows($cekmenu);
-
-        if ($ketemu == 0){
+        
           $sqls = "select NAMA_SUB_PRODUK, NAMA_SUB_PRODUK2 from iamproduk where KODE_PRODUK = '$produkcategory'";
           $querys = mysqli_query($conn,$sqls);
           while ($row = mysqli_fetch_array($querys)) {
@@ -102,7 +104,7 @@ if ($uploadOk == 0) {
               if($query)
               {
                 echo $sql;
-                  header("Location: ../viewmenu.php");
+                  header("Location: ../editmenu.php");
                   exit();
               }
               else
@@ -126,14 +128,21 @@ if ($uploadOk == 0) {
           // }
 
           // Close connection
-        }else {
-
-        }
+        
       }
     }
   }
 
+            }else {
+            
+            $_SESSION['error']=  $_SESSION['error']."<b style='color: red;'>ERROR: Duplicate Data Detected</b>";
+              header("Location: ../editmenu.php");
+              exit();
+        }
 
+
+
+          
 
 
 ?>
