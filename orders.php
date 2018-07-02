@@ -10,7 +10,7 @@
     <!--    boostrap css-->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 
-    
+
 
     <!-- Favicon-->
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
@@ -173,51 +173,6 @@
       </div>
     </nav>
     <!-- #Top Bar -->
-<!--
-    <div class="wrapper item">
-       <div class="menureceipt">
-           <button type="button" class="btn btn-default waves-effect m-r-20" data-toggle="modal" data-target="#defaultModal" style="float:right;margin-top:-30px;">+</button>
-            <div class="catalog" style="margin-top:10px;">
-                <div class="boxitem">
-                    &nbsp;
-                </div>
-                <div class="boxitem">
-                    &nbsp;
-                </div>
-                <div class="boxitem">
-                    &nbsp;
-                </div>
-                <div class="boxadd">
-                    <img src="./images/add.png" class="additemimage" >
-                 </div>
-            </div>
-        </div>
-        <div class="receipt">
-            <div class="receipt-data">
-               <div class="checkoutdata">
-                   <p>dara</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-               </div>
-                <div class="checkout">
-                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-print"> Check Out</button>
-                </div>
-            </div>
-        </div>
-
-    </div>
--->
     <div class="row">
         <div class="col-md-7">
             <div class="row" style="text-align:center;">
@@ -233,10 +188,15 @@
                         <img class="card-img-top" src="<?php echo $row["IMAGEDIR"] ?>" alt="Card image cap">
                         <div class="card-body">
                           <p class="card-title"><?php echo $row["NAMA_STOCK"]; ?></p>
-                          <p class="card-text"><?php echo $row["HARGAJUAL1"]; ?></p>
-                          <p class="card-text"><?php echo $row["SALDOAWAL"]; ?></p>
+                          <p class="card-text"><?php function asDollars($value) {
+                                                    return 'Rp' . number_format($value, 2);
+                                                  } echo asDollars($row["HARGAJUAL1"]); ?></p>
+                          <!-- <p class="card-text"><?php echo $row["SALDOAWAL"]; ?></p> -->
                           <form action="./action/cekcheckout.php" method="post">
                             <input type="hidden" name="namastock" id="namastock" value="<?php echo $row["NAMA_STOCK"] ?>">
+                            <input type="hidden" name="qty" value="1">
+                            <input type="hidden" name="harga" value="<?php echo number_format($row["HARGAJUAL1"],3); ?>">
+                            <input type="hidden" name="userid" value="<?php echo $_SESSION["username"]; ?>">
                             <input type="submit" name="addMenu" value="+" class="btn btn-primary" onclick="addMenu(<?php echo $row["NAMA_STOCK"] ?>)" id="addMenu">
                           </form>
                         </div>
@@ -265,7 +225,7 @@
                          Transaction By: <?php echo $_SESSION['username'] ; ?>
                      </p>
 
-                      <div class="table-responsive">          
+                      <div class="table-responsive">
                           <table class="table">
                             <thead  style="margin-bottom:5px;">
                               <tr>
@@ -275,21 +235,25 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <td style="padding:0;border: none;">&nbsp</td>
-                                <td style="padding:0;text-align:left;border: none;" >&nbsp</td>
-                                <td style="padding:0;text-align:right;border: none;">&nbsp</td>
-                              </tr>
-                                <tr>
-                                <td style="padding:0;border: none;">1</td>
-                                <td style="padding:0;text-align:left;border: none;" >Anna</td>
-                                <td style="padding:0;text-align:right;border: none;">Pitt</td>
-                              </tr>
-                                <tr>
-                                <td style="padding:0;border: none;">1</td>
-                                <td style="padding:0;text-align:left;border: none;" >Anna</td>
-                                <td style="padding:0;text-align:right;border: none;">Pitt</td>
-                              </tr>
+                              <?php
+                                  include "./config/connection.php";
+
+                                  $sql = "select * from cart where checkout_status = 0";
+                                  $query = mysqli_query($conn,$sql);
+                                  $no = 1;
+                                  while ($row = mysqli_fetch_array($query)) {
+
+                                    ?>
+                                      <tr>
+                                        <td class="no"><?php echo $no; ?></td>
+                                        <td class="nama"><?php echo $row['KODE_STOCK']; ?></td>
+                                        <td class="harga"><?php echo $row['HARGA']; ?></td>
+                                      </tr>
+
+                                    <?php
+                                    $no++;
+                                  }
+                               ?>
                             </tbody>
                           </table>
                           </div>
