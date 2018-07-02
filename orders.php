@@ -197,7 +197,7 @@
                           <form action="./action/cekcheckout.php" method="post">
                             <input type="hidden" name="namastock" id="namastock" value="<?php echo $row["NAMA_STOCK"] ?>">
                             <input type="hidden" name="qty" value="1">
-                            <input type="hidden" name="harga" value="<?php echo number_format($row["HARGAJUAL1"],3); ?>">
+                            <input type="hidden" name="harga" value="<?php echo $row["HARGAJUAL1"]; ?>">
                             <input type="hidden" name="userid" value="<?php echo $_SESSION["username"]; ?>">
                             <input type="submit" name="addMenu" value="+" class="btn btn-primary" onclick="addMenu(<?php echo $row["NAMA_STOCK"] ?>)" id="addMenu">
                           </form>
@@ -249,7 +249,7 @@
                                       <tr>
                                         <td class="no"><?php echo $no; ?></td>
                                         <td class="nama"><?php echo $row['KODE_STOCK']."(".$row['QTY'].")"; ?></td>
-                                        <td class="harga">Rp.<?php echo $row['QTY']*$row['HARGA']; ?></td>
+                                        <td class="harga">Rp.<?php echo asDollars($row['QTY']*$row['HARGA']); ?></td>
                                       </tr>
 
                                     <?php
@@ -280,7 +280,8 @@
                         ?>
                         <?php
                             }
-                            echo "<span style='float:right;'>Rp.$total</span>";
+                            $changetotal = asDollars($total);
+                            echo "<span style='float:right;'>Rp.$changetotal</span>";
                         ?>
                         <span style="float:right;"></span><br>
                         Amt Due
