@@ -47,6 +47,7 @@
                                 ?>
                       <div class="button-margin">
                           <button type="submit" class="btn btn-success">Add Category</button>
+                          <a href="index.php"><button type="button" class="btn btn-primary">Home</button></a>
                       </div>
                     </form>                           
                  </div>

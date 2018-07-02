@@ -56,6 +56,7 @@
                       <div class="button-margin">
                          <input type="hidden" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Extra Category 2" name="command">
                           <button type="submit" class="btn btn-success">Edit Category</button>
+                           <a href="category.php"><button type="button" class="btn btn-secondary">Back</button></a>
                       </div>
                     </form>          
                       

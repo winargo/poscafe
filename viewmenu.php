@@ -8,13 +8,17 @@
 
     <body>
         <div class="container">
-
+            
             <div class="row">
                 <div class="col-md-1">
                     &nbsp;
                 </div>
-                <div class="col-md-10" style="margin-top:10px;">
+                <div class="col-md-15" style="margin-top:10px;">
                    <div class="table-responsive">
+                       <div class="form-group">
+                               <a href="index.php"><button type="button" class="btn btn-primary">Home</button></a>
+                          </div>
+                      
                     <table class="table table-bordered table-hover">
                        <caption>Table Menu</caption>
                         <thead>
@@ -57,7 +61,8 @@
                                         <input type='hidden' name='kodestock' value='".$row['KODE_STOCK']."'>
                                         <input type='hidden' name='productname' value='".$row['NAMA_STOCK']."'>
                                         <input type='hidden' name='harga' value='".$row['HARGAJUAL1']."'>
-                                        <input type='hidden' name='productsub2' value='".$row['KEMAS1']."'>
+                                        <input type='hidden' name='imagedir' value='".$row['IMAGEDIR']."'>
+                                        <input type='hidden' name='productunit' value='".$row['KEMAS1']."'>
                                         <input type='hidden' name='productcode' value='".$row['KODE_PRODUK']."'>
                                         <input type='hidden' name='saldoawal' value='".$row['SALDOAWAL']."'>
                                         <button class='btn btn-success' type='submit' style='width:100%;'>Edit</button>
@@ -76,6 +81,7 @@
                     ?>
                         </tbody>
                     </table>
+                       
                     </div>
                 </div>
             </div>

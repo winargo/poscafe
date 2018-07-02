@@ -9,7 +9,7 @@ function console_log( $data ){
 //error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 session_start();
 include('..\config\db_connect.php');
-$data=isset($_POST['produkcode']) ? $_POST['produkcode'] : '';
+$data=isset($_POST['fileToUpload']) ? $_POST['fileToUpload'] : '';
 $number=0;
 $temp = '';
 $reportid='';
@@ -18,10 +18,10 @@ $real_dir='';
 $dir = basename($reportid.$_FILES["fileToUpload"]["name"]);
 $temp = $real_dir.$dir;
 //Form data
-$produkcode = $_POST['produkcode'];
-$produkname = $_POST['produkname'];
+$produkcode = $_POST['kodestock'];
+$produkname = $_POST['namastock'];
 $produkunit = $_POST['produkunit'];
-$produkprice = $_POST['produkprice'];
+$produkprice = $_POST['harga'];
 $produkcategory = $_POST['selcate'];
 $kodedep = $_POST['kodedepartemen'];
 $selcate = $_POST['selcate'];
@@ -131,7 +131,27 @@ if ($uploadOk == 0) {
         
       }
     }
-  }
+  }else{
+    $sqls = "select NAMA_SUB_PRODUK, NAMA_SUB_PRODUK2 from iamproduk where KODE_PRODUK = '$produkcategory'";
+          $querys = mysqli_query($conn,$sqls);
+          while ($row = mysqli_fetch_array($querys)) {
+              $sql = "update iamstock set NAMA_STOCK='".$_POST['produkname']."',KODE_PRODUK='".$_POST['produkcategory']."',HARGAJUAL1='".$_POST['produkprice']."',KEMAS1='".$_POST['produkunit']."',NAMA_SUB_PRODUK='".row['NAMA_SUB_PRODUK']."',NAMA_SUB_PRODUK2='".row['NAMA_SUB_PRODUK2']."' where KODE_STOCK='$produkcode'";
+              echo $sql;
+              $query = mysqli_query($conn,$sql);
+              if($query)
+              {
+                echo $sql;
+                  header("Location: ../editmenu.php");
+                  exit();
+              }
+              else
+              {
+              $_SESSION['error']=  $_SESSION['error']."<b style='color: red;'>ERROR: Could not able to execute $sql. " . mysqli_error($link)."</b>";
+              header("Location: ../editmenu.php");
+              exit();
+              }
+          }
+}
 
             }else {
             
