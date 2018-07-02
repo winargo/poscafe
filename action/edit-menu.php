@@ -3,23 +3,23 @@ session_start();
 include "..\config\connection.php";
 
 //Form data
-$temp = $_POST['oldproductcode'];
-$categorycode = $_POST['categorycode'];
+$temp = $_POST['kodestock'];
+$categorycode = $_POST['selcate'];
 $categoryname = $_POST['categoryname'];
 $extra1 = $_POST['extra1'];
 $extra2 = $_POST['extra2'];
-
 //Query dari mysql untuk memanggil data di database
-$cekcategory=mysqli_query($conn,"SELECT * FROM `iamproduk`
+
+$cekcategory=mysqli_query($conn,"SELECT * FROM iamstock
 					WHERE kode_produk ='$temp'
 					");
 $ketemu=mysqli_num_rows($cekcategory);
 echo $ketemu;
 
 
-if ($ketemu ==0 ){
+if ($ketemu == 0 ){
   $_SESSION['error']="<b style='color: red;'>Data Missing Please Reload</b>";
-        header ("Location: ..\category.php");
+        header ("Location: ..\viewmenu.php");
         exit();
 }
 else if($ketemu ==1 ){
@@ -29,7 +29,7 @@ else if($ketemu ==1 ){
 
         if($query)
         {
-            header ("Location: ..\category.php");
+            header ("Location: ..\viewmenu.php");
             exit();
         }
     }
@@ -42,7 +42,7 @@ else if($ketemu ==1 ){
 
         if(ketemu1==1){
             $_SESSION['error']="<b style='color: red;'>Duplicate Data registered Please Recheck</b>";
-            header ("Location: ..\category.php");
+            header ("Location: ..\viewmenu.php");
             exit();
 
         }
@@ -52,18 +52,18 @@ else if($ketemu ==1 ){
 
         if($query)
         {
-            header ("Location: ..\category.php");
+            header ("Location: ..\viewmenu.php");
             exit();
         }
         }
         else{
             $_SESSION['error']="<b style='color: red;'>Another Same Data Registered</b>";
-            header ("Location: ..\category.php");
+            header ("Location: ..\viewmenu.php");
             exit();
 
         }
     }
-    
+
 }
 
 
