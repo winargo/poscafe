@@ -95,7 +95,7 @@
                         } ?>
 
                             <div class="form-group">
-                                <input type="file" name="fileToUpload" id="fileToUpload"  onchange="readURL(this);" required>
+                                <input type="file" name="fileToUpload" id="fileToUpload"  onchange="readURL(this);">
                             </div>
                             <div class="form-group">
                               <?php

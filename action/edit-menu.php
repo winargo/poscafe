@@ -1,70 +1,138 @@
 <?php
+
+
+function console_log( $data ){
+  echo '<script>';
+  echo 'console.log('. json_encode( $data ) .')';
+  echo '</script>';
+}
+//error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 session_start();
-include "..\config\connection.php";
+include('..\config\db_connect.php');
+$data=isset($_POST['produkcode']) ? $_POST['produkcode'] : '';
+$number=0;
+$temp = '';
+$reportid='';
+$real_dir='';
 
+$dir = basename($reportid.$_FILES["fileToUpload"]["name"]);
+$temp = $real_dir.$dir;
 //Form data
-$temp = $_POST['kodestock'];
-$categorycode = $_POST['selcate'];
-$categoryname = $_POST['categoryname'];
-$extra1 = $_POST['extra1'];
-$extra2 = $_POST['extra2'];
-//Query dari mysql untuk memanggil data di database
+$produkcode = $_POST['produkcode'];
+$produkname = $_POST['produkname'];
+$produkunit = $_POST['produkunit'];
+$produkprice = $_POST['produkprice'];
+$produkcategory = $_POST['selcate'];
+$kodedep = $_POST['kodedepartemen'];
+$selcate = $_POST['selcate'];
 
-$cekcategory=mysqli_query($conn,"SELECT * FROM iamstock
-					WHERE kode_produk ='$temp'
-					");
-$ketemu=mysqli_num_rows($cekcategory);
-echo $ketemu;
+$data=isset($_POST['produkcode']) ? $_POST['produkcode'] : '';
 
+if($data!=''){
 
-if ($ketemu == 0 ){
-  $_SESSION['error']="<b style='color: red;'>Data Missing Please Reload</b>";
-        header ("Location: ..\viewmenu.php");
-        exit();
-}
-else if($ketemu ==1 ){
-    if($temp==$categorycode){
-        $sql = "update `iamproduk` set kode_produk= '$categorycode',nama_produk = '$categoryname',nama_sub_produk = '$extra1',nama_sub_produk2 = '$extra2' where kode_produk = '$temp'";
-        $query = mysqli_query($conn,$sql);
+                $number=1;
 
-        if($query)
-        {
-            header ("Location: ..\viewmenu.php");
-            exit();
-        }
+$reportid="ER".(rand(00000000,99999999));
+    console_log( $reportid );
+$target_dir = "../uploads/";
+    $real_dir = "./uploads/";
+    $admin_dir="";
+    console_log( $target_dir );
+$target_file = $target_dir . basename($reportid.$_FILES["fileToUpload"]["name"]);
+        console_log( $target_file );
+$uploadOk = 1;
+    console_log( $uploadOk );
+$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    console_log( $imageFileType );
+    console_log( $_POST["submit"]);
+
+// Check if image file is a actual image or fake image
+if(isset($_POST["submit"]) && isset($_FILES['file'])) {
+    console_log( "working" );
+    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+    if($check !== false) {
+        $_SESSION['error']="File is an image - " . $check["mime"] . ".";
+        $uploadOk = 1;
+    } else {
+        $_SESSION['error']="File is not an image.";
+        $uploadOk = 0;
     }
-    else{
-        $cekcategory1=mysqli_query($conn,"SELECT * FROM `iamproduk`
-                        WHERE kode_produk ='$categorycode'
-                        ");
-        $ketemu1=mysqli_num_rows($cekcategory1);
-        echo $ketemu1;
-
-        if(ketemu1==1){
-            $_SESSION['error']="<b style='color: red;'>Duplicate Data registered Please Recheck</b>";
-            header ("Location: ..\viewmenu.php");
-            exit();
-
-        }
-        else if($ketemu1==0){
-            $sql = "update `iamproduk` set kode_produk= '$categorycode',nama_produk = '$categoryname',nama_sub_produk = '$extra1',nama_sub_produk2 = '$extra2' where kode_produk = '$temp'";
-        $query = mysqli_query($conn,$sql);
-
-        if($query)
-        {
-            header ("Location: ..\viewmenu.php");
-            exit();
-        }
-        }
-        else{
-            $_SESSION['error']="<b style='color: red;'>Another Same Data Registered</b>";
-            header ("Location: ..\viewmenu.php");
-            exit();
-
-        }
-    }
-
 }
+// Check if file already exists
+if (file_exists($target_file)) {
+    $_SESSION['error']="Sorry, file already exists.";
+    $uploadOk = 0;
+}
+// Check file size
+if ($_FILES["fileToUpload"]["size"] > 50000000) {
+    $_SESSION['error']="Sorry, your file is too large.";
+    $uploadOk = 0;
+}
+// Allow certain file formats
+if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+&& $imageFileType != "gif" ) {
+    $_SESSION['error']="Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+    $uploadOk = 0;
+}
+    console_log( $uploadOk );
+// Check if $uploadOk is set to 0 by an error
+if ($uploadOk == 0) {
+    $_SESSION['error']="Sorry, your file was not uploaded.";
+// if everything is ok, try to upload file
+} else {
+    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file) && $number!=0) {
+        $dir= basename( $reportid.$_FILES["fileToUpload"]["name"]);
+         $_SESSION['error']=basename( $_FILES["fileToUpload"]["name"]);
+        $temp=$real_dir.$dir;
+        $admin_dir= $target_file;
+        $_SESSION['error']="The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+
+        $cekmenu=mysqli_query($conn,"SELECT * FROM iamstock
+                            WHERE KODE_STOCK ='$produkcode'
+                            ");
+        $ketemu=mysqli_num_rows($cekmenu);
+
+        if ($ketemu == 0){
+          $sqls = "select NAMA_SUB_PRODUK, NAMA_SUB_PRODUK2 from iamproduk where KODE_PRODUK = '$produkcategory'";
+          $querys = mysqli_query($conn,$sqls);
+          while ($row = mysqli_fetch_array($querys)) {
+              $sql = "update iamstock set NAMA_STOCK='".$_POST['produkname']."',KODE_PRODUK='".$_POST['produkcategory']."',HARGAJUAL1='".$_POST['produkprice']."',IMAGEDIR='$temp',KEMAS1='".$_POST['produkunit']."',NAMA_SUB_PRODUK='".row['NAMA_SUB_PRODUK']."',NAMA_SUB_PRODUK2='".row['NAMA_SUB_PRODUK2']."' where KODE_STOCK='$produkcode'";
+              echo $sql;
+              $query = mysqli_query($conn,$sql);
+              if($query)
+              {
+                echo $sql;
+                  header("Location: ../viewmenu.php");
+                  exit();
+              }
+              else
+              {
+              $_SESSION['error']=  $_SESSION['error']."<b style='color: red;'>ERROR: Could not able to execute $sql. " . mysqli_error($link)."</b>";
+              header("Location: ../editmenu.php");
+              exit();
+              }
+          }
+
+          // if($query)
+          // {
+          //     header("Location: ../orders.php");
+          //     exit();
+          // }
+          // else
+          // {
+          // $_SESSION['error']=  $_SESSION['error']."<b style='color: red;'>ERROR: Could not able to execute $sql. " . mysqli_error($link)."</b>";
+          // header("Location: ../orders.php");
+          // exit();
+          // }
+
+          // Close connection
+        }else {
+
+        }
+      }
+    }
+  }
+
 
 
 
