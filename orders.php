@@ -5,7 +5,7 @@
     include('./config/block.php');
     function asDollars($value) {
     return 'Rp' . number_format($value, 2);
-  } 
+  }
     ?>
 <head>
     <meta charset="UTF-8">
@@ -160,7 +160,7 @@
                                 <input type="file" name="fileToUpload" id="fileToUpload"  onchange="readURL(this);" required>
                             </div>
                             <div class="form-group">
-                              
+
                                 </div>
                           </div>
                       <div class="modal-footer">
@@ -280,7 +280,7 @@
                         ?>
                         <?php
                             }
-                            echo "<span style='float:right;'>$total</span>";
+                            echo "<span style='float:right;'>Rp.$total</span>";
                         ?>
                         <span style="float:right;"></span><br>
                         Amt Due
