@@ -10,7 +10,16 @@
     $querydate = mysqli_query($conn,$sql);
     while($row = mysqli_fetch_array($querydate)){
         if($row['NILAI_PARAM']==date("d/m/Y")){
-        //    echo "sama";
+            $sql = "update iamsetupseri set no_urut=".date("ymd")." where no_seri='JL'";
+                $query = mysqli_query($conn,$sql);
+
+                if($query)
+                {    
+                    header("Refresh:0");
+                }
+                else{
+                    echo "Error Occured";
+                }
         }
         else{
          //   echo "tidak sama";
@@ -19,16 +28,15 @@
             
             if($query)
             {    
-                $sql = "update xparam set nilai_param='".date("d/m/Y")."' where nama_param='DATERESET'";
+                $sql = "update iamsetupseri set no_urut=".date("ymd")." where no_seri='JL'";
                 $query = mysqli_query($conn,$sql);
 
                 if($query)
                 {    
-
                     header("Refresh:0");
                 }
                 else{
-                    
+                    echo "Error Occured";
                 }
             }
         }
@@ -288,6 +296,11 @@
                                         <td class="no" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $no; ?></td>
                                         <td class="nama" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $row['KODE_STOCK']."(".$row['QTY'].")"; ?></td>
                                         <td class="harga" style="border:none;padding-top:0;padding-bottom:0;"><?php echo asDollars($row['QTY']*$row['HARGA']); ?></td>
+                                          <td>
+                                          <form method="post" action=".\action\delcart.php">
+                                              <input type="hidden" value="">
+                                          </form>
+                                        </td>
                                       </tr>
 
                                     <?php

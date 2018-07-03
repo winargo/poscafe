@@ -236,14 +236,14 @@
                       </div>
                     <div class="modal-footer" style="width:100%;">
                         <a href="orders.php"><button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:200px;">Back</button></a>
-                        <input  name="submit" type="submit" id="save" class="btn btn-primary" value="Pay and Print" style="width:200px;" tabindex="11">
+                        <input  name="submit" onclick="printDiv('shit')" type="submit" id="save" class="btn btn-primary" value="Pay and Print" style="width:200px;" tabindex="11">
                       </div>
                     </form>
                     <button class="btn btn-success" id="pay" onclick="pay()">pay</button>
         </div>
 
         <div class="col-md-4" style="border : 4px solid orange; border-radius: 5px;" id="shit">
-             <div class="checkoutdata">
+             <div class="checkoutdata" id="printarea">
 
                   <div class="menu-head">
                      <img src="./images/logo.PNG" width="150" height="150">
@@ -381,16 +381,57 @@ function pay(){
             document.getElementById("return").value = sisa;
             document.getElementById("payments").innerHTML= 'Rp.'+payment;
             document.getElementById("return1").innerHTML = 'Rp.'+sisa;
-            var prtContent = document.getElementById("shit");
-            var WinPrint = window.open('', '', 'left=0,top=0,width=550,height=700');
-            WinPrint.document.write(prtContent.innerHTML);
-            WinPrint.document.close();
-            WinPrint.focus();
-            WinPrint.print();
-            WinPrint.close();
+            
+            var printContents = document.getElementById('printarea').innerHTML;
+            var originalContents = document.body.innerHTML;
+
+             document.body.innerHTML = printContents;
+            
+            
+
+             window.print();
+
+             document.body.innerHTML = originalContents;
+            
+            var mywindow = window.open('', 'new div', 'height=400,width=600');
+            mywindow.document.write('<html><head><title></title>');
+            mywindow.document.write( "<link rel=\"stylesheet\" href=\"./css/order.css\">" );
+            mywindow.document.write( "<link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap.min.css\">" );
+            mywindow.document.write('</head><body >');
+            mywindow.document.write(printContents);
+            mywindow.document.write('</body></html>');
+            mywindow.document.close();
+
+            mywindow.print();
+            mywindow.close();
+
+            
+         //   var prtContent = document.getElementById("shit");
+         //   var WinPrint = window.open('', '', 'left=0,top=0,width=550,height=700');
+         //   WinPrint.document.write( "<link rel=\"stylesheet\" href=\"./css/order.css\">" );
+         //   WinPrint.document.write( "<link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap.min.css\">" );
+         //   WinPrint.document.write(prtContent.innerHTML);
+            
+
+    
+          //  WinPrint.document.close();
+          //  WinPrint.focus();
+          //  WinPrint.print();
+          //  WinPrint.close();
         }
 
     }
+    
+    function printDiv(divName) {
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+}
 </script>
 
 </html>

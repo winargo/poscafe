@@ -3,7 +3,25 @@
         session_start();
     ?>
    <head>
+       <script type="text/javascript" src="./bootstrap/js/jquery.js"></script>
+
+    <script type="text/javascript" src="./bootstrap/js/bootstrap.js"></script>
        <title>Edit Menu</title>
+       <script>
+                       function readURL(input) {
+                        if (input.files && input.files[0]) {
+                            var reader = new FileReader();
+
+                            reader.onload = function (e) {
+                                $('#imageemergency')
+                                    .attr('src', e.target.result).width(300)
+                                        .height(200);
+                            };
+
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    }
+                       </script>
    </head>
 
    <link rel="stylesheet" href="./bootstrap/css/bootstrap.css">
@@ -19,10 +37,11 @@
                           <div class="modal-body">
                           <div class="form-group">
                              <label for="1">Menu Code</label>
-                              <input type="text" class="form-control" name="kodestock" placeholder="enter kode stock" id="1" readonly value="<?php echo $_POST["productcode"]; ?>">
+                              <input type="text" class="form-control" name="kodestock" placeholder="enter kode stock" id="1" readonly value="<?php echo $_POST["kodestock"]; ?>">
                           </div>
                             <div class="form-group">
                                <label for="1">Menu Name</label>
+                                 <input type="hidden" class="form-control" name="oldnamastock" placeholder="enter Nama Stock" id="1" value="<?php echo $_POST["productname"]; ?>">
                                 <input type="text" class="form-control" name="namastock" placeholder="enter Nama Stock" id="1" required value="<?php echo $_POST["productname"]; ?>">
                             </div>
                             <div class="form-group">
@@ -40,10 +59,13 @@
 
                                while($row = mysqli_fetch_array($query))
                                {
-                                   ?>
-                                   <option value="<?php echo $row["KODE_PRODUK"]; ?>"><?php echo $row["NAMA_PRODUK"];?></option>
+                                   if($_POST['productcode']==$row['KODE_PRODUK']){
+                                       echo "<option value='".$row['KODE_PRODUK']."' selected>".$row['NAMA_PRODUK']."</option>";
+                                   }else{
+                                       echo "<option value='".$row['KODE_PRODUK']."'>".$row['NAMA_PRODUK']."</option>";
+                                   }
+                                   
 
-                                   <?php
                                }
 
                                ?>
@@ -55,8 +77,9 @@
                           </div>
                           <div class="form-group">
                               <label for="22">Product price - Rp</label>
-                              <input type="text" class="form-control" name="harga" placeholder="enter Harga" id="2" required value="<?php echo $_POST["harga"]; ?>">
+                              <input type="number" class="form-control" name="harga" placeholder="enter Harga" id="2" required value="<?php echo $_POST["harga"]; ?>">
                           </div>
+                              
                           <div class="form-group">
                               <label for="23">Product Unit</label>
                               <input type="text" class="form-control" name="produkunit" placeholder="(pcs,bowl,pack, etc)" id="23" required value="<?php echo $_POST["productunit"]; ?>">

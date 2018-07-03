@@ -9,7 +9,6 @@ function console_log( $data ){
 //error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 session_start();
 include('..\config\db_connect.php');
-$data=isset($_POST['fileToUpload']) ? $_POST['fileToUpload'] : '';
 $number=0;
 $temp = '';
 $reportid='';
@@ -20,23 +19,16 @@ $temp = $real_dir.$dir;
 //Form data
 $produkcode = $_POST['kodestock'];
 $produkname = $_POST['namastock'];
+$oldprodukname = $_POST['oldnamastock'];
 $produkunit = $_POST['produkunit'];
 $produkprice = $_POST['harga'];
 $produkcategory = $_POST['selcate'];
 $kodedep = $_POST['kodedepartemen'];
 $selcate = $_POST['selcate'];
-
-$cekmenu=mysqli_query($conn,"SELECT * FROM iamstock
-                            WHERE KODE_STOCK ='$produkcode'
-                            ");
-        $ketemu=mysqli_num_rows($cekmenu);
-
-        if ($ketemu == 0){
             
-            
-if($data!=''){
-
-                $number=1;
+if ($_FILES['fileToUpload']['size'] != 0)
+{
+$number=1;
 
 $reportid="ER".(rand(00000000,99999999));
     console_log( $reportid );
@@ -86,7 +78,6 @@ if ($uploadOk == 0) {
     $_SESSION['error']="Sorry, your file was not uploaded.";
 // if everything is ok, try to upload file
 } else {
-    echo "data is not empty";
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file) && $number!=0) {
         $dir= basename( $reportid.$_FILES["fileToUpload"]["name"]);
          $_SESSION['error']=basename( $_FILES["fileToUpload"]["name"]);
@@ -95,22 +86,33 @@ if ($uploadOk == 0) {
         $_SESSION['error']="The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
 
         
-          $sqls = "select NAMA_SUB_PRODUK, NAMA_SUB_PRODUK2 from iamproduk where KODE_PRODUK = '$produkcategory'";
+          $sqls = "select NAMA_SUB_PRODUK, NAMA_SUB_PRODUK2 from iamproduk where KODE_PRODUK ='$produkcategory'";
           $querys = mysqli_query($conn,$sqls);
           while ($row = mysqli_fetch_array($querys)) {
-              $sql = "update iamstock set NAMA_STOCK='".$_POST['produkname']."',KODE_PRODUK='".$_POST['produkcategory']."',HARGAJUAL1='".$_POST['produkprice']."',IMAGEDIR='$temp',KEMAS1='".$_POST['produkunit']."',NAMA_SUB_PRODUK='".row['NAMA_SUB_PRODUK']."',NAMA_SUB_PRODUK2='".row['NAMA_SUB_PRODUK2']."' where KODE_STOCK='$produkcode'";
+              $sql = "update `iamstock` set NAMA_STOCK='$produkname',KODE_PRODUK='$produkcategory',HARGAJUAL1='$produkprice',IMAGEDIR='$temp',KEMAS1='$produkunit',NAMA_SUB_PRODUK='".$row['NAMA_SUB_PRODUK']."',NAMA_SUB_PRODUK2='".$row['NAMA_SUB_PRODUK2']."' where KODE_STOCK='$produkcode'";
               echo $sql;
               $query = mysqli_query($conn,$sql);
               if($query)
               {
-                echo $sql;
-                  header("Location: ../editmenu.php");
+                  $sql = "update `cart` set KODE_STOCK='$produkname' where KODE_STOCK='$oldprodukname'";
+                  echo $sql;
+                  $query = mysqli_query($conn,$sql);
+                  if($query)
+                  {
+                      header("Location: ../viewmenu.php");
+                      exit();
+                  }
+                  else
+                  {
+                  $_SESSION['error']=  $_SESSION['error']."<b style='color: red;'>ERROR: Could not able to execute $sql. " . mysqli_error($query)."</b>";
+                  header("Location: ../viewmenu.php");
                   exit();
+                  }
               }
               else
               {
               $_SESSION['error']=  $_SESSION['error']."<b style='color: red;'>ERROR: Could not able to execute $sql. " . mysqli_error($link)."</b>";
-              header("Location: ../editmenu.php");
+              header("Location: ../viewmenu.php");
               exit();
               }
           }
@@ -135,30 +137,34 @@ if ($uploadOk == 0) {
     $sqls = "select NAMA_SUB_PRODUK, NAMA_SUB_PRODUK2 from iamproduk where KODE_PRODUK = '$produkcategory'";
           $querys = mysqli_query($conn,$sqls);
           while ($row = mysqli_fetch_array($querys)) {
-              $sql = "update iamstock set NAMA_STOCK='".$_POST['produkname']."',KODE_PRODUK='".$_POST['produkcategory']."',HARGAJUAL1='".$_POST['produkprice']."',KEMAS1='".$_POST['produkunit']."',NAMA_SUB_PRODUK='".row['NAMA_SUB_PRODUK']."',NAMA_SUB_PRODUK2='".row['NAMA_SUB_PRODUK2']."' where KODE_STOCK='$produkcode'";
-              echo $sql;
+              $sql = "update `iamstock` set NAMA_STOCK='$produkname',KODE_PRODUK='$produkcategory',HARGAJUAL1='$produkprice',KEMAS1='$produkunit',NAMA_SUB_PRODUK='".$row['NAMA_SUB_PRODUK']."',NAMA_SUB_PRODUK2='".$row['NAMA_SUB_PRODUK2']."' where KODE_STOCK='$produkcode'";
+
               $query = mysqli_query($conn,$sql);
               if($query)
               {
-                echo $sql;
-                  header("Location: ../editmenu.php");
+                  $sql = "update `cart` set KODE_STOCK='$produkname' where KODE_STOCK='$oldprodukname'";
+                  echo $sql;
+                  $query = mysqli_query($conn,$sql);
+                  if($query)
+                  {
+                      header("Location: ../viewmenu.php");
+                      exit();
+                  }
+                  else
+                  {
+                  $_SESSION['error']=  $_SESSION['error']."<b style='color: red;'>ERROR: Could not able to execute $sql. " . mysqli_error($query)."</b>";
+                  header("Location: ../viewmenu.php");
                   exit();
+                  }
               }
               else
               {
-              $_SESSION['error']=  $_SESSION['error']."<b style='color: red;'>ERROR: Could not able to execute $sql. " . mysqli_error($link)."</b>";
-              header("Location: ../editmenu.php");
+              $_SESSION['error']=  $_SESSION['error']."<b style='color: red;'>ERROR: Could not able to execute $sql. " . mysqli_error($query)."</b>";
+              header("Location: ../viewmenu.php");
               exit();
               }
           }
 }
-
-            }else {
-            
-            $_SESSION['error']=  $_SESSION['error']."<b style='color: red;'>ERROR: Duplicate Data Detected</b>";
-              header("Location: ../editmenu.php");
-              exit();
-        }
 
 
 
