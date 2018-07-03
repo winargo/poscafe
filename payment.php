@@ -160,8 +160,9 @@
                                 </div>
                           </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary">Close</button>
                         <input  name="submit" type="submit" id="save" class="btn btn-primary" value="Add" tabindex="11">
+                        <button type ="button" id="pay" class="btn btn-success" value="Add" tabindex="11">pay</button>
                       </div>
                         </form>
 <!--                      end form-->
@@ -173,51 +174,7 @@
       </div>
     </nav>
     <!-- #Top Bar -->
-<!--
-    <div class="wrapper item">
-       <div class="menureceipt">
-           <button type="button" class="btn btn-default waves-effect m-r-20" data-toggle="modal" data-target="#defaultModal" style="float:right;margin-top:-30px;">+</button>
-            <div class="catalog" style="margin-top:10px;">
-                <div class="boxitem">
-                    &nbsp;
-                </div>
-                <div class="boxitem">
-                    &nbsp;
-                </div>
-                <div class="boxitem">
-                    &nbsp;
-                </div>
-                <div class="boxadd">
-                    <img src="./images/add.png" class="additemimage" >
-                 </div>
-            </div>
-        </div>
-        <div class="receipt">
-            <div class="receipt-data">
-               <div class="checkoutdata">
-                   <p>dara</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-                   <p>jaka</p>
-               </div>
-                <div class="checkout">
-                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-print"> Check Out</button>
-                </div>
-            </div>
-        </div>
 
-    </div>
--->
     <div class="row">
         <div class="col-md-7">
             <form action=".\action\addpenjualan.php" method="post">
@@ -245,20 +202,36 @@
                         <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Discount" name="extra2" value="0">
 <!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                       </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Total</label>
-                        <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Total" name="extra2" value="" readonly>
+                      <?php
+                        include "./config/connection.php";
+                        $q4 = "select * from cart where checkout_status = 0";
+                        $s4 = mysqli_query($conn,$q4);
+                        $total = 0;
+                        $qty = 0;
+
+                        while ($row = mysqli_fetch_array($s4)) {
+                            $total +=$row["QTY"]*$row["HARGA"];
+                            $qty += $row["QTY"];
+                      ?>
+                      <?php
+                          }
+                          $changetotal = asDollars($total);
+                            echo "<div class='form-group'>
+                        <label for='total'>Total</label>
+                        <input type='number' class='form-control' id='total' placeholder='Total' name='extra2' value='$total' readonly></div>";
+                      ?>
+                    
 <!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                      </div>
+                      
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Payment Amount</label>
-                        <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Extra Category 2" name="extra2" value="0">
+                        <label for="payment">Payment Amount</label>
+                        <input type="number" class="form-control" id="payment" aria-describedby="emailHelp" placeholder="Enter Extra Category 2" name="payment" value="0" required>
 <!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                       </div>
                     
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Return Amount</label>
-                        <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Extra Category 2" name="extra2" value="0" readonly>
+                        <label for="return">Return Amount</label>
+                        <input type="number" class="form-control" id="return" aria-describedby="emailHelp" placeholder="Enter Extra Category 2" name="return" readonly>
 <!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                       </div>
                     <div class="modal-footer" style="width:100%;">
@@ -266,9 +239,10 @@
                         <input  name="submit" type="submit" id="save" class="btn btn-primary" value="Pay and Print" style="width:200px;" tabindex="11">
                       </div>
                     </form>
+                    <button class="btn btn-success" id="pay" onclick="pay()">pay</button>
         </div>
 
-        <div class="col-md-4" style="border : 4px solid orange; border-radius: 5px;">
+        <div class="col-md-4" style="border : 4px solid orange; border-radius: 5px;" id="shit">
              <div class="checkoutdata">
 
                   <div class="menu-head">
@@ -334,7 +308,7 @@
                           $changetotal = asDollars($total);
                           echo "<p style='text-align:left;'>Subtotal($qty)<span style='float:right;'>$changetotal</span></p>";
                       ?>
-                      </p>
+                      
                       <hr style="border-top: dashed 2px;margin-top:2px;">
 
                     <p style="text-align:left;margin-left:15%;">
@@ -372,9 +346,9 @@
                             // echo "<span style='float:right;'>$changetotal</span>";
                         ?>
                         Cash
-                        <span style="float:right;">25,000</span><br>
+                        <span style="float:right;" id="payments">Rp.</span><br>
                         Amt Due
-                        <span style="float:right;">0</span>
+                        <span style="float:right;" id="return1">Rp.</span>
                      </p>
 
 
@@ -391,28 +365,32 @@
 
                </div>
             </div>
+    </div>
 </body>
 
-<script type="text/javascript">
-$( "#addMenu" ).click(function() {
-  var test = $("#namastock").val();
-  for (var x in test)
-  {
-    alert(x);
-  }
-  $.ajax({
-    url : "./action/cekcheckout.php",
-    type : "POST",
-    data : test
-    success : function(response) {
-      if(response.status == 4)
-      {
-        alert(response.status);
-      }
+<script>
+function pay(){
+        var total = parseFloat(document.getElementById("total").value);
+        var payment =parseFloat(document.getElementById("payment").value);
+        var sisa = 0 ;
+        if(total>payment){
+            alert("Jumlah Payment Kurang");
+        }
+        else{
+            sisa = payment-total;
+            document.getElementById("return").value = sisa;
+            document.getElementById("payments").innerHTML= 'Rp.'+payment;
+            document.getElementById("return1").innerHTML = 'Rp.'+sisa;
+            var prtContent = document.getElementById("shit");
+            var WinPrint = window.open('', '', 'left=0,top=0,width=550,height=700');
+            WinPrint.document.write(prtContent.innerHTML);
+            WinPrint.document.close();
+            WinPrint.focus();
+            WinPrint.print();
+            WinPrint.close();
+        }
+
     }
-  })
-
-
 </script>
 
 </html>
