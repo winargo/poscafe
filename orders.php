@@ -2,9 +2,47 @@
 <html lang="en">
 <?php
     session_start();
+    include "./config/connection.php";
+    
+    $orderno='';
+    
+    $sql = "select * from xparam where nama_param='DATERESET'";
+    $querydate = mysqli_query($conn,$sql);
+    while($row = mysqli_fetch_array($querydate)){
+        if($row['NILAI_PARAM']==date("d/m/Y")){
+        //    echo "sama";
+        }
+        else{
+         //   echo "tidak sama";
+            $sql = "update xparam set nilai_param='".date("d/m/Y")."' where nama_param='DATERESET'";
+            $query = mysqli_query($conn,$sql);
+            
+            if($query)
+            {    
+                $sql = "update xparam set nilai_param='".date("d/m/Y")."' where nama_param='DATERESET'";
+                $query = mysqli_query($conn,$sql);
+
+                if($query)
+                {    
+
+                    header("Refresh:0");
+                }
+                else{
+                    
+                }
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    date_default_timezone_set('Asia/Jakarta');
     include('./config/block.php');
     function asDollars($value) {
     return 'Rp' . number_format($value, 2);
+    
   }
     ?>
 <head>
@@ -53,7 +91,7 @@
         </ul>
         <div class="btn-group float-right"  style="margin-right : 5%;">
              <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Add Menu</button>
-            <a href="viewmenu.php"><button class="btn btn-success" data-toggle="modal" data-target="#exampleModal1">Edit Menu</button></a>
+            <a href="viewmenu.php" type="button" class="btn btn-success float-right">EditMenu</a>
               <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <?php
                   echo $_SESSION['usernamedb'];
@@ -331,7 +369,6 @@
                     <a href="payment.php"><button class="btn btn-success"><span class="glyphicon glyphicon-print"></span> Check Out</button></a>
                 </div>
             </div>
-        </div>
 </body>
 
 <script type="text/javascript">

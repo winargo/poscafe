@@ -2,7 +2,12 @@
 <html lang="en">
 <?php
     session_start();
-    include('./config/block.php')
+    include('./config/block.php');
+    
+    function asDollars($value) {
+    return 'Rp' . number_format($value, 2);
+    
+  }
     ?>
 <head>
     <meta charset="UTF-8">
@@ -44,7 +49,7 @@
         </ul>
         <div class="btn-group float-right"  style="margin-right : 5%;">
              <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Add Menu</button>
-            <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal1">Edit Menu</button>
+            <a href="viewmenu.php" type="button" class="btn btn-success float-right">EditMenu</a>
               <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <?php
                   echo $_SESSION['usernamedb'];
@@ -139,6 +144,7 @@
                                 <input type="file" name="fileToUpload" id="fileToUpload"  onchange="readURL(this);" required>
                             </div>
                             <div class="form-group">
+                                
                               <?php
                                       if($_SESSION["error"]==null){
                                           $_SESSION["error"]="";
@@ -279,49 +285,98 @@
                          Transaction By: <?php echo $_SESSION['username'] ; ?>
                      </p>
 
-                      <div class="table-responsive">          
-                          <table class="table">
-                            <thead  style="margin-bottom:5px;">
-                              <tr>
-                                <th style="padding:0;border: none;">No</th>
-                                <th style="padding:0;text-align:left;border: none;" >Description</th>
-                                <th style="padding:0;text-align:right;border: none;">Amt (Rp.)</th>
+                      <div class="table-responsive">
+                          <table class="table" style="border:none;">
+                            <thead  style="margin-bottom:5px;border:none">
+                              <tr style="border:none;">
+                                <th class="no" style="border:none;padding-top:0;">No</th>
+                                <th class="nama" style="border:none;padding-top:0;">Description</th>
+                                <th class="harga" style="border:none;padding-top:0;">Amt (Rp.)</th>
                               </tr>
                             </thead>
-                            <tbody>
-                              <tr>
-                                <td style="padding:0;border: none;">&nbsp</td>
-                                <td style="padding:0;text-align:left;border: none;" >&nbsp</td>
-                                <td style="padding:0;text-align:right;border: none;">&nbsp</td>
-                              </tr>
-                                <tr>
-                                <td style="padding:0;border: none;">1</td>
-                                <td style="padding:0;text-align:left;border: none;" >Anna</td>
-                                <td style="padding:0;text-align:right;border: none;">Pitt</td>
-                              </tr>
-                                <tr>
-                                <td style="padding:0;border: none;">1</td>
-                                <td style="padding:0;text-align:left;border: none;" >Anna</td>
-                                <td style="padding:0;text-align:right;border: none;">Pitt</td>
-                              </tr>
+                            <tbody style="border:none;">
+                              <?php
+                                  include "./config/connection.php";
+
+                                  $sql = "select * from cart where checkout_status = 0";
+                                  $query = mysqli_query($conn,$sql);
+                                  $no = 1;
+                                  while ($row = mysqli_fetch_array($query)) {
+
+                                    ?>
+                                      <tr style="border:none;">
+                                        <td class="no" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $no; ?></td>
+                                        <td class="nama" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $row['KODE_STOCK']."(".$row['QTY'].")"; ?></td>
+                                        <td class="harga" style="border:none;padding-top:0;padding-bottom:0;"><?php echo asDollars($row['QTY']*$row['HARGA']); ?></td>
+                                      </tr>
+
+                                    <?php
+                                    $no++;
+                                  }
+                               ?>
                             </tbody>
                           </table>
                           </div>
                       <hr style="border-top: dashed 2px;margin-top:2px;">
-                      <p style="text-align:left;">
-                        Subtotal (item qty)
-                        <span style="float:right;">Value Price</span>
-                     </p>
+                      <?php
+                        include "./config/connection.php";
+                        $q4 = "select * from cart where checkout_status = 0";
+                        $s4 = mysqli_query($conn,$q4);
+                        $total = 0;
+                        $qty = 0;
+
+                        while ($row = mysqli_fetch_array($s4)) {
+                            $total +=$row["QTY"]*$row["HARGA"];
+                            $qty += $row["QTY"];
+                      ?>
+                      <?php
+                          }
+                          $changetotal = asDollars($total);
+                          echo "<p style='text-align:left;'>Subtotal($qty)<span style='float:right;'>$changetotal</span></p>";
+                      ?>
+                      </p>
                       <hr style="border-top: dashed 2px;margin-top:2px;">
 
                     <p style="text-align:left;margin-left:15%;">
                         <span style="font-size:25pt">Total
-                        <span style="float:right;">Value Price</span></span><br>
+                        <span style="float:right;">
+                          <?php
+                            include "./config/connection.php";
+                            $q4 = "select * from cart where checkout_status = 0";
+                            $s4 = mysqli_query($conn,$q4);
+                            $total = 0;
+                            $qty = 0;
+
+                            while ($row = mysqli_fetch_array($s4)) {
+                                $total +=$row["QTY"]*$row["HARGA"];
+                                $qty += $row["QTY"];
+                          ?>
+                          <?php
+                              }
+                              $changetotal = asDollars($total);
+                              echo $changetotal;
+                          ?>
+                        </span></span><br>
+
+                        <?php
+                          include "./config/connection.php";
+                          $q4 = "select * from cart where checkout_status = 0";
+                          $s4 = mysqli_query($conn,$q4);
+                          $total = 0;
+                          while ($row = mysqli_fetch_array($s4)) {
+                              $total +=$row["QTY"]*$row["HARGA"];
+                        ?>
+                        <?php
+                            }
+                            $changetotal = asDollars($total);
+                            // echo "<span style='float:right;'>$changetotal</span>";
+                        ?>
                         Cash
                         <span style="float:right;">25,000</span><br>
                         Amt Due
                         <span style="float:right;">0</span>
                      </p>
+
 
                      <hr style="border-top: dashed 2px;margin-top:5px;">
 
@@ -336,7 +391,6 @@
 
                </div>
             </div>
-        </div>
 </body>
 
 <script type="text/javascript">
