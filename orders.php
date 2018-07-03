@@ -228,15 +228,15 @@
                      </p>
 
                       <div class="table-responsive">
-                          <table class="table">
-                            <thead  style="margin-bottom:5px;">
-                              <tr>
-                                <th class="no">No</th>
-                                <th class="nama">Description</th>
-                                <th class="harga">Amt (Rp.)</th>
+                          <table class="table" style="border:none;">
+                            <thead  style="margin-bottom:5px;border:none">
+                              <tr style="border:none;">
+                                <th class="no" style="border:none;padding-top:0;">No</th>
+                                <th class="nama" style="border:none;padding-top:0;">Description</th>
+                                <th class="harga" style="border:none;padding-top:0;">Amt (Rp.)</th>
                               </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="border:none;">
                               <?php
                                   include "./config/connection.php";
 
@@ -246,10 +246,10 @@
                                   while ($row = mysqli_fetch_array($query)) {
 
                                     ?>
-                                      <tr>
-                                        <td class="no"><?php echo $no; ?></td>
-                                        <td class="nama"><?php echo $row['KODE_STOCK']."(".$row['QTY'].")"; ?></td>
-                                        <td class="harga">Rp.<?php echo asDollars($row['QTY']*$row['HARGA']); ?></td>
+                                      <tr style="border:none;">
+                                        <td class="no" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $no; ?></td>
+                                        <td class="nama" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $row['KODE_STOCK']."(".$row['QTY'].")"; ?></td>
+                                        <td class="harga" style="border:none;padding-top:0;padding-bottom:0;"><?php echo asDollars($row['QTY']*$row['HARGA']); ?></td>
                                       </tr>
 
                                     <?php
@@ -260,16 +260,46 @@
                           </table>
                           </div>
                       <hr style="border-top: dashed 2px;margin-top:2px;">
-                      <p style="text-align:left;">
-                        Subtotal (item qty)
-                        <span style="float:right;">Value Price</span>
-                     </p>
+                      <?php
+                        include "./config/connection.php";
+                        $q4 = "select * from cart where checkout_status = 0";
+                        $s4 = mysqli_query($conn,$q4);
+                        $total = 0;
+                        $qty = 0;
+
+                        while ($row = mysqli_fetch_array($s4)) {
+                            $total +=$row["QTY"]*$row["HARGA"];
+                            $qty += $row["QTY"];
+                      ?>
+                      <?php
+                          }
+                          $changetotal = asDollars($total);
+                          echo "<p style='text-align:left;'>Subtotal($qty)<span style='float:right;'>$changetotal</span></p>";
+                      ?>
+                      </p>
                       <hr style="border-top: dashed 2px;margin-top:2px;">
 
                     <p style="text-align:left;margin-left:15%;">
                         <span style="font-size:25pt">Total
-                        <span style="float:right;">Value Price</span></span><br>
-                        Cash
+                        <span style="float:right;">
+                          <?php
+                            include "./config/connection.php";
+                            $q4 = "select * from cart where checkout_status = 0";
+                            $s4 = mysqli_query($conn,$q4);
+                            $total = 0;
+                            $qty = 0;
+
+                            while ($row = mysqli_fetch_array($s4)) {
+                                $total +=$row["QTY"]*$row["HARGA"];
+                                $qty += $row["QTY"];
+                          ?>
+                          <?php
+                              }
+                              $changetotal = asDollars($total);
+                              echo $changetotal;
+                          ?>
+                        </span></span><br>
+
                         <?php
                           include "./config/connection.php";
                           $q4 = "select * from cart where checkout_status = 0";
@@ -281,11 +311,8 @@
                         <?php
                             }
                             $changetotal = asDollars($total);
-                            echo "<span style='float:right;'>Rp.$changetotal</span>";
+                            // echo "<span style='float:right;'>$changetotal</span>";
                         ?>
-                        <span style="float:right;"></span><br>
-                        Amt Due
-                        <span style="float:right;">0</span>
                      </p>
 
                      <hr style="border-top: dashed 2px;margin-top:5px;">
