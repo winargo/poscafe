@@ -251,7 +251,16 @@
                       <hr style="border-top: dashed 2px;margin:0;">
                       <hr style="border-top: dashed 2px;margin-top:5px;">
                      <p style="text-align:left;">
-                        Order No : nomor<br>
+                        Order No : <?php
+                         $sql = "select * from iamsetupseri where no_seri='JL'";
+                        $query = mysqli_query($conn,$sql);
+            
+                        while($row = mysqli_fetch_array($query))
+                        {    
+                            echo str_replace('.0000','',$row['NO_URUT']);
+                        }
+                         ?>
+                         <br>
                         Date : <?php
                             echo date("d/m/Y");?>&nbsp;<?php
                             echo date("h:i a");
