@@ -386,6 +386,10 @@
 </body>
 
 <script>
+Number.prototype.format = function(n, x) {
+var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+};
 function pay(){
         var total = parseFloat(document.getElementById("total").value);
         var payment =parseFloat(document.getElementById("payment").value);
@@ -396,8 +400,8 @@ function pay(){
         else{
             sisa = payment-total;
             document.getElementById("return").value = sisa;
-            document.getElementById("payments").innerHTML= 'Rp.'+payment;
-            document.getElementById("return1").innerHTML = 'Rp.'+sisa;
+            document.getElementById("payments").innerHTML= 'Rp.'+payment.format(2);
+            document.getElementById("return1").innerHTML = 'Rp.'+sisa.format(2);
             
             var printContents = document.getElementById('printarea').innerHTML;
             var originalContents = document.body.innerHTML;
@@ -414,7 +418,7 @@ function pay(){
             mywindow.document.write('<html><head><title></title>');
             mywindow.document.write( "<link rel=\"stylesheet\" href=\"./css/order.css\">" );
             mywindow.document.write( "<link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap.min.css\">" );
-            mywindow.document.write('</head><body >');
+            mywindow.document.write('</head><body>');
             mywindow.document.write(printContents);
             mywindow.document.write('</body></html>');
             mywindow.document.close();
