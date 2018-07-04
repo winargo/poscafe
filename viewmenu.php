@@ -1,4 +1,10 @@
 <html>
+    <?php
+        session_start();
+        if(isset($_SESSION["error"])){
+          $_SESSION["error"]="";
+      }
+    ?>
    <head>
        <title>View Menu</title>
    </head>
@@ -18,6 +24,21 @@
                        <div class="form-group">
                                <a href="index.php"><button type="button" class="btn btn-primary">Home</button></a>
                           </div>
+                       <div class="form-group">
+                                <?php
+                                      if(isset($_SESSION["error"])){
+                                          $_SESSION["error"]="";
+                                      }
+                                      else if($_SESSION["error"]!=""){
+                                      echo '<p>'.$_SESSION["error"].'</p>'."<script type='text/javascript'>
+                                        $('#exampleModal').modal('show')
+
+                                      </script>";
+                                          $_SESSION["error"]="";
+                                      }
+                                      ?>
+                          </div>
+                      
                       
                     <table class="table table-bordered table-hover">
                        <caption>Table Menu</caption>
@@ -71,6 +92,7 @@
                                 <td>
                                 <form  action='.\action\delmenu.php' method='post'>
                                         <input type='hidden' name='kodestock' value='".$row['KODE_STOCK']."'>
+                                        <input type='hidden' name='produkname' value='".$row['NAMA_STOCK']."'>
                                         <button class='btn btn-danger' type='submit' style='width:100%;'>Remove</button>
                                     </form>
 

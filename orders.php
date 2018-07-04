@@ -2,15 +2,16 @@
 <html lang="en">
 <?php
     session_start();
+    date_default_timezone_set('Asia/Jakarta');
     include "./config/connection.php";
-    
+    $angka = 0;
     $orderno='';
-    
     $sql = "select * from xparam where nama_param='DATERESET'";
     $querydate = mysqli_query($conn,$sql);
+    
     while($row = mysqli_fetch_array($querydate)){
         if($row['NILAI_PARAM']==date("d/m/Y")){
-        //    echo "sama";
+            
         }
         else{
          //   echo "tidak sama";
@@ -19,26 +20,35 @@
             
             if($query)
             {    
-                $sql = "update xparam set nilai_param='".date("d/m/Y")."' where nama_param='DATERESET'";
+                $sql = "update iamsetupseri set no_urut=".date("ymd")." where no_seri='JL'";
                 $query = mysqli_query($conn,$sql);
 
                 if($query)
                 {    
-
                     header("Refresh:0");
                 }
                 else{
-                    
+                    echo "Error Occured";
                 }
             }
         }
+        $angka++;
+    }
+    
+    if($angka==0){
+        $sql = "insert into xparam (KODE_PARAM,NAMA_PARAM,NILAI_PARAM) VALUES(1,'DATERESET','".date("d/m/Y")."')";
+            $query = mysqli_query($conn,$sql);
+            
+            if($query)
+            {    
+                header("Refresh:0");
+            }
     }
     
     
     
     
     
-    date_default_timezone_set('Asia/Jakarta');
     include('./config/block.php');
     function asDollars($value) {
     return 'Rp' . number_format($value, 2);
@@ -257,7 +267,15 @@
                       <hr style="border-top: dashed 2px;margin:0;">
                       <hr style="border-top: dashed 2px;margin-top:5px;">
                      <p style="text-align:left;">
-                        Order No : nomor<br>
+                        Order No : <?php
+                         $sql = "select * from iamsetupseri where no_seri='JL'";
+                        $query = mysqli_query($conn,$sql);
+            
+                        while($row = mysqli_fetch_array($query))
+                        {    
+                            echo str_replace('.0000','',$row['NO_URUT']);
+                        }
+                         ?><br>
                         Date : <?php
                             echo date("d/m/Y");?>&nbsp;<?php
                             echo date("h:i a");
@@ -288,6 +306,11 @@
                                         <td class="no" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $no; ?></td>
                                         <td class="nama" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $row['KODE_STOCK']."(".$row['QTY'].")"; ?></td>
                                         <td class="harga" style="border:none;padding-top:0;padding-bottom:0;"><?php echo asDollars($row['QTY']*$row['HARGA']); ?></td>
+                                          <td>
+                                          <form method="post" action=".\action\delcart.php">
+                                              <input type="hidden" value="">
+                                          </form>
+                                        </td>
                                       </tr>
 
                                     <?php

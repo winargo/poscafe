@@ -4,6 +4,7 @@ include "..\config\connection.php";
 
 //Form data
 $kodestock = $_POST['kodestock'];
+$produkname = $_POST['produkname'];
 //Query dari mysql untuk memanggil data di database
 $cekcategory=mysqli_query($conn,"SELECT * FROM iamstock
 					WHERE KODE_STOCK ='$kodestock'
@@ -18,8 +19,20 @@ if ($ketemu == 1){
 
     if($query)
     {
-        header ("Location: ../viewmenu.php");
-        exit();
+        $sql = "delete from cart where kode_stock='$produkname'";
+          echo $sql;
+          $query = mysqli_query($conn,$sql);
+          if($query)
+          {
+              header("Location: ../viewmenu.php");
+              exit();
+          }
+          else
+          {
+          $_SESSION['error']=  $_SESSION['error']."<b style='color: red;'>ERROR: Could not able to execute $sql. " . mysqli_error($query)."</b>";
+          header("Location: ../viewmenu.php");
+          exit();
+          }
     }
     else{
         echo "gagal ";
