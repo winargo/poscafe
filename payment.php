@@ -251,7 +251,7 @@
         </div>
 
         <div class="col-md-4" style="border : 4px solid orange; border-radius: 5px;" id="shit">
-             <div class="checkoutdata" id="printarea">
+             <div class="checkoutdata" id="printarea" style="text-align:center;">
 
                   <div class="menu-head">
                      <img src="./images/logo.PNG" width="150" height="150">
@@ -384,7 +384,7 @@
             </div>
     </div>
 </body>
-
+<script src="js/jquery.print.min.js"></script>
 <script>
 Number.prototype.format = function(n, x) {
 var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -444,14 +444,28 @@ function pay(){
     }
     
     function printDiv(divName) {
-     var printContents = document.getElementById(divName).innerHTML;
-     var originalContents = document.body.innerHTML;
-
-     document.body.innerHTML = printContents;
-
-     window.print();
-
-     document.body.innerHTML = originalContents;
+//     var printContents = document.getElementById(divName).innerHTML;
+//     var originalContents = document.body.innerHTML;
+//
+//     document.body.innerHTML = printContents;
+//
+//     window.print();
+//
+//     document.body.innerHTML = originalContents;
+        $("#printarea").print({
+        	globalStyles: true,
+        	mediaPrint: true,
+        	stylesheet: null,
+        	noPrintSelector: ".no-print",
+        	iframe: true,
+        	append: null,
+        	prepend: null,
+        	manuallyCopyFormValues: true,
+        	deferred: $.Deferred(),
+        	timeout: 750,
+        	title: null,
+        	doctype: '<!doctype html>'
+	       });
 }
 </script>
 
