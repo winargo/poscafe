@@ -243,6 +243,16 @@
                       </div>
                     <div class="modal-footer" style="width:100%;">
                         <a href="orders.php"><button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:200px;">Back</button></a>
+<<<<<<< HEAD
+                        <input  name="submit" onclick="printDiv()" type="submit" id="save" class="btn btn-primary" value="Pay and Print" style="width:200px;" tabindex="11">
+                      </div>
+                    </form>
+                    <button class="btn btn-success" id="pay" onclick="printDiv('shit')">pay</button>
+        </div>
+
+        <div class="col-md-4" style="border : 4px solid orange; border-radius: 5px;" id="shit ss">
+             <div class="checkoutdata" id="printarea" style="text-align:center;">
+=======
                         <input name="btnsubmit" type="button" onclick="pay()" id="save" class="btn btn-primary" value="Pay Transaction" style="width:200px;" tabindex="11">
                       </div>
                     </form>
@@ -251,6 +261,7 @@
 
         <div class="col-md-4" style="border : 4px solid orange; border-radius: 5px;">
              <div class="checkoutdata" id="printarea" style="text-align:center;background-color:white;">
+>>>>>>> c79e1afac79cd0006265f9ea91d4cb52f0610afb
 
                   <div class="menu-head" style="text-align:center;">
                      <img src="./images/logo.PNG" width="150" height="150">
@@ -394,10 +405,14 @@
     </div>
 </body>
 <script src="js/jquery.print.min.js"></script>
+<<<<<<< HEAD
+<script src="js/html2canvas.min.js"></script>
+=======
 <script src="js/canvas2image.js"></script>
 <script src="js/html2canvas.min.js"></script>
 <script src="https://superal.github.io/canvas2image/canvas2image.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+>>>>>>> c79e1afac79cd0006265f9ea91d4cb52f0610afb
 <script>
 Number.prototype.format = function(n, x) {
 var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -423,6 +438,39 @@ return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 
     }
     
+<<<<<<< HEAD
+    function printDiv() {
+//     var printContents = document.getElementById(divName).innerHTML;
+//     var originalContents = document.body.innerHTML;
+//
+//     document.body.innerHTML = printContents;
+//
+//     window.print();
+//
+//     document.body.innerHTML = originalContents;
+//        $("#printarea").print({
+//        	globalStyles: true,
+//        	mediaPrint: true,
+//        	stylesheet: null,
+//        	noPrintSelector: ".no-print",
+//        	iframe: true,
+//        	append: null,
+//        	prepend: null,
+//        	manuallyCopyFormValues: true,
+//        	deferred: $.Deferred(),
+//        	timeout: 750,
+//        	title: null,
+//        	doctype: '<!doctype html>'
+//	       });
+            
+html2canvas(document.querySelector("#printarea")).then(canvas => {
+    document.body.appendChild(canvas);
+});
+}
+    
+//screen shot
+
+=======
     function printDiv(divName) {
         
     html2canvas($("#printarea"), {
@@ -456,6 +504,7 @@ function uploadEx() {
     };
     xhr.send(fd);
 };
+>>>>>>> c79e1afac79cd0006265f9ea91d4cb52f0610afb
 </script>
 
 </html>
