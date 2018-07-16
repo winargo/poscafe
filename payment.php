@@ -385,6 +385,13 @@
     </div>
     <div class="col-md-12" id="testdiv">
         <button class="btn btn-primary" id="btnss">SS</button>
+        <div>
+            <input type="button" onclick="uploadEx()" value="Upload" />
+        </div>
+ 
+        <form method="post" accept-charset="utf-8" name="form1">
+            <input name="hidden_data" id='hidden_data' type="hidden"/>
+        </form>
     </div>
 </body>
 <script src="js/jquery.print.min.js"></script>
@@ -444,11 +451,35 @@ function pay(){
 $("#btnss").click(function(){
   html2canvas($("#printarea"), {
     onrendered: function(canvas) {
-      // document.body.appendChild(canvas);
-      return Canvas2Image.saveAsJPEG(canvas);
+       document.body.appendChild(canvas);
+     // return Canvas2Image.saveAsJPEG(canvas);
+        
     }
   });
 });
+    
+function uploadEx() {
+    var canvas = document.querySelector("canvas");
+    var dataURL = canvas.toDataURL("image/png");
+    document.getElementById('hidden_data').value = dataURL;
+    var fd = new FormData(document.forms["form1"]);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', './action/uploadimg.php', true);
+
+    xhr.upload.onprogress = function(e) {
+        if (e.lengthComputable) {
+            var percentComplete = (e.loaded / e.total) * 100;
+            console.log(percentComplete + '% uploaded');
+            alert('Succesfully uploaded');
+        }
+    };
+
+    xhr.onload = function() {
+
+    };
+    xhr.send(fd);
+};
 </script>
 
 </html>
