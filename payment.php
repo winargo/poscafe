@@ -185,8 +185,7 @@
 
     <div class="row">
         <div class="col-md-7">
-            <form action=".\action\addpenjualan.php" method="post">
-                      
+            <form id="formdatapayment" action=".\action\addpenjualan.php"  method="post">
                 <div class="form-group">
                             <label for="4">Select Payment</label>
                             <select name="selectpayment" id="4" class="form-control" >
@@ -244,10 +243,10 @@
                       </div>
                     <div class="modal-footer" style="width:100%;">
                         <a href="orders.php"><button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:200px;">Back</button></a>
-                        <input  name="submit" onclick="printDiv('shit')" type="submit" id="save" class="btn btn-primary" value="Pay and Print" style="width:200px;" tabindex="11">
+                        <input name="btnsubmit" type="button" onclick="pay()" id="save" class="btn btn-primary" value="Pay Transaction" style="width:200px;" tabindex="11">
                       </div>
                     </form>
-                    <button class="btn btn-success" id="pay" onclick="pay()">pay</button>
+                  <!--  <button class="btn btn-success" id="pay" onclick="pay()">pay</button>-->
         </div>
 
         <div class="col-md-4" style="border : 4px solid orange; border-radius: 5px;">
@@ -404,7 +403,7 @@ Number.prototype.format = function(n, x) {
 var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
 return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
-function pay(){
+    function pay(){
         var total = parseFloat(document.getElementById("total").value);
         var payment =parseFloat(document.getElementById("payment").value);
         var sisa = 0 ;
@@ -417,46 +416,23 @@ function pay(){
             document.getElementById("payments").innerHTML= 'Rp.'+payment.format(2);
             document.getElementById("return1").innerHTML = 'Rp.'+sisa.format(2);
             
-            $("#printarea").print({
-        	globalStyles: true,
-        	mediaPrint: true,
-        	stylesheet: null,
-        	noPrintSelector: ".no-print",
-        	iframe: true,
-        	append: null,
-        	prepend: null,
-        	manuallyCopyFormValues: true,
-        	deferred: $.Deferred(),
-        	timeout: 750,
-        	title: null,
-        	doctype: '<!doctype html>'
-	       });
+            document.getElementById("save").disabled = true;
+            document.getElementById("formdatapayment").submit();
     
-        
         }
 
     }
     
     function printDiv(divName) {
         
-    html2canvas($("#testdiv"), {
-        onrendered: function(canvas) {
-            // canvas is the final rendered <canvas> element
-            var myImage = canvas.toDataURL("image/png");
-            window.open(myImage);
-        }
-    });
-}
-    
-$("#btnss").click(function(){
-  html2canvas($("#printarea"), {
+    html2canvas($("#printarea"), {
     onrendered: function(canvas) {
        document.body.appendChild(canvas);
      // return Canvas2Image.saveAsJPEG(canvas);
         
     }
-  });
-});
+    });
+    }
     
 function uploadEx() {
     var canvas = document.querySelector("canvas");

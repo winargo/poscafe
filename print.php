@@ -2,54 +2,8 @@
 <html lang="en">
 <?php
     session_start();
-    date_default_timezone_set('Asia/Jakarta');
-    include "./config/connection.php";
-    $angka = 0;
-    $orderno='';
-    $sql = "select * from xparam where nama_param='DATERESET'";
-    $querydate = mysqli_query($conn,$sql);
-    
-    while($row = mysqli_fetch_array($querydate)){
-        if($row['NILAI_PARAM']==date("d/m/Y")){
-            
-        }
-        else{
-         //   echo "tidak sama";
-            $sql = "update xparam set nilai_param='".date("d/m/Y")."' where nama_param='DATERESET'";
-            $query = mysqli_query($conn,$sql);
-            
-            if($query)
-            {    
-                $sql = "update iamsetupseri set no_urut=".date("ymd")."0001"." where no_seri='JL'";
-                $query = mysqli_query($conn,$sql);
-
-                if($query)
-                {    
-                    header("Refresh:0");
-                }
-                else{
-                    echo "Error Occured";
-                }
-            }
-        }
-        $angka++;
-    }
-    
-    if($angka==0){
-        $sql = "insert into xparam (KODE_PARAM,NAMA_PARAM,NILAI_PARAM) VALUES(1,'DATERESET','".date("d/m/Y")."')";
-            $query = mysqli_query($conn,$sql);
-            
-            if($query)
-            {    
-                header("Refresh:0");
-            }
-    }
-    
-    
-    
-    
-    
     include('./config/block.php');
+    
     function asDollars($value) {
     return 'Rp' . number_format($value, 2);
     
@@ -61,7 +15,8 @@
     <!--    boostrap css-->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 
-
+    <!--    custom-->
+    <link rel="stylesheet" href="./css/order.css">
 
     <!-- Favicon-->
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
@@ -79,18 +34,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 -->
-    <!--    custom-->
-    <link rel="stylesheet" href="./css/order.css">
-
-</head>
-    <style>
-        th{
-            border: none;
-        }
+    <style media="print">
+        body {
+        height: 842px;
+        width: 595px;
+        /* to centre page on screen*/
+        margin-left: auto;
+        margin-right: auto;
+    }
     </style>
+</head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color:orange">
-        <a href="index.php"><img src="./images/logo.PNG" alt="Logo" class="navbar-brand" height="65" width="65"></a>
+      <a href="index.php"><img src="./images/logo.PNG" alt="Logo" class="navbar-brand" height="65" width="65"></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -145,18 +101,6 @@
                       <form action=".\action\cekmenu.php" method="post" id="uploadimage" enctype="multipart/form-data">
 
                       <div class="modal-body">
-                          <?php
-                                      if($_SESSION["error"]==null){
-                                          $_SESSION["error"]="";
-                                      }
-                                      else if($_SESSION["error"]!=""){
-                                      echo '<p>'.$_SESSION["error"].'</p>'."<script type='text/javascript'>
-                                        $('#exampleModal').modal('show')
-
-                                      </script>";
-                                          $_SESSION["error"]="";
-                                      }
-                                      ?>
                         <div class="form-group">
                            <label for="1">Product Code</label>
                             <input type="text" class="form-control" name="produkcode" placeholder="enter Product Code" id="1" required>
@@ -208,12 +152,25 @@
                                 <input type="file" name="fileToUpload" id="fileToUpload"  onchange="readURL(this);" required>
                             </div>
                             <div class="form-group">
+                                
+                              <?php
+                                      if($_SESSION["error"]==null){
+                                          $_SESSION["error"]="";
+                                      }
+                                      else if($_SESSION["error"]!=""){
+                                      echo '<p>'.$_SESSION["error"].'</p>'."<script type='text/javascript'>
+                                        $('#exampleModal').modal('show')
 
+                                      </script>";
+                                          $_SESSION["error"]="";
+                                      }
+                                      ?>
                                 </div>
                           </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary">Close</button>
                         <input  name="submit" type="submit" id="save" class="btn btn-primary" value="Add" tabindex="11">
+                        <button type ="button" id="pay" class="btn btn-success" value="Add" tabindex="11">pay</button>
                       </div>
                         </form>
 <!--                      end form-->
@@ -225,43 +182,13 @@
       </div>
     </nav>
     <!-- #Top Bar -->
-    <div class="row">
-        <div class="col-md-7">
-            <div class="row" style="text-align:center;">
-                <?php
-                    include "./config/connection.php";
 
-                    $sql = "select * from iamstock where tdk_aktif=0";
-                    $query = mysqli_query($conn,$sql);
-                    while($row = mysqli_fetch_array($query)){
-                        ?>
-                    <div class="col-md-3 " style="border-radius:5px;">
-                        <div class="card" onclick="addMenu()">
-                        <img class="card-img-top" src="<?php echo $row["IMAGEDIR"] ?>" alt="Card image cap">
-                        <div class="card-body">
-                          <p class="card-title"><?php echo $row["NAMA_STOCK"]; ?></p>
-                          <p class="card-text"><?php echo asDollars($row["HARGAJUAL1"]); ?></p>
-                          <!-- <p class="card-text"><?php echo $row["SALDOAWAL"]; ?></p> -->
-                          <form action="./action/cekcheckout.php" method="post">
-                            <input type="hidden" name="namastock" id="namastock" value="<?php echo $row["NAMA_STOCK"] ?>">
-                            <input type="hidden" name="qty" value="1">
-                            <input type="hidden" name="harga" value="<?php echo $row["HARGAJUAL1"]; ?>">
-                            <input type="hidden" name="userid" value="<?php echo $_SESSION["username"]; ?>">
-                            <input type="submit" name="addMenu" value="Add This Menu" class="btn btn-primary" onclick="addMenu(<?php echo $row["NAMA_STOCK"] ?>)" id="addMenu" style="width : 100%;">
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                <?php
-                    }
-                ?>
-            </div>
-        </div>
+    <div class="row">
 
         <div class="col-md-4" style="border : 4px solid orange; border-radius: 5px;">
-             <div class="checkoutdata">
+             <div class="checkoutdata" id="printarea" style="text-align:center;background-color:white;">
 
-                  <div class="menu-head">
+                  <div class="menu-head" style="text-align:center;">
                      <img src="./images/logo.PNG" width="150" height="150">
                      <p>Let's Happy Bellying!<br>Frying now @ Brastagi Tiara<br>Operation Hours(Daily):<br>10:00 a.m - 10:00 p.m</p>
                       <hr style="border-top: dashed 2px;margin:0;">
@@ -275,7 +202,8 @@
                         {    
                             echo str_replace('.0000','',$row['NO_URUT']);
                         }
-                         ?><br>
+                         ?>
+                         <br>
                         Date : <?php
                             echo date("d/m/Y");?>&nbsp;<?php
                             echo date("h:i a");
@@ -306,11 +234,6 @@
                                         <td class="no" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $no; ?></td>
                                         <td class="nama" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $row['KODE_STOCK']."(".$row['QTY'].")"; ?></td>
                                         <td class="harga" style="border:none;padding-top:0;padding-bottom:0;"><?php echo asDollars($row['QTY']*$row['HARGA']); ?></td>
-                                          <td>
-                                          <form method="post" action=".\action\delcart.php">
-                                              <input type="hidden" value="">
-                                          </form>
-                                        </td>
                                       </tr>
 
                                     <?php
@@ -337,7 +260,7 @@
                           $changetotal = asDollars($total);
                           echo "<p style='text-align:left;'>Subtotal($qty)<span style='float:right;'>$changetotal</span></p>";
                       ?>
-                      </p>
+                      
                       <hr style="border-top: dashed 2px;margin-top:2px;">
 
                     <p style="text-align:left;margin-left:15%;">
@@ -374,7 +297,12 @@
                             $changetotal = asDollars($total);
                             // echo "<span style='float:right;'>$changetotal</span>";
                         ?>
+                        Cash
+                        <span style="float:right;" id="payments">Rp.</span><br>
+                        Amt Due
+                        <span style="float:right;" id="return1">Rp.</span>
                      </p>
+
 
                      <hr style="border-top: dashed 2px;margin-top:5px;">
 
@@ -388,32 +316,100 @@
                   </div>
 
                </div>
-                <div class="checkout">
-                    <a href="payment.php"><button class="btn btn-success"><span class="glyphicon glyphicon-print"></span> Check Out</button></a>
-                </div>
             </div>
+    </div>
+    <div class="col-md-12" id="testdiv">
+        <button class="btn btn-primary" id="btnss">SS</button>
+        <div>
+            <input type="button" onclick="uploadEx()" value="Upload" />
+        </div>
+ 
+        <form method="post" accept-charset="utf-8" name="form1">
+            <input name="hidden_data" id='hidden_data' type="hidden"/>
+        </form>
+    </div>
 </body>
+<script src="js/jquery.print.min.js"></script>
+<script src="js/canvas2image.js"></script>
+<script src="js/html2canvas.min.js"></script>
+<script src="https://superal.github.io/canvas2image/canvas2image.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script>
+Number.prototype.format = function(n, x) {
+var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+};
+function pay(){
+        var total = parseFloat(document.getElementById("total").value);
+        var payment =parseFloat(document.getElementById("payment").value);
+        var sisa = 0 ;
+        if(total>payment){
+            alert("Jumlah Payment Kurang");
+        }
+        else{
+            sisa = payment-total;
+            document.getElementById("return").value = sisa;
+            document.getElementById("payments").innerHTML= 'Rp.'+payment.format(2);
+            document.getElementById("return1").innerHTML = 'Rp.'+sisa.format(2);
+            
+            $("#printarea").print({
+        	globalStyles: true,
+        	mediaPrint: true,
+        	stylesheet: null,
+        	noPrintSelector: ".no-print",
+        	iframe: true,
+        	append: null,
+        	prepend: null,
+        	manuallyCopyFormValues: true,
+        	deferred: $.Deferred(),
+        	timeout: 750,
+        	title: null,
+        	doctype: '<!doctype html>'
+	       });
+    
+        
+        }
 
-<script type="text/javascript">
-$( "#addMenu" ).click(function() {
-  var test = $("#namastock").val();
-  for (var x in test)
-  {
-    alert(x);
-  }
-  $.ajax({
-    url : "./action/cekcheckout.php",
-    type : "POST",
-    data : test
-    success : function(response) {
-      if(response.status == 4)
-      {
-        alert(response.status);
-      }
     }
-  })
+    
+    function printDiv(divName) {
+        
+    html2canvas($("#printarea"), {
+    onrendered: function(canvas) {
+       document.body.appendChild(canvas);
+     // return Canvas2Image.saveAsJPEG(canvas);
+        
+    }
+    });
+    }
+    
+function uploadEx() {
+    var canvas = document.querySelector("canvas");
+    var dataURL = canvas.toDataURL("image/png");
+    document.getElementById('hidden_data').value = dataURL;
+    var fd = new FormData(document.forms["form1"]);
 
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', './action/uploadimg.php', true);
 
+    xhr.upload.onprogress = function(e) {
+        if (e.lengthComputable) {
+            var percentComplete = (e.loaded / e.total) * 100;
+            console.log(percentComplete + '% uploaded');
+            alert('Succesfully uploaded');
+        }
+    };
+
+    xhr.onload = function() {
+
+    };
+    xhr.send(fd);
+};
 </script>
 
 </html>
+
+                
+                
+                           
+                      
