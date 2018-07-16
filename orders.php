@@ -247,7 +247,7 @@
                             <input type="hidden" name="qty" value="1">
                             <input type="hidden" name="harga" value="<?php echo $row["HARGAJUAL1"]; ?>">
                             <input type="hidden" name="userid" value="<?php echo $_SESSION["username"]; ?>">
-                            <input type="submit" name="addMenu" value="Add This Menu" class="btn btn-primary" onclick="addMenu(<?php echo $row["NAMA_STOCK"] ?>)" id="addMenu" style="width : 100%;">
+                            <input type="submit" name="addMenu" value="Add" class="btn btn-primary" onclick="addMenu(<?php echo $row["NAMA_STOCK"] ?>)" id="addMenu" style="width : 100%;">
                           </form>
                         </div>
                       </div>

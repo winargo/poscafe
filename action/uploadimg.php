@@ -7,4 +7,11 @@ $data = base64_decode($img);
 $file = $upload_dir . mktime() . ".png";
 $success = file_put_contents($file, $data);
 print $success ? $file : 'Unable to save the file.';
+
+    if($success){
+        header("Location: ../orders.php");
+        exit();
+    }else{
+        
+    }
 ?>
