@@ -46,6 +46,20 @@
                 <center><h3>Panel</h3></center>
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
+                       <caption>Iat Penjualan</caption>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>nama item</th>
+                                <th>quantity</th>
+                                <th>price</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>No</th>
