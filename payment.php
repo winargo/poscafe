@@ -244,13 +244,13 @@
                       </div>
                     <div class="modal-footer" style="width:100%;">
                         <a href="orders.php"><button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:200px;">Back</button></a>
-                        <input  name="submit" onclick="printDiv('shit')" type="submit" id="save" class="btn btn-primary" value="Pay and Print" style="width:200px;" tabindex="11">
+                        <input  name="submit" onclick="printDiv()" type="submit" id="save" class="btn btn-primary" value="Pay and Print" style="width:200px;" tabindex="11">
                       </div>
                     </form>
-                    <button class="btn btn-success" id="pay" onclick="pay()">pay</button>
+                    <button class="btn btn-success" id="pay" onclick="printDiv('shit')">pay</button>
         </div>
 
-        <div class="col-md-4" style="border : 4px solid orange; border-radius: 5px;" id="shit">
+        <div class="col-md-4" style="border : 4px solid orange; border-radius: 5px;" id="shit ss">
              <div class="checkoutdata" id="printarea" style="text-align:center;">
 
                   <div class="menu-head">
@@ -385,6 +385,7 @@
     </div>
 </body>
 <script src="js/jquery.print.min.js"></script>
+<script src="js/html2canvas.min.js"></script>
 <script>
 Number.prototype.format = function(n, x) {
 var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -443,7 +444,7 @@ function pay(){
 
     }
     
-    function printDiv(divName) {
+    function printDiv() {
 //     var printContents = document.getElementById(divName).innerHTML;
 //     var originalContents = document.body.innerHTML;
 //
@@ -452,21 +453,28 @@ function pay(){
 //     window.print();
 //
 //     document.body.innerHTML = originalContents;
-        $("#printarea").print({
-        	globalStyles: true,
-        	mediaPrint: true,
-        	stylesheet: null,
-        	noPrintSelector: ".no-print",
-        	iframe: true,
-        	append: null,
-        	prepend: null,
-        	manuallyCopyFormValues: true,
-        	deferred: $.Deferred(),
-        	timeout: 750,
-        	title: null,
-        	doctype: '<!doctype html>'
-	       });
+//        $("#printarea").print({
+//        	globalStyles: true,
+//        	mediaPrint: true,
+//        	stylesheet: null,
+//        	noPrintSelector: ".no-print",
+//        	iframe: true,
+//        	append: null,
+//        	prepend: null,
+//        	manuallyCopyFormValues: true,
+//        	deferred: $.Deferred(),
+//        	timeout: 750,
+//        	title: null,
+//        	doctype: '<!doctype html>'
+//	       });
+            
+html2canvas(document.querySelector("#printarea")).then(canvas => {
+    document.body.appendChild(canvas);
+});
 }
+    
+//screen shot
+
 </script>
 
 </html>
