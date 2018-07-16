@@ -185,8 +185,7 @@
 
     <div class="row">
         <div class="col-md-7">
-            <form action=".\action\addpenjualan.php" method="post">
-                      
+            <form id="formdatapayment" action=".\action\addpenjualan.php"  method="post">
                 <div class="form-group">
                             <label for="4">Select Payment</label>
                             <select name="selectpayment" id="4" class="form-control" >
@@ -244,6 +243,7 @@
                       </div>
                     <div class="modal-footer" style="width:100%;">
                         <a href="orders.php"><button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:200px;">Back</button></a>
+<<<<<<< HEAD
                         <input  name="submit" onclick="printDiv()" type="submit" id="save" class="btn btn-primary" value="Pay and Print" style="width:200px;" tabindex="11">
                       </div>
                     </form>
@@ -252,8 +252,18 @@
 
         <div class="col-md-4" style="border : 4px solid orange; border-radius: 5px;" id="shit ss">
              <div class="checkoutdata" id="printarea" style="text-align:center;">
+=======
+                        <input name="btnsubmit" type="button" onclick="pay()" id="save" class="btn btn-primary" value="Pay Transaction" style="width:200px;" tabindex="11">
+                      </div>
+                    </form>
+                  <!--  <button class="btn btn-success" id="pay" onclick="pay()">pay</button>-->
+        </div>
 
-                  <div class="menu-head">
+        <div class="col-md-4" style="border : 4px solid orange; border-radius: 5px;">
+             <div class="checkoutdata" id="printarea" style="text-align:center;background-color:white;">
+>>>>>>> c79e1afac79cd0006265f9ea91d4cb52f0610afb
+
+                  <div class="menu-head" style="text-align:center;">
                      <img src="./images/logo.PNG" width="150" height="150">
                      <p>Let's Happy Bellying!<br>Frying now @ Brastagi Tiara<br>Operation Hours(Daily):<br>10:00 a.m - 10:00 p.m</p>
                       <hr style="border-top: dashed 2px;margin:0;">
@@ -383,15 +393,32 @@
                </div>
             </div>
     </div>
+    <div class="col-md-12" id="testdiv">
+        <button class="btn btn-primary" id="btnss">SS</button>
+        <div>
+            <input type="button" onclick="uploadEx()" value="Upload" />
+        </div>
+ 
+        <form method="post" accept-charset="utf-8" name="form1">
+            <input name="hidden_data" id='hidden_data' type="hidden"/>
+        </form>
+    </div>
 </body>
 <script src="js/jquery.print.min.js"></script>
+<<<<<<< HEAD
 <script src="js/html2canvas.min.js"></script>
+=======
+<script src="js/canvas2image.js"></script>
+<script src="js/html2canvas.min.js"></script>
+<script src="https://superal.github.io/canvas2image/canvas2image.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+>>>>>>> c79e1afac79cd0006265f9ea91d4cb52f0610afb
 <script>
 Number.prototype.format = function(n, x) {
 var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
 return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
-function pay(){
+    function pay(){
         var total = parseFloat(document.getElementById("total").value);
         var payment =parseFloat(document.getElementById("payment").value);
         var sisa = 0 ;
@@ -404,46 +431,14 @@ function pay(){
             document.getElementById("payments").innerHTML= 'Rp.'+payment.format(2);
             document.getElementById("return1").innerHTML = 'Rp.'+sisa.format(2);
             
-            var printContents = document.getElementById('printarea').innerHTML;
-            var originalContents = document.body.innerHTML;
-
-             document.body.innerHTML = printContents;
-            
-            
-
-             window.print();
-
-             document.body.innerHTML = originalContents;
-            
-            var mywindow = window.open('', 'new div', 'height=400,width=600');
-            mywindow.document.write('<html><head><title></title>');
-            mywindow.document.write( "<link rel=\"stylesheet\" href=\"./css/order.css\">" );
-            mywindow.document.write( "<link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap.min.css\">" );
-            mywindow.document.write('</head><body>');
-            mywindow.document.write(printContents);
-            mywindow.document.write('</body></html>');
-            mywindow.document.close();
-
-            mywindow.print();
-            mywindow.close();
-
-            
-         //   var prtContent = document.getElementById("shit");
-         //   var WinPrint = window.open('', '', 'left=0,top=0,width=550,height=700');
-         //   WinPrint.document.write( "<link rel=\"stylesheet\" href=\"./css/order.css\">" );
-         //   WinPrint.document.write( "<link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap.min.css\">" );
-         //   WinPrint.document.write(prtContent.innerHTML);
-            
-
+            document.getElementById("save").disabled = true;
+            document.getElementById("formdatapayment").submit();
     
-          //  WinPrint.document.close();
-          //  WinPrint.focus();
-          //  WinPrint.print();
-          //  WinPrint.close();
         }
 
     }
     
+<<<<<<< HEAD
     function printDiv() {
 //     var printContents = document.getElementById(divName).innerHTML;
 //     var originalContents = document.body.innerHTML;
@@ -475,6 +470,41 @@ html2canvas(document.querySelector("#printarea")).then(canvas => {
     
 //screen shot
 
+=======
+    function printDiv(divName) {
+        
+    html2canvas($("#printarea"), {
+    onrendered: function(canvas) {
+       document.body.appendChild(canvas);
+     // return Canvas2Image.saveAsJPEG(canvas);
+        
+    }
+    });
+    }
+    
+function uploadEx() {
+    var canvas = document.querySelector("canvas");
+    var dataURL = canvas.toDataURL("image/png");
+    document.getElementById('hidden_data').value = dataURL;
+    var fd = new FormData(document.forms["form1"]);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', './action/uploadimg.php', true);
+
+    xhr.upload.onprogress = function(e) {
+        if (e.lengthComputable) {
+            var percentComplete = (e.loaded / e.total) * 100;
+            console.log(percentComplete + '% uploaded');
+            alert('Succesfully uploaded');
+        }
+    };
+
+    xhr.onload = function() {
+
+    };
+    xhr.send(fd);
+};
+>>>>>>> c79e1afac79cd0006265f9ea91d4cb52f0610afb
 </script>
 
 </html>
