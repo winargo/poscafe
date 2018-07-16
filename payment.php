@@ -250,10 +250,10 @@
                     <button class="btn btn-success" id="pay" onclick="pay()">pay</button>
         </div>
 
-        <div class="col-md-4" style="border : 4px solid orange; border-radius: 5px;" id="shit">
-             <div class="checkoutdata" id="printarea" style="text-align:center;">
+        <div class="col-md-4" style="border : 4px solid orange; border-radius: 5px;">
+             <div class="checkoutdata" id="printarea" style="text-align:center;background-color:white;">
 
-                  <div class="menu-head">
+                  <div class="menu-head" style="text-align:center;">
                      <img src="./images/logo.PNG" width="150" height="150">
                      <p>Let's Happy Bellying!<br>Frying now @ Brastagi Tiara<br>Operation Hours(Daily):<br>10:00 a.m - 10:00 p.m</p>
                       <hr style="border-top: dashed 2px;margin:0;">
@@ -383,8 +383,15 @@
                </div>
             </div>
     </div>
+    <div class="col-md-12" id="testdiv">
+        <button class="btn btn-primary" id="btnss">SS</button>
+    </div>
 </body>
 <script src="js/jquery.print.min.js"></script>
+<script src="js/canvas2image.js"></script>
+<script src="js/html2canvas.min.js"></script>
+<script src="https://superal.github.io/canvas2image/canvas2image.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 <script>
 Number.prototype.format = function(n, x) {
 var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -403,56 +410,7 @@ function pay(){
             document.getElementById("payments").innerHTML= 'Rp.'+payment.format(2);
             document.getElementById("return1").innerHTML = 'Rp.'+sisa.format(2);
             
-            var printContents = document.getElementById('printarea').innerHTML;
-            var originalContents = document.body.innerHTML;
-
-             document.body.innerHTML = printContents;
-            
-            
-
-             window.print();
-
-             document.body.innerHTML = originalContents;
-            
-            var mywindow = window.open('', 'new div', 'height=400,width=600');
-            mywindow.document.write('<html><head><title></title>');
-            mywindow.document.write( "<link rel=\"stylesheet\" href=\"./css/order.css\">" );
-            mywindow.document.write( "<link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap.min.css\">" );
-            mywindow.document.write('</head><body>');
-            mywindow.document.write(printContents);
-            mywindow.document.write('</body></html>');
-            mywindow.document.close();
-
-            mywindow.print();
-            mywindow.close();
-
-            
-         //   var prtContent = document.getElementById("shit");
-         //   var WinPrint = window.open('', '', 'left=0,top=0,width=550,height=700');
-         //   WinPrint.document.write( "<link rel=\"stylesheet\" href=\"./css/order.css\">" );
-         //   WinPrint.document.write( "<link rel=\"stylesheet\" href=\"bootstrap/css/bootstrap.min.css\">" );
-         //   WinPrint.document.write(prtContent.innerHTML);
-            
-
-    
-          //  WinPrint.document.close();
-          //  WinPrint.focus();
-          //  WinPrint.print();
-          //  WinPrint.close();
-        }
-
-    }
-    
-    function printDiv(divName) {
-//     var printContents = document.getElementById(divName).innerHTML;
-//     var originalContents = document.body.innerHTML;
-//
-//     document.body.innerHTML = printContents;
-//
-//     window.print();
-//
-//     document.body.innerHTML = originalContents;
-        $("#printarea").print({
+            $("#printarea").print({
         	globalStyles: true,
         	mediaPrint: true,
         	stylesheet: null,
@@ -466,7 +424,31 @@ function pay(){
         	title: null,
         	doctype: '<!doctype html>'
 	       });
+    
+        
+        }
+
+    }
+    
+    function printDiv(divName) {
+        
+    html2canvas($("#testdiv"), {
+        onrendered: function(canvas) {
+            // canvas is the final rendered <canvas> element
+            var myImage = canvas.toDataURL("image/png");
+            window.open(myImage);
+        }
+    });
 }
+    
+$("#btnss").click(function(){
+  html2canvas($("#printarea"), {
+    onrendered: function(canvas) {
+      // document.body.appendChild(canvas);
+      return Canvas2Image.saveAsJPEG(canvas);
+    }
+  });
+});
 </script>
 
 </html>
