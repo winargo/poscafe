@@ -226,8 +226,8 @@
     </nav>
     <!-- #Top Bar -->
     <div class="row">
-        <div class="col-md-7">
-            <div class="row" style="text-align:center;">
+        <div class="col-md-12">
+            <div class="row" style="text-align:center; margin-top:20px;margin-bottom:20px;">
                 <?php
                     include "./config/connection.php";
 
@@ -235,7 +235,7 @@
                     $query = mysqli_query($conn,$sql);
                     while($row = mysqli_fetch_array($query)){
                         ?>
-                    <div class="col-md-3 " style="border-radius:5px;">
+                    <div class="col-md-3" style="border-radius:5px;margin-bottom:15px;">
                         <div class="card" onclick="addMenu()">
                         <img class="card-img-top" src="<?php echo $row["IMAGEDIR"] ?>" alt="Card image cap">
                         <div class="card-body">
@@ -257,8 +257,8 @@
                 ?>
             </div>
         </div>
-
-        <div class="col-md-4" style="border : 4px solid orange; border-radius: 5px;">
+        <div class="row">
+        <div class="col-md-5" style="margin:0 auto;border : 4px solid orange; border-radius: 5px;">
              <div class="checkoutdata">
 
                   <div class="menu-head">
@@ -392,6 +392,7 @@
                     <a href="payment.php"><button class="btn btn-success"><span class="glyphicon glyphicon-print"></span> Check Out</button></a>
                 </div>
             </div>
+        </div>
 </body>
 
 <script type="text/javascript">
