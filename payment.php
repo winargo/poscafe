@@ -383,16 +383,6 @@
                </div>
             </div>
     </div>
-    <div class="col-md-12" id="testdiv">
-        <button class="btn btn-primary" id="btnss">SS</button>
-        <div>
-            <input type="button" onclick="uploadEx()" value="Upload" />
-        </div>
- 
-        <form method="post" accept-charset="utf-8" name="form1">
-            <input name="hidden_data" id='hidden_data' type="hidden"/>
-        </form>
-    </div>
 </body>
 <script src="js/jquery.print.min.js"></script>
 
@@ -400,7 +390,6 @@
 <script src="js/html2canvas.min.js"></script>
 <script src="https://superal.github.io/canvas2image/canvas2image.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
->>>>>>> c79e1afac79cd0006265f9ea91d4cb52f0610afb
 <script>
 Number.prototype.format = function(n, x) {
 var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
