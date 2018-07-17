@@ -415,7 +415,7 @@ return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 
     }
     
-    function printDiv() {
+ //   function printDiv() {
 //     var printContents = document.getElementById(divName).innerHTML;
 //     var originalContents = document.body.innerHTML;
 //
@@ -438,11 +438,6 @@ return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 //        	title: null,
 //        	doctype: '<!doctype html>'
 //	       });
-            
-html2canvas(document.querySelector("#printarea")).then(canvas => {
-    document.body.appendChild(canvas);
-});
-}
     
 //screen shot
 
@@ -469,7 +464,6 @@ function uploadEx() {
     };
     xhr.send(fd);
 };
->>>>>>> c79e1afac79cd0006265f9ea91d4cb52f0610afb
 </script>
 
 </html>
