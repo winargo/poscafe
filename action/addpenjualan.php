@@ -44,7 +44,34 @@ if (count==0) {
             //"yyyy-MM-dd HH:mm:ss"
             $iatpenjualan = "INSERT INTO IAPPENJUALAN (NO_FAKTUR, KODE_LOKASI, KODE_CUSTOMER, TANGGAL, J_TEMPO, KODE_MATAUANG, KURS_TUKAR, KODE_SALESMAN,JUMLAH, JUMLAH_FAKTUR_RP, USER_ID, FAKTUR_DO, DN) VALUES
              ('".[' nofaktur ']."','web','cash','".[' generator.parsedate ']."','".[' generator.parsedate(generator.satutanggal, "4") ']."','IDR',1,
-             'web','".[' subtotalval ']."','".[' totalakhirval ']."','".[' generator.userlogin ']."',0,0)"
+             'web','".[' subtotalval ']."','".[' totalakhirval ']."','".[' generator.userlogin ']."',0,0)";
+            
+            $sql1  = mysqli_query($conn,$iatpenjualan1);
+
+
+                  if($sql1)
+                  {
+                    $iappenjualan =  "INSERT INTO IATPENJUALAN (No_Faktur, KODE_LOKASI, KODE_CUSTOMER, DIKIRIM_KE, TANGGAL, NOMOR_PO, J_TEMPO, 
+                    KODE_MATAUANG, KURS_TUKAR, HARGA_PILIHAN, KODE_EXPEDISI, KODE_SALESMAN, KETERANGAN, JUMLAH_FAKTUR, DISCOUNT_KHUSUS, DISCOUNT_NILAI, PPN_NILAI,JUMLAH_FAKTUR_RP, USER_ID,CARA_BAYAR,NO_TAGIHAN,
+                     FAKTUR_DO, KODE_SUB_CUSTOMER) VALUES ('".[' nofaktur ']."','".[' lokasi ']."','".['generator.satucust ']."','".[' generator.satusalamat ']."','".[' generator.parsedate(generator.satutanggal, "4") ']."'
+                     ,'".['tanggal']."','IDR',1,1,'".['Xexpedisi']."','".[' getsalesmancode( generator.satukasir) ']"','".[' generator.temp2 ']."','".[' subtotalval ']."',0,0,'".['xppnnilai']."','".[' totalakhirval ']."',
+                     '".[' generator.userlogin ']."','".[' tb.getText().toString() ']."')";
+                    
+                      $sql2  = mysqli_query($conn,$iappenjualan);
+
+
+                      if($sql2)
+                      {
+                          header("Location: ../orders.php");
+                          exit();
+                      }
+                      else{
+                          
+                      }
+                  }
+                  else {
+                    echo "error posting iatpenjualan1";
+                  }
 
         }
     
