@@ -556,6 +556,7 @@ function uploadEx() {
 
     };
     xhr.send(fd);
+    document.body.removeChild(canvas);
 };
 </script>
 
