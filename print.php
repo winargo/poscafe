@@ -2,6 +2,7 @@
 <html lang="en">
 <?php
     session_start();
+    
     include('./config/block.php');
     
     function asDollars($value) {
@@ -10,6 +11,11 @@
   }
     ?>
 <head>
+    <script type="text/javascript">
+    window.onbeforeunload = function(){
+  return 'Are you sure you want to leave?';
+};
+    </script>
     <meta charset="UTF-8">
     <title>Happy Belly</title>
     <!--    boostrap css-->
@@ -21,7 +27,7 @@
     <!-- Favicon-->
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts --> 
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
     <!-- <script type="text/javascript" src="./js/axios.min.js"></script> -->
@@ -470,7 +476,9 @@
         
     </div>
     <div class="col-md-12" id="testdiv" style="text-align:center;padding:0;">
-        <button class="btn btn-primary" id="btnss" style="margin-top:20px;width: 300px;" onclick="printDiv()" >Print</button>
+        <button class="btn btn-primary" id="btnss" style="margin-top:20px;width: 300px;" onclick="printDiv()" >Print<?php
+            echo $_SESSION['print'];
+            ?></button>
  
     </div>
     

@@ -2,6 +2,7 @@
 <html lang="en">
 <?php
     session_start();
+    $_SESSION['print']="";
     date_default_timezone_set('Asia/Jakarta');
     include "./config/connection.php";
     $angka = 0;

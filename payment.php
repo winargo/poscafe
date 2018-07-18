@@ -401,7 +401,10 @@ return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
         var total = parseFloat(document.getElementById("total").value);
         var payment =parseFloat(document.getElementById("payment").value);
         var sisa = 0 ;
-        if(total>payment){
+        if(total==0){
+            alert("Tidak Ada Item Yang Dipilih");
+        }
+        else if(total>payment){
             alert("Jumlah Payment Kurang");
         }
         else{
