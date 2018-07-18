@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
+   // error_reporting(0);
     session_start();
     include('./config/block.php');
     
@@ -170,7 +171,6 @@
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary">Close</button>
                         <input  name="submit" type="submit" id="save" class="btn btn-primary" value="Add" tabindex="11">
-                        <button type ="button" id="pay" class="btn btn-success" value="Add" tabindex="11">pay</button>
                       </div>
                         </form>
 <!--                      end form-->
@@ -185,7 +185,7 @@
 
     <div class="row">
         <div class="col-md-7">
-            <form id="formdatapayment" action=".\action\addpenjualan.php"  method="post">
+            <form id="formdatapayment" action="./action/addpenjualan.php"  method="post">
                 <div class="form-group">
                             <label for="4">Select Payment</label>
                             <select name="selectpayment" id="4" class="form-control" >
@@ -244,7 +244,9 @@
                     <div class="modal-footer" style="width:100%;">
                         <a href="orders.php"><button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:200px;">Back</button></a>
 
-                        <input name="btnsubmit" type="button" onclick="pay()" id="save" class="btn btn-primary" value="Pay Transaction" style="width:200px;" tabindex="11">
+                        <input name="btnsubmit" type="button" onclick="pay()" id="save1" class="btn btn-primary" value="Pay Transaction" style="width:200px;" tabindex="11">
+                        
+                        <input name="btnsubmit" type="button" onclick="printDiv()" class="btn btn-success" value="Print" style="width:200px;display:none;" tabindex="11" id="print1">
                       </div>
                     </form>
                   <!--  <button class="btn btn-success" id="pay" onclick="pay()">pay</button>-->
@@ -407,9 +409,9 @@ return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
             document.getElementById("return").value = sisa;
             document.getElementById("payments").innerHTML= 'Rp.'+payment.format(2);
             document.getElementById("return1").innerHTML = 'Rp.'+sisa.format(2);
-            
-            document.getElementById("save").disabled = true;
             document.getElementById("formdatapayment").submit();
+            $("#save1").hide();
+            $("#print1").show();            
     
         }
 
@@ -442,6 +444,18 @@ return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 //screen shot
 
     
+function printDiv(divName) {
+        
+    html2canvas($("#printarea"), {
+    onrendered: function(canvas) {
+       document.body.appendChild(canvas);
+     // return Canvas2Image.saveAsJPEG(canvas);
+       uploadEx();
+        
+    }
+    });
+    }
+    
 function uploadEx() {
     var canvas = document.querySelector("canvas");
     var dataURL = canvas.toDataURL("image/png");
@@ -463,12 +477,8 @@ function uploadEx() {
 
     };
     xhr.send(fd);
+    document.body.removeChild(canvas);
 };
 </script>
 
 </html>
-
-                
-                
-                           
-                      
