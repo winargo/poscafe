@@ -308,7 +308,8 @@
                                         <td class="harga" style="border:none;padding-top:0;padding-bottom:0;"><?php echo asDollars($row['QTY']*$row['HARGA']); ?></td>
                                           <td>
                                           <form method="post" action=".\action\delcart.php">
-                                              <input type="hidden" value="">
+                                              <input type="hidden" name="kodestock" value="<?php echo $row['KODE_STOCK']; ?>">
+                                              <input type="submit" class="btn btn-danger" value="x">
                                           </form>
                                         </td>
                                       </tr>
@@ -327,19 +328,17 @@
                         $s4 = mysqli_query($conn,$q4);
                         $total = 0;
                         $qty = 0;
-
+                        
                         while ($row = mysqli_fetch_array($s4)) {
                             $total +=$row["QTY"]*$row["HARGA"];
                             $qty += $row["QTY"];
                       ?>
                       <?php
                           }
-                          $changetotal = asDollars($total);
+                          $changetotal = asDollars($total);  
                           echo "<p style='text-align:left;'>Subtotal($qty)<span style='float:right;'>$changetotal</span></p>";
                       ?>
-                      </p>
                       <hr style="border-top: dashed 2px;margin-top:2px;">
-
                     <p style="text-align:left;margin-left:15%;">
                         <span style="font-size:25pt">Total
                         <span style="float:right;">
