@@ -7,7 +7,7 @@
     include('./config/block.php');
     
     function asDollars($value) {
-    return 'Rp' . number_format($value, 2);
+    return 'Rp' . number_format($value);
     
   }
     ?>
@@ -205,155 +205,7 @@
 
                   <div class="menu-head" style="text-align:center;">
                      <img src="./images/logo.PNG" width="150" height="150">
-                     <p>Let's Happy Bellying!<br>Frying now @ Brastagi Tiara<br>Operation Hours(Daily):<br>10:00 a.m - 10:00 p.m</p>
-                      <hr style="border-top: dashed 2px;margin:0;">
-                      <hr style="border-top: dashed 2px;margin-top:5px;">
-                     <p style="text-align:left;">
-                        Order No : <?php
-                         $sql = "select no_faktur from iatpenjualan where no_faktur='".$_SESSION['print']."'";
-                        $query = mysqli_query($conn,$sql);
-            
-                        while($row = mysqli_fetch_array($query))
-                        {    
-                            echo $row['NO_FAKTUR'];
-                        }
-                         ?>
-                         <br>
-                        Date : <?php
-                         $sql = "select tanggal from iatpenjualan where no_faktur='".$_SESSION['print']."'";
-                        $query = mysqli_query($conn,$sql);
-            
-                        while($row = mysqli_fetch_array($query))
-                        {    
-                            $comp = preg_split('/ +/', $row['tanggal']);
-                            $date=date_create($comp[0]);
-                            echo date_format($date,"d/m/Y")." ";
-                            $date1=date_create($comp[1]);
-                            echo date_format($date1,"H:i a");
-                        }
-                        ?><br>
-                         Transaction By: <?php echo $_SESSION['username'] ; ?>
-                     </p>
-
-                      <div class="table-responsive">
-                          <table class="table" style="border:none;">
-                            <thead  style="margin-bottom:5px;border:none">
-                              <tr style="border:none;">
-                                <th class="no" style="border:none;padding-top:0;">No</th>
-                                <th class="nama" style="border:none;padding-top:0;">Description</th>
-                                <th class="harga" style="border:none;padding-top:0;">Amt (Rp.)</th>
-                              </tr>
-                            </thead>
-                            <tbody style="border:none;">
-                              <?php
-                                  include "./config/connection.php";
-
-                                  $sql = "select * from iatpenjualan1 where no_faktur = '".$_SESSION["print"]."' order by no_item asc";
-                                  $query = mysqli_query($conn,$sql);
-                                  $no = 1;
-                                  while ($row = mysqli_fetch_array($query)) {
-
-                                    ?>
-                                      <tr style="border:none;">
-                                        <td class="no" style="border:none;padding-top:0;padding-bottom:0;"><?php echo str_replace('.0000',"",$row['NO_ITEM']); ?></td>
-                                        <td class="nama" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $row['NAMA_STOCK']."(".str_replace('.0000',"",$row['QTY']).")"; ?></td>
-                                        <td class="harga" style="border:none;padding-top:0;padding-bottom:0;"><?php echo asDollars($row['QTY']*$row['HARGA_JUAL']); ?></td>
-                                      </tr>
-
-                                    <?php
-                                    $no++;
-                                  }
-                               ?>
-                            </tbody>
-                          </table>
-                          </div>
-                      <hr style="border-top: dashed 2px;margin-top:2px;">
-                      <?php
-                        include "./config/connection.php";
-                        $q4 = "select * from iatpenjualan1 where no_faktur = '".$_SESSION["print"]."' order by no_item asc";
-                        $s4 = mysqli_query($conn,$q4);
-                        $total = 0;
-                        $qty = 0;
-
-                        while ($row = mysqli_fetch_array($s4)) {
-                            $total +=$row["QTY"]*$row["HARGA_JUAL"];
-                            $qty += $row["QTY"];
-                            
-                      ?>
-                      <?php
-                          }
-                          $changetotal = asDollars($total);
-                          echo "<p style='text-align:left;'>Subtotal($qty)<span style='float:right;'>$changetotal</span></p>";
-                      ?>
-                      
-                      <hr style="border-top: dashed 2px;margin-top:2px;">
-
-                    <p style="text-align:left;margin-left:15%;">
-                        <span style="font-size:25pt">Total
-                        <span style="float:right;">
-                          <?php
-                            include "./config/connection.php";
-                            $q4 = "select * from cart where checkout_status = 0";
-                            $s4 = mysqli_query($conn,$q4);
-                            $total = 0;
-                            $qty = 0;
-
-                            while ($row = mysqli_fetch_array($s4)) {
-                                $total +=$row["QTY"]*$row["HARGA"];
-                                $qty += $row["QTY"];
-                          ?>
-                          <?php
-                              }
-                              $changetotal = asDollars($total);
-                              echo $changetotal;
-                          ?>
-                        </span></span><br>
-
-                        <?php
-                          include "./config/connection.php";
-                          $q4 = "select * from iatpenjualan1 where no_faktur='".$_SESSION["print"]."'";
-                          $s4 = mysqli_query($conn,$q4);
-                          $total = 0;
-                          while ($row = mysqli_fetch_array($s4)) {
-                              $total +=$row["QTY"]*$row["HARGA_JUAL"];
-                        ?>
-                        <?php
-                            }
-                            $changetotal = asDollars($total);
-                            // echo "<span style='float:right;'>$changetotal</span>";
-                        ?>
-                        Cash
-                        <span style="float:right;" id="payments">Rp.</span><br>
-                        Amt Due
-                        <span style="float:right;" id="return1">Rp.</span>
-                     </p>
-
-
-                     <hr style="border-top: dashed 2px;margin-top:5px;">
-
-                     <p style="text-align:center;">
-                        Cater for office meeting , event birthday<br>
-                         Please contact us :<br>
-                         WA : 085922380750<br>
-                         Line : happybellying<br>
-                         Instagram : happybellying<br>
-                     </p>
-                  </div>
-
-               </div>
-            </div>
-        <?php
-        }
-        else
-        {
-            ?>
-        
-            <div class="col-md-4" style="margin:0 auto;margin-top : 30px;border : 4px solid orange; border-radius: 5px;">
-             <div class="checkoutdata" id="printarea" style="text-align:center;background-color:white;">
-
-                  <div class="menu-head" style="text-align:center;">
-                     <img src="./images/logo.PNG" width="150" height="150">
-                     <p>Let's Happy Bellying!<br>Frying now @ Brastagi Tiara<br>Operation Hours(Daily):<br>10:00 a.m - 10:00 p.m</p>
+                     <p style="font-size:10pt;">Let's Happy Bellying!<br>Frying now @ Brastagi Tiara<br>Operation Hours(Daily):<br>10:00 a.m - 10:00 p.m</p>
                       <hr style="border-top: dashed 2px;margin:0;">
                       <hr style="border-top: dashed 2px;margin-top:5px;">
                      <p style="text-align:left;">
@@ -484,6 +336,158 @@
                      <hr style="border-top: dashed 2px;margin-top:5px;">
 
                      <p style="text-align:center;">
+                        Cater for office meeting , event birthday<br>
+                         Please contact us :<br>
+                         WA : 085922380750<br>
+                         Line : happybellying<br>
+                         Instagram : happybellying<br>
+                     </p>
+                  </div>
+
+               </div>
+            </div>
+        <?php
+        }
+        else
+        {
+            ?>
+        
+            <div class="col-md-4" style="margin:0 auto;margin-top : 30px;border : 4px solid orange; border-radius: 5px;">
+             <div class="checkoutdata" id="printarea" style="text-align:center;background-color:white;">
+
+                  <div class="menu-head" style="text-align:center;">
+                     <img src="./images/logo.PNG" width="150" height="150">
+                     <p style="font-size:13pt;font-weight:500;">Let's Happy Bellying!<br>Frying now @ Brastagi Tiara<br>Operation Hours(Daily):<br>10:00 a.m - 10:00 p.m</p>
+                      <hr style="border-top: dashed 2px;margin:0;">
+                      <hr style="border-top: dashed 2px;margin-top:5px;">
+                     <p style="text-align:left;font-size:13pt;font-weight:500;">
+                        Order No : <?php
+                         $sql = "select no_faktur from iatpenjualan where no_faktur='".$_SESSION['print']."'";
+                        $query = mysqli_query($conn,$sql);
+            
+                        while($row = mysqli_fetch_array($query))
+                        {    
+                            echo $row['no_faktur'];
+                        }
+                         ?>
+                         <br>
+                        Date : <?php
+                         $sql = "select tanggal from iatpenjualan where no_faktur='".$_SESSION['print']."'";
+                        $query = mysqli_query($conn,$sql);
+            
+                        while($row = mysqli_fetch_array($query))
+                        {    
+                            $comp = preg_split('/ +/', $row['tanggal']);
+                            $date=date_create($comp[0]);
+                            echo date_format($date,"d/m/Y")." ";
+                            $date1=date_create($comp[1]);
+                            echo date_format($date1,"H:i a");
+                        }
+                        ?><br>
+                         Transaction By: <?php echo $_SESSION['username'] ; ?>
+                     </p>
+
+                      <div class="table-responsive">
+                          <table class="table" style="border:none;">
+                            <thead  style="margin-bottom:5px;border:none">
+                              <tr style="border:none;">
+                                <th class="no" style="border:none;padding-top:0;font-size:17pt;font-weight:700;">No</th>
+                                <th class="nama" style="border:none;padding-top:0;font-size:17pt;font-weight:700;">Description</th>
+                                <th class="harga" style="border:none;padding-top:0;font-size:17pt;font-weight:700;">Amt (Rp.)</th>
+                              </tr>
+                            </thead>
+                            <tbody style="border:none;">
+                              <?php
+                                  include "./config/connection.php";
+
+                                  $sql = "select * from iatpenjualan1 where no_faktur = '".$_SESSION["print"]."' order by no_item asc";
+                                  $query = mysqli_query($conn,$sql);
+                                  $no = 1;
+                                  while ($row = mysqli_fetch_array($query)) {
+
+                                    ?>
+                                      <tr style="border:none;font-size:13pt;font-weight:500;">
+                                        <td class="no" style="border:none;padding-top:0;padding-bottom:0;"><?php echo str_replace('.0000',"",$row['NO_ITEM']); ?></td>
+                                        <td class="nama" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $row['NAMA_STOCK']."(".str_replace('.0000',"",$row['QTY']).")"; ?></td>
+                                        <td class="harga" style="border:none;padding-top:0;padding-bottom:0;"><?php echo asDollars($row['QTY']*$row['HARGA_JUAL']); ?></td>
+                                      </tr>
+
+                                    <?php
+                                    $no++;
+                                  }
+                               ?>
+                            </tbody>
+                          </table>
+                          </div>
+                      <hr style="border-top: dashed 2px;margin-top:2px;">
+                      <?php
+                        include "./config/connection.php";
+                        $q4 = "select * from iatpenjualan1 where no_faktur = '".$_SESSION["print"]."' order by no_item asc";
+                        $s4 = mysqli_query($conn,$q4);
+                        $total = 0;
+                        $qty = 0;
+
+                        while ($row = mysqli_fetch_array($s4)) {
+                            $total +=$row["QTY"]*$row["HARGA_JUAL"];
+                            $qty += $row["QTY"];
+                        ?>
+                      <?php
+                          }
+                          $changetotal = asDollars($total);
+                          echo "<p style='text-align:left;font-size:13pt;font-weight:500;'>Subtotal($qty)<span style='float:right;'>$changetotal</span></p>";
+                      ?>
+                      
+                      <hr style="border-top: dashed 2px;margin-top:2px;">
+
+                    <p style="text-align:left;margin-left:12%;font-size:13pt;font-weight:500;">
+                        <span style="font-size:25pt">Total
+                        <span style="float:right;">
+                          <?php
+                            include "./config/connection.php";
+                            $q4 = "select * from iatpenjualan1 where no_faktur='".$_SESSION["print"]."'";
+                            $s4 = mysqli_query($conn,$q4);
+                            $total = 0;
+                            $qty = 0;
+
+                            while ($row = mysqli_fetch_array($s4)) {
+                                $total +=$row["QTY"]*$row["HARGA_JUAL"];
+                                $qty += $row["QTY"];
+                          ?>
+                          <?php
+                              }
+                                $due = $total;
+                              $changetotal = asDollars($total);
+                              echo $changetotal;
+                          ?>
+                        </span></span><br>
+
+                       
+                        Cash
+                        <span style="float:right;" id="payments"><?php
+                            include "./config/connection.php";
+                            $q4 = "select * from iappenjualan where no_faktur='".$_SESSION["print"]."'";
+                            $s4 = mysqli_query($conn,$q4);
+                            $qty = 0;
+                            $morepay = 0;
+                            while ($row = mysqli_fetch_array($s4)) {
+                                echo asDollars($row['BAYAR']);
+                                $morepay = $row['BAYAR'];
+                                
+                            }
+            
+                            
+                          ?></span><br>
+                        Amt Due
+                        <span style="float:right;" id="return1"><?php
+                            $due = $morepay-$due;
+                            echo asDollars($due);
+                            ?></span>
+                     </p>
+
+
+                     <hr style="border-top: dashed 2px;margin-top:5px;">
+
+                     <p style="text-align:center;font-size:13pt;font-weight:500;">
                         Cater for office meeting , event birthday<br>
                          Please contact us :<br>
                          WA : 085922380750<br>

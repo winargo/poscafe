@@ -81,7 +81,7 @@
             boxreprint.style.display = "block"
         }
         else{
-            boxreprint.style.display = "none";
+            boxreprint.style.display == "none";
         }
     }
         
@@ -422,7 +422,24 @@
 </body>
 
 <script type="text/javascript">
-
+$( "#addMenu" ).click(function() {
+  var test = $("#namastock").val();
+  for (var x in test)
+  {
+    alert(x);
+  }
+  $.ajax({
+    url : "./action/cekcheckout.php",
+    type : "POST",
+    data : test
+    success : function(response) {
+      if(response.status == 4)
+      {
+        alert(response.status);
+      }
+    }
+  })
+});
     
     
 

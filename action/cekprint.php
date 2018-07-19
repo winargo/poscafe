@@ -13,7 +13,7 @@ include "../config/connection.php";
 //  
 //}
 
-$sql = "select * from iatpenjualan1 where no_urut=''";
+$sql = "select * from iatpenjualan1 where no_urut='".$_SESSION['']."'";
 $query = mysqli_query($conn,$sql);
 $nofaktur = "";
 $total = 0;
