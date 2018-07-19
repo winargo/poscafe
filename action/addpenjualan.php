@@ -57,48 +57,60 @@ if ($count==0) {
               $totalpost++;
               
               
-            if($totalpost==$totalrow){
-            //"yyyy-MM-dd HH:mm:ss"
-            $datenaw = gmdate('Y-m-d h:i:s', time());
-            $iappenjualan = "INSERT INTO IAPPENJUALAN (NO_FAKTUR, KODE_LOKASI, KODE_CUSTOMER, TANGGAL, J_TEMPO, KODE_MATAUANG, KURS_TUKAR, KODE_SALESMAN,JUMLAH,BAYAR,JUMLAH_FAKTUR_RP, USER_ID, FAKTUR_DO, DN) VALUES
-            ('$nofaktur','web','CASH','$datenaw','$datenaw','IDR',1,'web',".$total.",".$payment.",".$total.",'".$_SESSION['username']."',0,0)";
-            echo $iappenjualan;
-            $sql1  = mysqli_query($conn,$iappenjualan);
+            if($totalpost==$totalrow)
+            {
+                        //"yyyy-MM-dd HH:mm:ss"
+                        $datenaw = gmdate('Y-m-d h:i:s', time());
+                        $iappenjualan = "INSERT INTO IAPPENJUALAN (NO_FAKTUR, KODE_LOKASI, KODE_CUSTOMER, TANGGAL, J_TEMPO, KODE_MATAUANG, KURS_TUKAR, KODE_SALESMAN,JUMLAH,BAYAR,JUMLAH_FAKTUR_RP, USER_ID, FAKTUR_DO, DN) VALUES
+                        ('$nofaktur','web','CASH','$datenaw','$datenaw','IDR',1,'web',".$total.",".$payment.",".$total.",'".$_SESSION['username']."',0,0)";
+                        echo $iappenjualan;
+                        $sql1  = mysqli_query($conn,$iappenjualan);
 
 
-                  if($sql1)
-                  {
-                    $iatpenjualan =  "INSERT INTO IATPENJUALAN (No_Faktur, KODE_LOKASI, KODE_CUSTOMER, DIKIRIM_KE, TANGGAL, 
-                    KODE_MATAUANG, KURS_TUKAR,KODE_EXPEDISI, KODE_SALESMAN, KETERANGAN, JUMLAH_FAKTUR, DISCOUNT_NILAI,JUMLAH_FAKTUR_RP, USER_ID,CARA_BAYAR) VALUES ('$nofaktur','web','CASH','-','$datenaw','IDR',1,'','CASH','','$total',0,'$total',
-                     '".$_SESSION['username']."','CASH')";
-                      $sql2  = mysqli_query($conn,$iatpenjualan);
+                              if($sql1)
+                              {
+                                $iatpenjualan =  "INSERT INTO IATPENJUALAN (No_Faktur, KODE_LOKASI, KODE_CUSTOMER, DIKIRIM_KE, TANGGAL, 
+                                KODE_MATAUANG, KURS_TUKAR,KODE_EXPEDISI, KODE_SALESMAN, KETERANGAN, JUMLAH_FAKTUR, DISCOUNT_NILAI,JUMLAH_FAKTUR_RP, USER_ID,CARA_BAYAR) VALUES ('$nofaktur','web','CASH','-','$datenaw','IDR',1,'','CASH','','$total',0,'$total',
+                                 '".$_SESSION['username']."','CASH')";
+                                  $sql2  = mysqli_query($conn,$iatpenjualan);
 
 
-                      if($sql2)
-                      {
-                          
-                          $updatefaktur = "update iamsetupseri set no_urut = no_urut+1 where no_seri='JL'";
-                          $sqlfaktur  = mysqli_query($conn,$updatefaktur);
-                          if($sqlfaktur){
-                              $_SESSION['print']=$nofaktur;
-                              echo "berhasil";
-                              echo "<script>console.log('Pembayaran Success')</script>";
-                              header("Location: ../print.php");
-                              exit();
-                          }
-                          else{
-                              echo "terjadi kesalahan";
-                          }
-                      }
-                      else{
-                          echo "error posting iatpenjualan";
-                      }
-                  }
-                  else {
-                    echo "error posting iappenjualan";
-                  }
+                                  if($sql2)
+                                  {
 
-        }
+                                      $updatecart = "delete from cart where user_id='".$_SESSION['username']."'";
+                                      $sqlcart  = mysqli_query($conn,$updatecart);
+                                      if($sqlcart){
+                                          $updatefaktur = "update iamsetupseri set no_urut = no_urut+1 where no_seri='JL'";
+                                          $sqlfaktur  = mysqli_query($conn,$updatefaktur);
+                                          if($sqlfaktur){
+                                              $_SESSION['print']=$nofaktur;
+                                              echo "berhasil";
+                                              echo "<script>console.log('Pembayaran Success')</script>";
+                                              
+                                              header("Location: ../print.php");
+                                              exit();
+                                          }
+                                          else{
+                                              echo "terjadi kesalahan update faktur";
+                                          }
+
+
+
+                                      }
+                                      else{
+                                          echo "terjadi kesalahan hapus cart ";
+                                      }
+                                  }
+                                  else{
+                                      echo "error posting iatpenjualan";
+                                  }
+                              }
+                              else {
+                                echo "error posting iappenjualan";
+                              }
+
+            }
             //header("Location: ../orders.php");
             //exit();
           }

@@ -2,7 +2,8 @@
 <html lang="en">
 <?php
     session_start();
-    
+    $due = 0;
+    $check = 0;
     include('./config/block.php');
     
     function asDollars($value) {
@@ -209,19 +210,28 @@
                       <hr style="border-top: dashed 2px;margin-top:5px;">
                      <p style="text-align:left;">
                         Order No : <?php
-                         $sql = "select * from iamsetupseri where no_seri='JL'";
+                         $sql = "select no_faktur from iatpenjualan where no_faktur='".$_SESSION['print']."'";
                         $query = mysqli_query($conn,$sql);
             
                         while($row = mysqli_fetch_array($query))
                         {    
-                            echo str_replace('.0000','',$row['NO_URUT']);
+                            echo $row['NO_FAKTUR'];
                         }
                          ?>
                          <br>
                         Date : <?php
-                            echo date("d/m/Y");?>&nbsp;<?php
-                            echo date("h:i a");
-                            ?><br>
+                         $sql = "select tanggal from iatpenjualan where no_faktur='".$_SESSION['print']."'";
+                        $query = mysqli_query($conn,$sql);
+            
+                        while($row = mysqli_fetch_array($query))
+                        {    
+                            $comp = preg_split('/ +/', $row['tanggal']);
+                            $date=date_create($comp[0]);
+                            echo date_format($date,"d/m/Y")." ";
+                            $date1=date_create($comp[1]);
+                            echo date_format($date1,"H:i a");
+                        }
+                        ?><br>
                          Transaction By: <?php echo $_SESSION['username'] ; ?>
                      </p>
 
@@ -238,16 +248,16 @@
                               <?php
                                   include "./config/connection.php";
 
-                                  $sql = "select * from cart where checkout_status = 0";
+                                  $sql = "select * from iatpenjualan1 where no_faktur = '".$_SESSION["print"]."' order by no_item asc";
                                   $query = mysqli_query($conn,$sql);
                                   $no = 1;
                                   while ($row = mysqli_fetch_array($query)) {
 
                                     ?>
                                       <tr style="border:none;">
-                                        <td class="no" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $no; ?></td>
-                                        <td class="nama" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $row['KODE_STOCK']."(".$row['QTY'].")"; ?></td>
-                                        <td class="harga" style="border:none;padding-top:0;padding-bottom:0;"><?php echo asDollars($row['QTY']*$row['HARGA']); ?></td>
+                                        <td class="no" style="border:none;padding-top:0;padding-bottom:0;"><?php echo str_replace('.0000',"",$row['NO_ITEM']); ?></td>
+                                        <td class="nama" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $row['NAMA_STOCK']."(".str_replace('.0000',"",$row['QTY']).")"; ?></td>
+                                        <td class="harga" style="border:none;padding-top:0;padding-bottom:0;"><?php echo asDollars($row['QTY']*$row['HARGA_JUAL']); ?></td>
                                       </tr>
 
                                     <?php
@@ -260,14 +270,15 @@
                       <hr style="border-top: dashed 2px;margin-top:2px;">
                       <?php
                         include "./config/connection.php";
-                        $q4 = "select * from cart where checkout_status = 0";
+                        $q4 = "select * from iatpenjualan1 where no_faktur = '".$_SESSION["print"]."' order by no_item asc";
                         $s4 = mysqli_query($conn,$q4);
                         $total = 0;
                         $qty = 0;
 
                         while ($row = mysqli_fetch_array($s4)) {
-                            $total +=$row["QTY"]*$row["HARGA"];
+                            $total +=$row["QTY"]*$row["HARGA_JUAL"];
                             $qty += $row["QTY"];
+                            
                       ?>
                       <?php
                           }
@@ -300,11 +311,11 @@
 
                         <?php
                           include "./config/connection.php";
-                          $q4 = "select * from cart where checkout_status = 0";
+                          $q4 = "select * from iatpenjualan1 where no_faktur='".$_SESSION["print"]."'";
                           $s4 = mysqli_query($conn,$q4);
                           $total = 0;
                           while ($row = mysqli_fetch_array($s4)) {
-                              $total +=$row["QTY"]*$row["HARGA"];
+                              $total +=$row["QTY"]*$row["HARGA_JUAL"];
                         ?>
                         <?php
                             }
@@ -347,19 +358,28 @@
                       <hr style="border-top: dashed 2px;margin-top:5px;">
                      <p style="text-align:left;">
                         Order No : <?php
-                         $sql = "select * from iamsetupseri where no_seri='JL'";
+                         $sql = "select no_faktur from iatpenjualan where no_faktur='".$_SESSION['print']."'";
                         $query = mysqli_query($conn,$sql);
             
                         while($row = mysqli_fetch_array($query))
                         {    
-                            echo str_replace('.0000','',$row['NO_URUT']);
+                            echo $row['no_faktur'];
                         }
                          ?>
                          <br>
                         Date : <?php
-                            echo date("d/m/Y");?>&nbsp;<?php
-                            echo date("h:i a");
-                            ?><br>
+                         $sql = "select tanggal from iatpenjualan where no_faktur='".$_SESSION['print']."'";
+                        $query = mysqli_query($conn,$sql);
+            
+                        while($row = mysqli_fetch_array($query))
+                        {    
+                            $comp = preg_split('/ +/', $row['tanggal']);
+                            $date=date_create($comp[0]);
+                            echo date_format($date,"d/m/Y")." ";
+                            $date1=date_create($comp[1]);
+                            echo date_format($date1,"H:i a");
+                        }
+                        ?><br>
                          Transaction By: <?php echo $_SESSION['username'] ; ?>
                      </p>
 
@@ -376,16 +396,16 @@
                               <?php
                                   include "./config/connection.php";
 
-                                  $sql = "select * from cart where checkout_status = 0";
+                                  $sql = "select * from iatpenjualan1 where no_faktur = '".$_SESSION["print"]."' order by no_item asc";
                                   $query = mysqli_query($conn,$sql);
                                   $no = 1;
                                   while ($row = mysqli_fetch_array($query)) {
 
                                     ?>
                                       <tr style="border:none;">
-                                        <td class="no" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $no; ?></td>
-                                        <td class="nama" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $row['KODE_STOCK']."(".$row['QTY'].")"; ?></td>
-                                        <td class="harga" style="border:none;padding-top:0;padding-bottom:0;"><?php echo asDollars($row['QTY']*$row['HARGA']); ?></td>
+                                        <td class="no" style="border:none;padding-top:0;padding-bottom:0;"><?php echo str_replace('.0000',"",$row['NO_ITEM']); ?></td>
+                                        <td class="nama" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $row['NAMA_STOCK']."(".str_replace('.0000',"",$row['QTY']).")"; ?></td>
+                                        <td class="harga" style="border:none;padding-top:0;padding-bottom:0;"><?php echo asDollars($row['QTY']*$row['HARGA_JUAL']); ?></td>
                                       </tr>
 
                                     <?php
@@ -398,15 +418,15 @@
                       <hr style="border-top: dashed 2px;margin-top:2px;">
                       <?php
                         include "./config/connection.php";
-                        $q4 = "select * from cart where checkout_status = 0";
+                        $q4 = "select * from iatpenjualan1 where no_faktur = '".$_SESSION["print"]."' order by no_item asc";
                         $s4 = mysqli_query($conn,$q4);
                         $total = 0;
                         $qty = 0;
 
                         while ($row = mysqli_fetch_array($s4)) {
-                            $total +=$row["QTY"]*$row["HARGA"];
+                            $total +=$row["QTY"]*$row["HARGA_JUAL"];
                             $qty += $row["QTY"];
-                      ?>
+                        ?>
                       <?php
                           }
                           $changetotal = asDollars($total);
@@ -420,39 +440,44 @@
                         <span style="float:right;">
                           <?php
                             include "./config/connection.php";
-                            $q4 = "select * from cart where checkout_status = 0";
+                            $q4 = "select * from iatpenjualan1 where no_faktur='".$_SESSION["print"]."'";
                             $s4 = mysqli_query($conn,$q4);
                             $total = 0;
                             $qty = 0;
 
                             while ($row = mysqli_fetch_array($s4)) {
-                                $total +=$row["QTY"]*$row["HARGA"];
+                                $total +=$row["QTY"]*$row["HARGA_JUAL"];
                                 $qty += $row["QTY"];
                           ?>
                           <?php
                               }
+                                $due = $total;
                               $changetotal = asDollars($total);
                               echo $changetotal;
                           ?>
                         </span></span><br>
 
-                        <?php
-                          include "./config/connection.php";
-                          $q4 = "select * from cart where checkout_status = 0";
-                          $s4 = mysqli_query($conn,$q4);
-                          $total = 0;
-                          while ($row = mysqli_fetch_array($s4)) {
-                              $total +=$row["QTY"]*$row["HARGA"];
-                        ?>
-                        <?php
-                            }
-                            $changetotal = asDollars($total);
-                            // echo "<span style='float:right;'>$changetotal</span>";
-                        ?>
+                       
                         Cash
-                        <span style="float:right;" id="payments">Rp.</span><br>
+                        <span style="float:right;" id="payments"><?php
+                            include "./config/connection.php";
+                            $q4 = "select * from iappenjualan where no_faktur='".$_SESSION["print"]."'";
+                            $s4 = mysqli_query($conn,$q4);
+                            $qty = 0;
+                            $morepay = 0;
+                            while ($row = mysqli_fetch_array($s4)) {
+                                echo asDollars($row['BAYAR']);
+                                $morepay = $row['BAYAR'];
+                                
+                            }
+            
+                            
+                          ?></span><br>
                         Amt Due
-                        <span style="float:right;" id="return1">Rp.</span>
+                        <span style="float:right;" id="return1"><?php
+                            $due = $morepay-$due;
+                            echo asDollars($due);
+                            ?></span>
                      </p>
 
 
@@ -476,10 +501,14 @@
         
     </div>
     <div class="col-md-12" id="testdiv" style="text-align:center;padding:0;">
-        <button class="btn btn-primary" id="btnss" style="margin-top:20px;width: 300px;" onclick="printDiv()" >Print<?php
-            echo $_SESSION['print'];
-            ?></button>
- 
+        <?php
+            if($total==0){
+                echo "<button class='btn btn-primary' id='btnss' style='margin-top:20px;width: 300px;' disabled>Print</button>";
+            }else{
+                echo "<button class='btn btn-primary' id='btnss' style='margin-top:20px;width: 300px;' onclick='printDiv()' >Print</button>";
+            }
+        ?>
+        
     </div>
     
     
@@ -532,16 +561,20 @@ function pay(){
     }
     
     function printDiv(divName) {
+        var data = document.getElementById("payments").value;
         
-    html2canvas($("#printarea"), {
-    onrendered: function(canvas) {
-       document.body.appendChild(canvas);
-     // return Canvas2Image.saveAsJPEG(canvas);
-       uploadEx();
+
+        html2canvas($("#printarea"), {
+            onrendered: function(canvas) {
+               document.body.appendChild(canvas);
+             // return Canvas2Image.saveAsJPEG(canvas);
+               uploadEx();
+
+            }
+            });
+        }
         
-    }
-    });
-    }
+    
     
 function uploadEx() {
     var canvas = document.querySelector("canvas");
