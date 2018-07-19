@@ -72,6 +72,20 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
     <!-- <script type="text/javascript" src="./js/axios.min.js"></script> -->
     <script type="text/javascript" src="./bootstrap/js/jquery.js"></script>
+    
+    <script type="text/javascript">
+    
+        function popup(){
+        var boxreprint = document.getElementById("formprint");
+        if(boxreprint.style.display == "none") {
+            boxreprint.style.display = "block"
+        }
+        else{
+            boxreprint.style.display = "none";
+        }
+    }
+        
+    </script>
 
     <script type="text/javascript" src="./bootstrap/js/bootstrap.js"></script>
     <!--    bootstrap-->
@@ -101,8 +115,9 @@
             &nbsp;
         </ul>
         <div class="btn-group float-right"  style="margin-right : 5%;">
-             <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Add Menu</button>
-            <a href="viewmenu.php" type="button" class="btn btn-success float-right">EditMenu</a>
+            
+             <input type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" value="Add Menu">
+            <a href="viewmenu.php" ><input type="button" class="btn btn-success float-right" value="EditMenu"></a>
               <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <?php
                   echo $_SESSION['usernamedb'];
@@ -114,6 +129,7 @@
                       echo "<a class='dropdown-item' href='.\admin\index.php'>Admin page</a>";
                   }
                   ?>
+                  <a class="dropdown-item" onclick="popup()">Re-print</a>
                 <a class="dropdown-item" href="./action/logout.php">Logout</a>
               </div>
 
@@ -258,6 +274,15 @@
                 ?>
             </div>
         </div>
+        
+        <form action=".\cekprint.php" id="formprint">
+            <div class="form-group" id="reprint" style="display:none;">
+                <label for="3">Reprint Order</label>
+                <input type="text" class="form-control" id="3" name="kodedepartemen" placeholder="enter Order No" value="00" required readonly>
+                <button type="submit" class="btn btn-success">Check</button>
+            </div>
+        </form>
+        
         <div class="row">
         <div class="col-md-5" style="margin:0 auto;border : 4px solid orange; border-radius: 5px;">
              <div class="checkoutdata">
@@ -310,7 +335,7 @@
                                           <td>
                                           <form method="post" action=".\action\delcart.php">
                                               <input type="hidden" name="kodestock" value="<?php echo $row['KODE_STOCK']; ?>">
-                                              <input type="submit" class="btn btn-danger" value="x">
+                                              <input type="submit" class="btn btn-danger" value="X" style="border-radius:100px;">
                                           </form>
                                         </td>
                                       </tr>
@@ -393,26 +418,13 @@
                 </div>
             </div>
         </div>
+    </div>
 </body>
 
 <script type="text/javascript">
-$( "#addMenu" ).click(function() {
-  var test = $("#namastock").val();
-  for (var x in test)
-  {
-    alert(x);
-  }
-  $.ajax({
-    url : "./action/cekcheckout.php",
-    type : "POST",
-    data : test
-    success : function(response) {
-      if(response.status == 4)
-      {
-        alert(response.status);
-      }
-    }
-  })
+
+    
+    
 
 
 </script>

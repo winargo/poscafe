@@ -560,6 +560,7 @@ function pay(){
 
     }
     
+    
     function printDiv(divName) {
         var data = document.getElementById("payments").value;
         
