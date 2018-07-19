@@ -1,6 +1,7 @@
 
 <?php
 session_start();
+date_default_timezone_set('Asia/Jakarta');
 include "../config/connection.php";
 
 
@@ -60,7 +61,7 @@ if ($count==0) {
             if($totalpost==$totalrow)
             {
                         //"yyyy-MM-dd HH:mm:ss"
-                        $datenaw = gmdate('Y-m-d h:i:s', time());
+                        $datenaw = date('Y-m-d h:i:s');
                         $iappenjualan = "INSERT INTO IAPPENJUALAN (NO_FAKTUR, KODE_LOKASI, KODE_CUSTOMER, TANGGAL, J_TEMPO, KODE_MATAUANG, KURS_TUKAR, KODE_SALESMAN,JUMLAH,BAYAR,JUMLAH_FAKTUR_RP, USER_ID, FAKTUR_DO, DN) VALUES
                         ('$nofaktur','web','CASH','$datenaw','$datenaw','IDR',1,'web',".$total.",".$payment.",".$total.",'".$_SESSION['username']."',0,0)";
                         echo $iappenjualan;

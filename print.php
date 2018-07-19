@@ -357,10 +357,10 @@
 
                   <div class="menu-head" style="text-align:center;">
                      <img src="./images/logo.PNG" width="150" height="150">
-                     <p style="font-size:13pt;font-weight:500;">Let's Happy Bellying!<br>Frying now @ Brastagi Tiara<br>Operation Hours(Daily):<br>10:00 a.m - 10:00 p.m</p>
+                     <p style="font-size:10pt;">Let's Happy Bellying!<br>Frying now @ Brastagi Tiara<br>Operation Hours(Daily):<br>10:00 a.m - 10:00 p.m</p>
                       <hr style="border-top: dashed 2px;margin:0;">
                       <hr style="border-top: dashed 2px;margin-top:5px;">
-                     <p style="text-align:left;font-size:13pt;font-weight:500;">
+                     <p style="text-align:left;">
                         Order No : <?php
                          $sql = "select no_faktur from iatpenjualan where no_faktur='".$_SESSION['print']."'";
                         $query = mysqli_query($conn,$sql);
@@ -391,9 +391,9 @@
                           <table class="table" style="border:none;">
                             <thead  style="margin-bottom:5px;border:none">
                               <tr style="border:none;">
-                                <th class="no" style="border:none;padding-top:0;font-size:17pt;font-weight:700;">No</th>
-                                <th class="nama" style="border:none;padding-top:0;font-size:17pt;font-weight:700;">Description</th>
-                                <th class="harga" style="border:none;padding-top:0;font-size:17pt;font-weight:700;">Amt (Rp.)</th>
+                                <th class="no" style="border:none;padding-top:0;">No</th>
+                                <th class="nama" style="border:none;padding-top:0;">Description</th>
+                                <th class="harga" style="border:none;padding-top:0;">Amt (Rp.)</th>
                               </tr>
                             </thead>
                             <tbody style="border:none;">
@@ -406,7 +406,7 @@
                                   while ($row = mysqli_fetch_array($query)) {
 
                                     ?>
-                                      <tr style="border:none;font-size:13pt;font-weight:500;">
+                                      <tr style="border:none;">
                                         <td class="no" style="border:none;padding-top:0;padding-bottom:0;"><?php echo str_replace('.0000',"",$row['NO_ITEM']); ?></td>
                                         <td class="nama" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $row['NAMA_STOCK']."(".str_replace('.0000',"",$row['QTY']).")"; ?></td>
                                         <td class="harga" style="border:none;padding-top:0;padding-bottom:0;"><?php echo asDollars($row['QTY']*$row['HARGA_JUAL']); ?></td>
@@ -434,12 +434,12 @@
                       <?php
                           }
                           $changetotal = asDollars($total);
-                          echo "<p style='text-align:left;font-size:13pt;font-weight:500;'>Subtotal($qty)<span style='float:right;'>$changetotal</span></p>";
+                          echo "<p style='text-align:left;'>Subtotal($qty)<span style='float:right;'>$changetotal</span></p>";
                       ?>
                       
                       <hr style="border-top: dashed 2px;margin-top:2px;">
 
-                    <p style="text-align:left;margin-left:12%;font-size:13pt;font-weight:500;">
+                    <p style="text-align:left;margin-left:15%;">
                         <span style="font-size:25pt">Total
                         <span style="float:right;">
                           <?php
@@ -487,7 +487,7 @@
 
                      <hr style="border-top: dashed 2px;margin-top:5px;">
 
-                     <p style="text-align:center;font-size:13pt;font-weight:500;">
+                     <p style="text-align:center;">
                         Cater for office meeting , event birthday<br>
                          Please contact us :<br>
                          WA : 085922380750<br>

@@ -74,19 +74,17 @@
     <script type="text/javascript" src="./bootstrap/js/jquery.js"></script>
     
     <script type="text/javascript">
-    
-<<<<<<< HEAD
+
+    var data = 0 ;
         function popup(){
         var boxreprint = document.getElementById("formprint");
         if(boxreprint.style.display == "none") {
             boxreprint.style.display = "block"
         }
         else{
-            boxreprint.style.display == "none";
+            boxreprint.style.display = "none";
         }
     }
-=======
->>>>>>> ca4ae67c42f9e7f9266c1c5e54d99b593a71e5ad
         
     </script>
 
@@ -278,11 +276,11 @@
             </div>
         </div>
         
-        <form action=".\cekprint.php" id="formprint">
+        <form action="./action/cekprint.php" id="formprint" style="margin:0 auto;" method="post">
             <div class="form-group" id="reprint">
                 <label for="3">Reprint Order</label>
-                <input type="text" class="form-control" id="3" name="kodedepartemen" placeholder="enter Order No" value="00" required readonly>
-                <button type="submit" class="btn btn-success">Check</button>
+                <input type="text" class="form-control" id="3" name="print" placeholder="enter Order No" value="" required>
+                <button type="submit" class="btn btn-success "style="margin-top:20px;margin-bottom:20px;">Check</button>
             </div>
         </form>
         
@@ -425,35 +423,24 @@
 </body>
 
 <script type="text/javascript">
-<<<<<<< HEAD
-$( "#addMenu" ).click(function() {
-  var test = $("#namastock").val();
-  for (var x in test)
-  {
-    alert(x);
-  }
-  $.ajax({
-    url : "./action/cekcheckout.php",
-    type : "POST",
-    data : test
-    success : function(response) {
-      if(response.status == 4)
-      {
-        alert(response.status);
-      }
-    }
-  })
-});
-=======
-
 $(document).ready(function(){
     $("#formprint").hide();
 })
->>>>>>> ca4ae67c42f9e7f9266c1c5e54d99b593a71e5ad
+    
     
 $("#showupprint").click(function(){
-    $("#formprint").show();
+    if(data==0){
+        $("#formprint").show();
+        data = 1;
+    }
+    else{
+        $("#formprint").hide();
+        data = 0;
+    }
+    
 })
+
+
 
 </script>
 
