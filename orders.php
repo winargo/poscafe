@@ -75,15 +75,6 @@
     
     <script type="text/javascript">
     
-        function popup(){
-        var boxreprint = document.getElementById("formprint");
-        if(boxreprint.style.display == "none") {
-            boxreprint.style.display = "block"
-        }
-        else{
-            boxreprint.style.display = "none";
-        }
-    }
         
     </script>
 
@@ -129,7 +120,7 @@
                       echo "<a class='dropdown-item' href='.\admin\index.php'>Admin page</a>";
                   }
                   ?>
-                  <a class="dropdown-item" onclick="popup()">Re-print</a>
+                  <a class="dropdown-item" id="showupprint">Re-print</a>
                 <a class="dropdown-item" href="./action/logout.php">Logout</a>
               </div>
 
@@ -276,7 +267,7 @@
         </div>
         
         <form action=".\cekprint.php" id="formprint">
-            <div class="form-group" id="reprint" style="display:none;">
+            <div class="form-group" id="reprint">
                 <label for="3">Reprint Order</label>
                 <input type="text" class="form-control" id="3" name="kodedepartemen" placeholder="enter Order No" value="00" required readonly>
                 <button type="submit" class="btn btn-success">Check</button>
@@ -423,9 +414,13 @@
 
 <script type="text/javascript">
 
+$(document).ready(function(){
+    $("#formprint").hide();
+})
     
-    
-
+$("#showupprint").click(function(){
+    $("#formprint").show();
+})
 
 </script>
 
