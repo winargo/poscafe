@@ -1,10 +1,8 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <?php
     session_start();
     if($_SESSION['error'])
-        
-        $_SESSION['tempuser']=null;
     ?>
 <head>
     <meta charset="UTF-8">
@@ -354,7 +352,7 @@
                    
                     include('../../config/db_connect.php');
                     //$user=$_SESSION["useradmin"];
-                    $sql = "Select * from `xuser` where user_id!='".$_SESSION['username']."'" ;
+                    $sql = "Select * from `xuser`" ;
                                 // where username!='".$user."'
                     $result = mysqli_query($conn,$sql);
                     $a=1;
@@ -379,13 +377,20 @@
                                 <button class='dropbtn'>Option</button>
                                 <div class='dropdown-content'>
                                     
+                                    <form id='submit1form' action='edit_account.php' method='post'>
+                                        <input type='hidden' name='username' value='".$row['USER_ID']."'>
+                                        <input type='hidden' name='status' value='".$row['STATUS']."'>
+                                        <input type='hidden' name='command' value='clear'>
+                                        <a><button id='notbutton'  type='submit'>Edit</button></a>
+                                        
+                                    </form>
                                     <form id='submit2form' action='change_password.php' method='post'>
                                         <input type='hidden' name='username' value='".$row['USER_ID']."'>
                                         <input type='hidden' name='command' value='clear'>
                                         <a><button id='notbutton' type='submit'>Change Password</button></a>
                                         
                                     </form>
-                                    <form id='submit3form' action='.\action\deleteaccount.php' method='post'>
+                                    <form id='submit3form' action='delete_account.php' method='post'>
                                         <input type='hidden' name='username' value='".$row['USER_ID']."'>
                                         <input type='hidden' name='command' value='clear'>
                                         <a onclick='return confirm('are you sure to DELETE ?')'><button id='notbutton' type='submit' >Delete</button></a>

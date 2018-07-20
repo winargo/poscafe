@@ -1,10 +1,8 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <?php
     session_start();
     if($_SESSION['error'])
-        
-        $_SESSION['tempuser']=null;
     ?>
 <head>
     <meta charset="UTF-8">
@@ -316,90 +314,54 @@
                             <h2>
                                 &nbsp;
                                 <div style="width:49%;float:left;">
-                                    <h2>User List
-                                      <?php
-                                        if($_SESSION["error"]==null){
-                                            $_SESSION["error"]="";
-                                        }
-                                        else if($_SESSION["error"]!=""){
-                                        echo '<p>'.$_SESSION["error"].'</p>';
-                                           echo' <script>
-                                                $(document).ready(function(){
-                                                $("#showCoupon").trigger("click");
-                                            });
+                                    <h2>Change Password for <?php 
+                                if(!isset($_POST['username'])){
 
-                                            </script>';
-                                            $_SESSION["error"]="";
-                                        }
-                                        ?>
+                                }
+                                else{
+                                    $_SESSION['tempuser']=$_POST['username'];
+                                }
+                            echo $_SESSION['tempuser']; ?>
                                </h2>
-                                </div>
-                                <div style="width:49%;float:left;">
-                                    &nbsp;
-                                    <button type="button" class="btn btn-success" style="float:right;margin-top:-6px;" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">New User</button>
                                 </div>
                             </h2>
                         </div>
                         <div class="body">
-                            <table class="table">
-                <tr>
-                    <th>No</th>
-                    <th>Username</th>
-                    <th>Status</th>
-                    <th>Online</th>
-                    <th>Option</th>
-                </tr>
-                                   
-                                <?php
-                   
-                    include('../../config/db_connect.php');
-                    //$user=$_SESSION["useradmin"];
-                    $sql = "Select * from `xuser` where user_id!='".$_SESSION['username']."'" ;
-                                // where username!='".$user."'
-                    $result = mysqli_query($conn,$sql);
-                    $a=1;
-                    while( $row = mysqli_fetch_assoc( $result ) ){
-                        
-            echo "
-            <tr>
-              <td id='1'>$a</td>
-              <td>".$row['USER_ID']."</td>";
-                        if($row['STATUS']==1){
-                            echo "<td>Active</td>";
-                        }
-                        else{
-                            echo "<td>Unactive</td>";
-                        }
-              
-                        if ($row['ONLINE']==0){echo "<td style='color:red;'>Offline</td>";}else{echo "<td style='color:green;'>Online</td>";};
-              echo "</td>
-              <td>
-            
-            <div class='dropdown'>
-                                <button class='dropbtn'>Option</button>
-                                <div class='dropdown-content'>
+                          <div class="container">
+                                <h2>Change Password</h2>
+                                <hr>
+                                <form action="./action/changepassword.php" method="post">
+                                        <div class="form-group">
+                                            <label for="old_password">Old Password</label>
+                                            <input type="password" name="old_password" class="form-control" style="padding : 5px;">
+                                            <span class="form_error"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="password">New Password</label>
+                                            <input type="password" name="password" class="form-control" style="padding : 5px;">
+                                            <span class="form_error"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="re_password">Retype Password</label>
+                                            <input type="password" name="re_password" class="form-control" style="padding : 5px;">
+                                            <span class="form_error"></span>
+                                        </div>
+
+                                    <?php
+                                        if($_SESSION["error"]==null){
+                                            $_SESSION["error"]="";
+                                        }
+                                        else if($_SESSION["error"]!=""){
+                                        echo "<p style='color:red;'>".$_SESSION["error"]."</p>";
+                                            $_SESSION["error"]="";
+                                        }
+                                        ?>
                                     
-                                    <form id='submit2form' action='change_password.php' method='post'>
-                                        <input type='hidden' name='username' value='".$row['USER_ID']."'>
-                                        <input type='hidden' name='command' value='clear'>
-                                        <a><button id='notbutton' type='submit'>Change Password</button></a>
-                                        
-                                    </form>
-                                    <form id='submit3form' action='.\action\deleteaccount.php' method='post'>
-                                        <input type='hidden' name='username' value='".$row['USER_ID']."'>
-                                        <input type='hidden' name='command' value='clear'>
-                                        <a onclick='return confirm('are you sure to DELETE ?')'><button id='notbutton' type='submit' >Delete</button></a>
-                                        
-                                    </form>
-                                </div>
+                                    <input type="submit" id="save" class="btn btn-primary" value="Change Password" tabindex="11">
+                                </form>
                             </div>
-            
-            </td>
-            </tr>";
-                    $a++;
-                    }
-                    ?>
-                            </table>
                         </div>
                     </div>
                 </div>
@@ -472,5 +434,6 @@
     
     
 </body>
-
+    
+    
 </html>
