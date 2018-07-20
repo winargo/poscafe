@@ -195,20 +195,7 @@ $totaldue = 0;
                       <div class="modal-body">
                         <form action="../action/filter.php" method="post">
                            <div class="form-group">
-<<<<<<< HEAD
-                               <label class="label-form">Date From</label>
-                                <input type="date" name="date" value="<?php echo date('Y-m-d')?>">
-                                <br>
-                                <label class="label-form">Date To</label>
-                                <input type="date" name="date" value="<?php echo date('Y-m-d')?>">
-                            </div>
-                            <div class="label-form">
-                               <label class="label-form">Time From</label>
-                                <input type="time"  placeholder="Time" name="time" value="<?php echo date("h:i") ?>">
-                                <br>
-                                <label class="label-form">Time To</label>
-                               <input type="time"  placeholder="Time" name="time" value="<?php echo date("h:i") ?>">
-=======
+
                                <input type="hidden"  id="date2">
                                From
                                 <input type="date" name="date1" value="<?php echo date('Y-m-d')?>">&nbsp;&nbsp;/ &nbsp;&nbsp;
@@ -222,9 +209,7 @@ $totaldue = 0;
                             </div>
                             <div class="form-group">
                                 <input type="submit" class="btn btn-success" value="Filter">
->>>>>>> c8291aadbf9e0d66fd9b9408d32faa9a10a7fd6d
                             </div>
-                            <input type="submit" class="btn btn-success" value="Filter">
                         </form>
                       </div>
                       <div class="modal-footer">
