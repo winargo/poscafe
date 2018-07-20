@@ -10,9 +10,6 @@ $totalqty = 0;
 $totalsales = 0;
 $totalpayment = 0;
 $totaldue = 0;
-
-$totalqty1 = 0;
-$totalsales1 = 0;
 ?>
 <html>
 
@@ -175,27 +172,64 @@ $totalsales1 = 0;
             <!-- Changelogs -->
             <div class="row" style="margin-bottom:20px;">
                <div class="col-md-4">&nbsp;</div>
-                <div class="col-md-6">
-                    <button class="btn btn-success" id="dailybtn">Report Daily Sales</button>
-                    <button class="btn btn-success" id="peritembtn">Report Sales Per item</button>
-                </div>
             </div>
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tabledaily">
-                  <a href="./filter.php"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                  Custom Report(Report Daily Sales)
-                </button>
-                      </a>
                   <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                  </div>
-                </div>
                    
                     <div class="card">
                         <div class="body">
+                            
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Report Daily Sales</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form action="../action/filter.php" method="post">
+                           <div class="form-group">
+
+                               <input type="hidden"  id="date2">
+                               From
+                                <input type="date" name="date1" value="<?php echo date('Y-m-d')?>">&nbsp;&nbsp;/ &nbsp;&nbsp;
+                               <input type="date" name="date2" value="<?php echo date('Y-m-d')?>">
+                                
+                            </div>
+                            <div class="form-group">
+                                From
+                                <input type="time"  placeholder="Time" name="time1" value="<?php echo date("h:i") ?>">&nbsp;&nbsp;/&nbsp;&nbsp;
+                                <input type="time"  placeholder="Time" name="time2" value="<?php echo date("h:i") ?>">
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-success" value="Filter">
+                            </div>
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                      </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+<!--            table daily per item-->
+        <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tableperitem">
+                    <div class="card">
+                        
+                        <div class="body">
+                            
+                            <?php
+                                if(isset($_SESSION['filtered'])){
+                                    
+                                 ?>
+                            
+                            
                            <table class="table table-hover">
-                    <caption>Report Daily Sales</caption>
+                    <caption>Report Daily Per item</caption>
                     <thead>
                         <tr>
                             <th>No</th>
@@ -212,7 +246,7 @@ $totalsales1 = 0;
                         <?php 
                             include "../config/connection.php";
                             
-                            $sql = "select * from iappenjualan order by TANGGAL DESC";
+                            $sql = "select * from iappenjualan";
                             $query = mysqli_query($conn,$sql);
                             $count = 1;
                             while($row = mysqli_fetch_array($query))
@@ -279,68 +313,20 @@ $totalsales1 = 0;
                         </tr>
                     </tfoot>
                 </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-<!--            table daily per item-->
-        <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tableperitem">
-                    <a href="./filtersalesperitem.php"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                  Custom Report(Report Sales Per item)
-                </button>
-                      </a>
-                    <div class="card">
-                        
-                        <div class="body">
+                            <?php
+                            
+                                }
+                                       else{
+                                    
+                            ?>
+                            
                            <table class="table table-hover">
-                                <caption>Report Sales Per item</caption>
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Stock Code</th>
-                                        <th>Stock Name</th>
-                                        <th>Total QTY</th>
-                                        <th>Total Price</th>
-                                </thead>
-                                <tbody>
-                                    <?php        
-                                        include "../config/connection.php";
-
-                                        $sql = "select * from iamstock";
-                                        $query = mysqli_query($conn,$sql);
-                                        $count = 1;
-                                        while($row = mysqli_fetch_array($query))
-                                        {
-                                            echo "<tr><td>"; echo $count; echo "</td>";
-                                            echo "<td>"; echo $row['KODE_STOCK']; echo "</td>";
-                                            echo "<td>"; echo $row['NAMA_STOCK']; echo "</td>";
-                                            $sqlcountstock = "Select * from iatpenjualan1 where kode_stock='".$row['KODE_STOCK']."'";
-                                            $query1 = mysqli_query($conn,$sqlcountstock);
-                                            $totalsalesdata =0;
-                                            $totalqtydata = 0 ;
-                                            while($row1 = mysqli_fetch_array($query1))
-                                            {
-                                                $totalsalesdata = $totalsalesdata + $row1['HARGA_JUAL']* $row1['QTY'];
-                                                $totalsales1 = $totalsales1 + $row1['HARGA_JUAL']* $row1['QTY'];
-                                                $totalqtydata = $totalqtydata + $row1['QTY'] ;
-                                                $totalqty1 = $totalqty1 +  $row1['QTY'] ;
-                                            }
-                                            echo "<td>"; echo $totalqtydata; echo "</td>";
-                                            echo "<td>"; echo asDollars($totalsalesdata); echo "</td></tr>";
-                                            $count++;
-                                        }
-                                    ?>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="3" style="text-align:center;"><b>Grand Total</b></td>
-                                        <td><b><?php echo $totalqty1?></b></td>
-                                        <td><b><?php echo asDollars($totalsales1)?></b></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                    <caption>Report Daily Per item (No Selection)</caption>
+                </table>
+                                 <?php   
+                                }
+                            
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -349,6 +335,40 @@ $totalsales1 = 0;
 
         </div>
     </section>
+<!--
+    <section class="content">
+        <div class="row">
+            <div class="col-md-6">
+                <button class="btn">report1</button>
+                <button class="btn">report2</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+               <div class="card">
+                <table class="table table-bordered table-hover">
+                    <caption>report1</caption>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Order Number</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Quantity(Total)</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Amt(Due)</th>       
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>   
+    </section>
+-->
 
     <!-- Jquery Core Js -->
     <script src="plugins/jquery/jquery.min.js"></script>
@@ -393,17 +413,17 @@ $totalsales1 = 0;
     <!-- Demo Js -->
     <script src="js/demo.js"></script>
     <script>
-        $("#tabledaily").hide();
-        $("#tableperitem").hide();
-        $("#dailybtn").click(function(){
-            $("#tabledaily").show();
-            $("#tableperitem").hide();
-        });
-        $("#peritembtn").click(function(){
-            $("#tabledaily").hide();
-            $("#tableperitem").show();
-        });
-        
+    //    $("#tabledaily").hide();
+     //   $("#tableperitem").hide();
+     //   $("#dailybtn").click(function(){
+     //       $("#tabledaily").show();
+     //       $("#tableperitem").hide();
+     //   });
+      //  $("#peritembtn").click(function(){
+      //      $("#tabledaily").hide();
+      //      $("#tableperitem").show();
+      //  });
+      //  
     </script>
 </body>
 
