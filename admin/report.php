@@ -192,11 +192,10 @@ $totaldue = 0;
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
+                      <form action="../action/filterreport.php" method="post">
                       <div class="modal-body">
-                        <form action="../action/filter.php" method="post">
+                        
                            <div class="form-group">
-
-                               <input type="hidden"  id="date2">
                                From
                                 <input type="date" name="date1" value="<?php echo date('Y-m-d')?>">&nbsp;&nbsp;/ &nbsp;&nbsp;
                                <input type="date" name="date2" value="<?php echo date('Y-m-d')?>">
@@ -207,15 +206,12 @@ $totaldue = 0;
                                 <input type="time"  placeholder="Time" name="time1" value="<?php echo date("h:i") ?>">&nbsp;&nbsp;/&nbsp;&nbsp;
                                 <input type="time"  placeholder="Time" name="time2" value="<?php echo date("h:i") ?>">
                             </div>
-                            <div class="form-group">
-                                <input type="submit" class="btn btn-success" value="Filter">
-                            </div>
-                        </form>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <input type="submit" class="btn btn-success" value="Filter">
                       </div>
+                      </form>
                     </div>
                   </div>
                 </div>
