@@ -189,6 +189,37 @@ $totalsales1 = 0;
                   <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
+<<<<<<< HEAD
+=======
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form action="../action/filterreport.php" method="post">
+                      <div class="modal-body">
+                        
+                           <div class="form-group">
+                               From
+                                <input type="date" name="date1" value="<?php echo date('Y-m-d')?>">&nbsp;&nbsp;/ &nbsp;&nbsp;
+                               <input type="date" name="date2" value="<?php echo date('Y-m-d')?>">
+                                
+                            </div>
+                            <div class="form-group">
+                                From
+                                <input type="time"  placeholder="Time" name="time1" value="<?php echo date("h:i") ?>">&nbsp;&nbsp;/&nbsp;&nbsp;
+                                <input type="time"  placeholder="Time" name="time2" value="<?php echo date("h:i") ?>">
+                            </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-success" value="Filter">
+                      </div>
+                      </form>
+                    </div>
+>>>>>>> a2af0d7b9150b6a5dcd5f7098d803fd83f4ec088
                   </div>
                 </div>
                    
