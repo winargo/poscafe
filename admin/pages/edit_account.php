@@ -375,7 +375,7 @@
             
             <div class='dropdown'>
                                 <button class='dropbtn'>Option</button>
-                                <div class='dropdown-content'>
+                                <div class='dropdowncontent'>
                                     
                                     <form id='submit1form' action='edit_account.php' method='post'>
                                         <input type='hidden' name='username' value='".$row['USER_ID']."'>
