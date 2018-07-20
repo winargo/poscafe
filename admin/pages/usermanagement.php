@@ -122,19 +122,19 @@
            <div class="menu">
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
-                    <li class="active">
+                    <li>
                         <a href="index.php">
                             <i class="material-icons">home</i>
                             <span>Home</span>
                         </a>
                     </li>
                     <li>
-                        <a href="index.php">
+                        <a href="..\report.php">
                             <i class="material-icons">assignment</i>
                             <span>Report</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="usermanagement.php">
                             <i class="material-icons">supervised_user_circle</i>
                             <span>User Management</span>
