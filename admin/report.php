@@ -194,11 +194,20 @@ $totaldue = 0;
                       <div class="modal-body">
                         <form action="../action/filter.php" method="post">
                            <div class="form-group">
-                               <input type="hidden"  id="date2">
+                               <label class="label-form">Date From</label>
                                 <input type="date" name="date" value="<?php echo date('Y-m-d')?>">
-                                <input type="time"  placeholder="Time" name="time" value="<?php echo date("h:i") ?>">
-                                <input type="submit" class="btn btn-success" value="Filter">
+                                <br>
+                                <label class="label-form">Date To</label>
+                                <input type="date" name="date" value="<?php echo date('Y-m-d')?>">
                             </div>
+                            <div class="label-form">
+                               <label class="label-form">Time From</label>
+                                <input type="time"  placeholder="Time" name="time" value="<?php echo date("h:i") ?>">
+                                <br>
+                                <label class="label-form">Time To</label>
+                               <input type="time"  placeholder="Time" name="time" value="<?php echo date("h:i") ?>">
+                            </div>
+                            <input type="submit" class="btn btn-success" value="Filter">
                         </form>
                       </div>
                       <div class="modal-footer">
