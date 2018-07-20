@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <?php
+date_default_timezone_set('Asia/Jakarta');
 function asDollars($value) {
     return 'Rp' . number_format($value);
     
@@ -194,6 +195,7 @@ $totaldue = 0;
                       <div class="modal-body">
                         <form action="../action/filter.php" method="post">
                            <div class="form-group">
+<<<<<<< HEAD
                                <label class="label-form">Date From</label>
                                 <input type="date" name="date" value="<?php echo date('Y-m-d')?>">
                                 <br>
@@ -206,6 +208,21 @@ $totaldue = 0;
                                 <br>
                                 <label class="label-form">Time To</label>
                                <input type="time"  placeholder="Time" name="time" value="<?php echo date("h:i") ?>">
+=======
+                               <input type="hidden"  id="date2">
+                               From
+                                <input type="date" name="date1" value="<?php echo date('Y-m-d')?>">&nbsp;&nbsp;/ &nbsp;&nbsp;
+                               <input type="date" name="date2" value="<?php echo date('Y-m-d')?>">
+                                
+                            </div>
+                            <div class="form-group">
+                                From
+                                <input type="time"  placeholder="Time" name="time1" value="<?php echo date("h:i") ?>">&nbsp;&nbsp;/&nbsp;&nbsp;
+                                <input type="time"  placeholder="Time" name="time2" value="<?php echo date("h:i") ?>">
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-success" value="Filter">
+>>>>>>> c8291aadbf9e0d66fd9b9408d32faa9a10a7fd6d
                             </div>
                             <input type="submit" class="btn btn-success" value="Filter">
                         </form>
