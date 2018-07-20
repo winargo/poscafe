@@ -28,7 +28,7 @@
               $_SESSION["username"] = $username;
               $_SESSION["admin"] = 1;
               $_SESSION["usernamedb"] = $row['user_id'];
-              header ("Location: ..\orders.php");
+              header ("Location: ../orders.php");
            }
           else{
               $sql = "update `xuser` set online=1 where user_id ='$username'";
@@ -38,14 +38,14 @@
           }else {
             $_SESSION["username"] = $username;
             $_SESSION["usernamedb"] = $row['user_id'];
-            header ("Location: ..\orders.php");
+            header ("Location: ../orders.php");
             }
           }
           exit();
       }
      else {
          $_SESSION["error"] = "<b style='color: red;'>Your Username or Password is Incorrect</b>";
-           header ("Location: ..\index.php");
+           header ("Location: ../index.php");
            exit();
        }
       }
