@@ -1,4 +1,15 @@
 <!DOCTYPE html>
+<?php
+function asDollars($value) {
+    return 'Rp' . number_format($value);
+    
+  }
+
+$totalqty = 0;
+$totalsales = 0;
+$totalpayment = 0;
+$totaldue = 0;
+?>
 <html>
 
 <head>
@@ -125,7 +136,7 @@
                         </a>
                     </li>
                     <li class="active">
-                        <a href="index.php">
+                        <a href="report.php">
                             <i class="material-icons">assignment</i>
                             <span>Report</span>
                         </a>
@@ -155,13 +166,278 @@
         <!-- Right Sidebar -->
         <!-- #END# Right Sidebar -->
     </section>
+ <section class="content">
+        <div class="container-fluid">
+            <!-- Changelogs -->
+            <div class="row" style="margin-bottom:20px;">
+               <div class="col-md-4">&nbsp;</div>
+                <div class="col-md-6">
+                    <button class="btn btn-success" id="dailybtn">Report Daily Sales</button>
+                    <button class="btn btn-success" id="peritembtn">Report Sales Per item</button>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tabledaily">
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                  Filtering
+                </button>
+                  <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form action="../action/filter.php" method="post">
+                           <div class="form-group">
+                               <input type="hidden"  id="date2">
+                                <input type="date" name="date" value="<?php echo date('Y-m-d')?>">
+                                <input type="time"  placeholder="Time" name="time" value="<?php echo date("h:i") ?>">
+                                <input type="submit" class="btn btn-success" value="Filter">
+                            </div>
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                   
+                    <div class="card">
+                        <div class="body">
+                           <table class="table table-hover">
+                    <caption>Report Daily Sales</caption>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Order Number</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Quantity(Total)</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Amt(Due)</th>       
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                            include "../config/connection.php";
+                            
+                            $sql = "select * from iappenjualan order by TANGGAL DESC";
+                            $query = mysqli_query($conn,$sql);
+                            $count = 1;
+                            while($row = mysqli_fetch_array($query))
+                            {
+                                ?>
+                                <tr>
+                                    <td><?php echo $count; ?></td>
+                                    <td><?php echo $row['NO_FAKTUR']; ?></td>
+                                    <td><?php  
+                                    
+                                        $comp = preg_split('/ +/', $row['TANGGAL']);
+                                        $date=date_create($comp[0]);
+                                        echo date_format($date,"d/m/Y")." ";
+                                        $date1=date_create($comp[1]);
+                                        
+                                        ?></td>
+                                    <td><?php echo date_format($date1,"H:i a"); ?></td>
+                                    <td><?php 
+                                        
+                                include "../config/connection.php";
+                            
+                                    $sql1 = "select * from iatpenjualan1 where no_faktur='".$row['NO_FAKTUR']."'";
+                                    $query1 = mysqli_query($conn,$sql1);
+                                    $count1 = 1;
+                                    $total1 = 0;
+                                    while($row1 = mysqli_fetch_array($query1))
+                                    {
+                                        $total1 += $row1['QTY'];
+                                        $totalqty+=$row1['QTY'];
+                                    }
+                                        echo $total1;
+                                        ?></td>
+                                        <td><?php 
+                                                $q4 = "select * from iappenjualan where no_faktur='".$row['NO_FAKTUR']."'";
+                                                $s4 = mysqli_query($conn,$q4);
+                                                $qty = 0;
+                                                $morepay = 0;
+                                                while ($row4 = mysqli_fetch_array($s4)) {
+                                                    echo asDollars($row4['JUMLAH_FAKTUR_RP']);
+                                                    $totalsales += $row4['JUMLAH_FAKTUR_RP'];
 
+                                                    $morepay = $row4['BAYAR']-$row4['JUMLAH_FAKTUR_RP'];
+                                                    $totalpayment += $row4['BAYAR'];
+                                                    $totaldue += $morepay;
+                          ?></td>
+                                    <td><?php echo asDollars($row4['BAYAR'])?></td>
+                                    <td><?php echo asDollars($morepay)?></td>
+                                     <?php 
+                                                }
+                                    ?>   
+                                </tr>
+                                <?php
+                                $count++;
+                            }
+                        ?>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" style="text-align:center;"><b>Grand Total</b></td>
+                            <td><b><?php echo $totalqty?></b></td>
+                            <td><b><?php echo asDollars($totalsales)?></b></td>
+                            <td><b><?php echo asDollars($totalpayment)?></b></td>
+                            <td><b><?php echo asDollars($totaldue)?></b></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+<!--            table daily per item-->
+        <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tableperitem">
+                    <div class="card">
+                        
+                        <div class="body">
+                           <table class="table table-hover">
+                    <caption>Report Daily Per item</caption>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Order Number</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Quantity(Total)</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Amt(Due)</th>       
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                            include "../config/connection.php";
+                            
+                            $sql = "select * from iappenjualan";
+                            $query = mysqli_query($conn,$sql);
+                            $count = 1;
+                            while($row = mysqli_fetch_array($query))
+                            {
+                                ?>
+                                <tr>
+                                    <td><?php echo $count; ?></td>
+                                    <td><?php echo $row['NO_FAKTUR']; ?></td>
+                                    <td><?php  
+                                    
+                                        $comp = preg_split('/ +/', $row['TANGGAL']);
+                                        $date=date_create($comp[0]);
+                                        echo date_format($date,"d/m/Y")." ";
+                                        $date1=date_create($comp[1]);
+                                        
+                                        ?></td>
+                                    <td><?php echo date_format($date1,"H:i a"); ?></td>
+                                    <td><?php 
+                                        
+                                include "../config/connection.php";
+                            
+                                    $sql1 = "select * from iatpenjualan1 where no_faktur='".$row['NO_FAKTUR']."'";
+                                    $query1 = mysqli_query($conn,$sql1);
+                                    $count1 = 1;
+                                    $total1 = 0;
+                                    while($row1 = mysqli_fetch_array($query1))
+                                    {
+                                        $total1 += $row1['QTY'];
+                                        $totalqty+=$row1['QTY'];
+                                    }
+                                        echo $total1;
+                                        ?></td>
+                                        <td><?php 
+                                                $q4 = "select * from iappenjualan where no_faktur='".$row['NO_FAKTUR']."'";
+                                                $s4 = mysqli_query($conn,$q4);
+                                                $qty = 0;
+                                                $morepay = 0;
+                                                while ($row4 = mysqli_fetch_array($s4)) {
+                                                    echo asDollars($row4['JUMLAH_FAKTUR_RP']);
+                                                    $totalsales += $row4['JUMLAH_FAKTUR_RP'];
+
+                                                    $morepay = $row4['BAYAR']-$row4['JUMLAH_FAKTUR_RP'];
+                                                    $totalpayment += $row4['BAYAR'];
+                                                    $totaldue += $morepay;
+                          ?></td>
+                                    <td><?php echo asDollars($row4['BAYAR'])?></td>
+                                    <td><?php echo asDollars($morepay)?></td>
+                                     <?php 
+                                                }
+                                    ?>   
+                                </tr>
+                                <?php
+                                $count++;
+                            }
+                        ?>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" style="text-align:center;"><b>Grand Total</b></td>
+                            <td><b><?php echo $totalqty?></b></td>
+                            <td><b><?php echo asDollars($totalsales)?></b></td>
+                            <td><b><?php echo asDollars($totalpayment)?></b></td>
+                            <td><b><?php echo asDollars($totaldue)?></b></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!--            end table daily per item-->
+
+        </div>
+    </section>
+<!--
     <section class="content">
-        </section>
+        <div class="row">
+            <div class="col-md-6">
+                <button class="btn">report1</button>
+                <button class="btn">report2</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+               <div class="card">
+                <table class="table table-bordered table-hover">
+                    <caption>report1</caption>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Order Number</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Quantity(Total)</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Amt(Due)</th>       
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>   
+    </section>
+-->
 
     <!-- Jquery Core Js -->
     <script src="plugins/jquery/jquery.min.js"></script>
-
+    
     <!-- Bootstrap Core Js -->
     <script src="plugins/bootstrap/js/bootstrap.js"></script>
 
@@ -197,9 +473,23 @@
     <!-- Custom Js -->
     <script src="js/admin.js"></script>
     <script src="js/pages/index.js"></script>
-
+<!--    momment js-->
+   <script src="../js/moment.min.js"></script>
     <!-- Demo Js -->
     <script src="js/demo.js"></script>
+    <script>
+        $("#tabledaily").hide();
+        $("#tableperitem").hide();
+        $("#dailybtn").click(function(){
+            $("#tabledaily").show();
+            $("#tableperitem").hide();
+        });
+        $("#peritembtn").click(function(){
+            $("#tabledaily").hide();
+            $("#tableperitem").show();
+        });
+        
+    </script>
 </body>
 
 </html>
