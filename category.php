@@ -28,12 +28,12 @@
                       </div>
                       <div class="form-group">
                         <label for="exampleInputEmail1">Extra Category 1</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Extra Category 1" name="extra1" required>
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Extra Category 1" name="extra1">
 <!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                       </div>
                       <div class="form-group">
                         <label for="exampleInputEmail1">Extra Category 2</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Extra Category 2" name="extra2" required>
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Extra Category 2" name="extra2" >
 <!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                       </div>
                         <?php
@@ -84,10 +84,24 @@
             <tr>
               <td id='1'>$a</td>
               <td>".$row['KODE_PRODUK']."</td>
-                <td>".$row['NAMA_PRODUK']."</td>
-                <td>".$row['NAMA_SUB_PRODUK']."</td>
-                <td>".$row['NAMA_SUB_PRODUK2']."</td>
-                <td>".$row['USER_ID']."</td>";
+                <td>".$row['NAMA_PRODUK']."</td>";
+                        
+                        if($row['NAMA_SUB_PRODUK']==""){
+                            echo "<td>-</td>";
+                        }
+                        else{
+                            echo "<td>".$row['NAMA_SUB_PRODUK']."</td>";
+                        }
+                        
+                        if($row['NAMA_SUB_PRODUK2']==""){
+                            echo "<td>-</td>";
+                        }
+                        else{
+                            echo "<td>".$row['NAMA_SUB_PRODUK2']."</td>";
+                        }
+                
+                
+                echo "<td>".$row['USER_ID']."</td>";
               echo "
               <td>
                            <form  action='category-edit.php' method='post'>

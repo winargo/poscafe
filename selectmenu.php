@@ -244,7 +244,7 @@
     </nav>
     <!-- #Top Bar -->
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="row" style="text-align:center; margin-top:20px;margin-bottom:20px;">
                 <?php
                     include "./config/connection.php";
@@ -253,7 +253,7 @@
                     $query = mysqli_query($conn,$sql);
                     while($row = mysqli_fetch_array($query)){
                         ?>
-                    <div class="col-md-6" style="border-radius:5px;margin-bottom:15px;">
+                    <div class="col-md-3" style="border-radius:5px;margin-bottom:15px;">
                         <div class="card" onclick="addMenu()">
                         <img class="card-img-top" src="<?php echo $row["IMAGEDIR"] ?>" alt="Card image cap">
                         <div class="card-body">
@@ -284,142 +284,6 @@
             </div>
         </form>
         
-        <div class="col-md-5" style="margin-top : 20px ;margin-left: 3.5%;border : 4px solid orange; border-radius: 5px;">
-             <div class="checkoutdata">
-
-                  <div class="menu-head">
-                     <img src="./images/logo.PNG" width="150" height="150">
-                     <p>Let's Happy Bellying!<br>Frying now @ Brastagi Tiara<br>Operation Hours(Daily):<br>10:00 a.m - 10:00 p.m</p>
-                      <hr style="border-top: dashed 2px;margin:0;">
-                      <hr style="border-top: dashed 2px;margin-top:5px;">
-                     <p style="text-align:left;">
-                        Order No : <?php
-                         $sql = "select * from iamsetupseri where no_seri='JL'";
-                        $query = mysqli_query($conn,$sql);
-            
-                        while($row = mysqli_fetch_array($query))
-                        {    
-                            echo str_replace('.0000','',$row['NO_URUT']);
-                        }
-                         ?><br>
-                        Date : <?php
-                            echo date("d/m/Y");?>&nbsp;<?php
-                            echo date("h:i a");
-                            ?><br>
-                         Transaction By: <?php echo $_SESSION['username'] ; ?>
-                     </p>
-
-                      <div class="table-responsive">
-                          <table class="table" style="border:none;">
-                            <thead  style="margin-bottom:5px;border:none">
-                              <tr style="border:none;">
-                                <th class="no" style="border:none;padding-top:0;">No</th>
-                                <th class="nama" style="border:none;padding-top:0;">Description</th>
-                                <th class="harga" style="border:none;padding-top:0;">Amt (Rp.)</th>
-                              </tr>
-                            </thead>
-                            <tbody style="border:none;">
-                              <?php
-                                  include "./config/connection.php";
-
-                                  $sql = "select * from cart where checkout_status = 0";
-                                  $query = mysqli_query($conn,$sql);
-                                  $no = 1;
-                                  while ($row = mysqli_fetch_array($query)) {
-
-                                    ?>
-                                      <tr style="border:none;">
-                                        <td class="no" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $no; ?></td>
-                                        <td class="nama" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $row['KODE_STOCK']."(".$row['QTY'].")"; ?></td>
-                                        <td class="harga" style="border:none;padding-top:0;padding-bottom:0;"><?php echo asDollars($row['QTY']*$row['HARGA']); ?></td>
-                                          <td style="border:none;">
-                                          <form method="post" action=".\action\delcart.php">
-                                              <input type="hidden" name="kodestock" value="<?php echo $row['KODE_STOCK']; ?>">
-                                              <input type="submit" class="btn btn-danger" value="X" style="border-radius:100px;">
-                                          </form>
-                                        </td>
-                                      </tr>
-                                <tr style="border:none;border-bottom : 1px;">
-                                    <td colspan="4" style="border:none;"><input style="width:100%;" class="form-control" disabled type="text" placeholder="Additional note for <?php echo $row['KODE_STOCK']; ?>"></td>
-                                </tr>
-
-                                    <?php
-                                    $no++;
-                                  }
-                               ?>
-                            </tbody>
-                          </table>
-                          </div>
-                      <hr style="border-top: dashed 2px;margin-top:2px;">
-                      <?php
-                        include "./config/connection.php";
-                        $q4 = "select * from cart where checkout_status = 0";
-                        $s4 = mysqli_query($conn,$q4);
-                        $total = 0;
-                        $qty = 0;
-                        
-                        while ($row = mysqli_fetch_array($s4)) {
-                            $total +=$row["QTY"]*$row["HARGA"];
-                            $qty += $row["QTY"];
-                      ?>
-                      <?php
-                          }
-                          $changetotal = asDollars($total);  
-                          echo "<p style='text-align:left;'>Subtotal($qty)<span style='float:right;'>$changetotal</span></p>";
-                      ?>
-                      <hr style="border-top: dashed 2px;margin-top:2px;">
-                    <p style="text-align:left;margin-left:15%;">
-                        <span style="font-size:25pt">Total
-                        <span style="float:right;">
-                          <?php
-                            include "./config/connection.php";
-                            $q4 = "select * from cart where checkout_status = 0";
-                            $s4 = mysqli_query($conn,$q4);
-                            $total = 0;
-                            $qty = 0;
-
-                            while ($row = mysqli_fetch_array($s4)) {
-                                $total +=$row["QTY"]*$row["HARGA"];
-                                $qty += $row["QTY"];
-                          ?>
-                          <?php
-                              }
-                              $changetotal = asDollars($total);
-                              echo $changetotal;
-                          ?>
-                        </span></span><br>
-
-                        <?php
-                          include "./config/connection.php";
-                          $q4 = "select * from cart where checkout_status = 0";
-                          $s4 = mysqli_query($conn,$q4);
-                          $total = 0;
-                          while ($row = mysqli_fetch_array($s4)) {
-                              $total +=$row["QTY"]*$row["HARGA"];
-                        ?>
-                        <?php
-                            }
-                            $changetotal = asDollars($total);
-                            // echo "<span style='float:right;'>$changetotal</span>";
-                        ?>
-                     </p>
-
-                     <hr style="border-top: dashed 2px;margin-top:5px;">
-
-                     <p style="text-align:center;">
-                        Cater for office meeting , event birthday<br>
-                         Please contact us :<br>
-                         WA : 085922380750<br>
-                         Line : happybellying<br>
-                         Instagram : happybellying<br>
-                     </p>
-                  </div>
-
-               </div>
-                <div class="checkout">
-                    <a href="payment.php"><button class="btn btn-success"><span class="glyphicon glyphicon-print"></span> Check Out</button></a>
-                </div>
-            </div>
     </div>
 </body>
 
