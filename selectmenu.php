@@ -10,6 +10,14 @@
     $sql = "select * from xparam where nama_param='DATERESET'";
     $querydate = mysqli_query($conn,$sql);
     
+    if(isset($_POST['kodeproduk']) && $_POST['kodeproduk']!="" ){
+        
+    }
+    else{
+        header("Location: ./orders.php");
+        exit();
+    }
+    
     while($row = mysqli_fetch_array($querydate)){
         if($row['NILAI_PARAM']==date("d/m/Y")){
             
@@ -249,7 +257,7 @@
                 <?php
                     include "./config/connection.php";
 
-                    $sql = "select * from iamstock where tdk_aktif=0 ORDER BY NAMA_STOCK ASC";
+                    $sql = "select * from iamstock where KODE_PRODUK='".$_POST['kodeproduk']."' and TDK_AKTIF=0 ORDER BY NAMA_STOCK ASC";
                     $query = mysqli_query($conn,$sql);
                     while($row = mysqli_fetch_array($query)){
                         ?>
@@ -262,16 +270,45 @@
                           <!-- <p class="card-text"><?php echo $row["SALDOAWAL"]; ?></p> -->
                           <form action="./action/cekcheckout.php" method="post">
                             <input type="hidden" name="namastock" id="namastock" value="<?php echo $row["NAMA_STOCK"] ?>">
-                            <input type="hidden" name="qty" value="1">
                             <input type="hidden" name="harga" value="<?php echo $row["HARGAJUAL1"]; ?>">
                             <input type="hidden" name="userid" value="<?php echo $_SESSION["username"]; ?>">
-                            <input type="submit" name="addMenu" value="Add" class="btn btn-primary" onclick="addMenu(<?php echo $row["NAMA_STOCK"] ?>)" id="addMenu" style="width : 100%;">
+                            <input type="button" name="addMenu" value="Add" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" onclick="addMenu(<?php echo $row["NAMA_STOCK"] ?>)" id="addMenu" style="width : 100%;">
+                              
+                              <!-- Modal -->
+                                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                      <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle"><?php echo $row["NAMA_STOCK"]; ?></h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                              <div class="form-group">
+                                                  
+                                                <input type="number" class="form-control" name="qty" value="1" id="23" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="1">Additional Note</label>
+                                                <input type="text" class="form-control" name="ordernote" placeholder="Order Note" id="23">
+                                            </div>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">Add</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                     <!-- Modal -->
+                              
                           </form>
                         </div>
                       </div>
                     </div>
                 <?php
                     }
+                $_POST['kodeproduk']="";
                 ?>
             </div>
         </div>
@@ -283,6 +320,7 @@
                 <button type="submit" class="btn btn-success "style="margin-top:20px;margin-bottom:20px;">Check</button>
             </div>
         </form>
+        
         
     </div>
 </body>

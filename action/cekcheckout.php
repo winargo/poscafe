@@ -6,13 +6,14 @@ $namastock = $_POST['namastock'];
 $qty = $_POST['qty'];
 $userid = $_POST['userid'];
 $harga = $_POST['harga'];
+$note = $_POST['ordernote'];
 
 $q1 = "select * from cart where checkout_status = 0";
 $s1 = mysqli_query($conn,$q1);
 
 while ($row = mysqli_fetch_array($s1)) {
   if ($row["KODE_STOCK"] == $namastock) {
-      $s2 = "update cart set QTY = QTY + 1 where KODE_STOCK = '$namastock'";
+      $s2 = "update cart set QTY = QTY + 1,note='$note' where KODE_STOCK = '$namastock'";
       $q2 = mysqli_query($conn,$s2);
       if($q2)
       {
@@ -25,7 +26,7 @@ while ($row = mysqli_fetch_array($s1)) {
   }
 }
 
-  $query = "insert into cart (KODE_STOCK,QTY,UNIT,HARGA,user_id) value ('$namastock','$qty','pcs','$harga','$userid')";
+  $query = "insert into cart (KODE_STOCK,QTY,UNIT,HARGA,user_id,note) value ('$namastock','$qty','pcs','$harga','$userid','$note')";
   $sql  = mysqli_query($conn,$query);
 
   if($sql)

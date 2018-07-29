@@ -255,8 +255,7 @@
         <div class="col-md-4" style="border : 4px solid orange; border-radius: 5px;">
              <div class="checkoutdata" id="printarea" style="text-align:center;background-color:white;">
 
-                  <div class="menu-head" style="text-align:center;">
-                     <img src="./images/logo.PNG" width="150" height="150">
+                  <div class="menu-head" style="text-align:center;margin-top:20px;">
                      <p>Let's Happy Bellying!<br>Frying now @ Brastagi Tiara<br>Operation Hours(Daily):<br>10:00 a.m - 10:00 p.m</p>
                       <hr style="border-top: dashed 2px;margin:0;">
                       <hr style="border-top: dashed 2px;margin-top:5px;">
@@ -302,7 +301,9 @@
                                         <td class="nama" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $row['KODE_STOCK']."(".$row['QTY'].")"; ?></td>
                                         <td class="harga" style="border:none;padding-top:0;padding-bottom:0;"><?php echo asDollars($row['QTY']*$row['HARGA']); ?></td>
                                       </tr>
-
+                                        <tr style="border:none;border-bottom : 1px;">
+                                            <td colspan="4" style="border:none;"><input style="width:100%;" class="form-control" disabled type="text" placeholder="Additional note for <?php echo $row['KODE_STOCK']; ?>" value="<?php echo $row['note']; ?>"></td>
+                                        </tr>
                                     <?php
                                     $no++;
                                   }

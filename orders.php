@@ -86,6 +86,10 @@
         }
     }
         
+    function submit(id){
+        document.getElementById(id).submit();
+    }
+        
     </script>
 
     <script type="text/javascript" src="./bootstrap/js/bootstrap.js"></script>
@@ -102,6 +106,17 @@
     <style>
         th{
             border: none;
+        }
+        .category{
+            width: 48%;
+            margin: 1%;
+            height: 250px;
+            font-size: 15pt;
+        }
+        .category:hover{
+            font-size: 15pt;
+            color: blue;
+            background-color: white;
         }
     </style>
 <body>
@@ -244,32 +259,36 @@
     </nav>
     <!-- #Top Bar -->
     <div class="row">
-        <div class="col-md-6">
-            <div class="row" style="text-align:center; margin-top:20px;margin-bottom:20px;">
+        <div class="col-md-6" >
+            <div class="row" style="text-align:center; margin-top:20px;margin-bottom:20px;overflow: auto;height:1000px;min-height:500px">
                 <?php
                     include "./config/connection.php";
 
-                    $sql = "select * from iamstock where tdk_aktif=0 ORDER BY NAMA_STOCK ASC";
+                    $sql = "select * from iamproduk where tdk_aktif=0 ORDER BY NAMA_PRODUK ASC";
                     $query = mysqli_query($conn,$sql);
                     while($row = mysqli_fetch_array($query)){
                         ?>
-                    <div class="col-md-6" style="border-radius:5px;margin-bottom:15px;">
+                <button class="btn btn-primary category" type="submit" onclick="submit('<?php echo $row['KODE_PRODUK'] ?>')"><p style="white-space: normal;"><?php echo $row["NAMA_PRODUK"] ?></p></button>
+                    <form method="post" action="./selectmenu.php" id="<?php echo $row['KODE_PRODUK'] ?>">
+                        <input name = "kodeproduk" type="hidden" value='<?php echo $row["KODE_PRODUK"]?>'>
+                </form>
+                <!--    <div class="col-md-6" style="border-radius:5px;margin-bottom:15px;">
                         <div class="card" onclick="addMenu()">
-                        <img class="card-img-top" src="<?php echo $row["IMAGEDIR"] ?>" alt="Card image cap">
+                        <img class="card-img-top" src="<?php //echo $row["IMAGEDIR"] ?>" alt="Card image cap">
                         <div class="card-body">
-                          <p class="card-title"><?php echo $row["NAMA_STOCK"]; ?></p>
-                          <p class="card-text"><?php echo asDollars($row["HARGAJUAL1"]); ?></p>
-                          <!-- <p class="card-text"><?php echo $row["SALDOAWAL"]; ?></p> -->
+                          <p class="card-title"><?php //echo $row["NAMA_STOCK"]; ?></p>
+                          <p class="card-text"><?php //echo asDollars($row["HARGAJUAL1"]); ?></p>
+                          <p class="card-text"><?php //echo $row["SALDOAWAL"]; ?></p> 
                           <form action="./action/cekcheckout.php" method="post">
-                            <input type="hidden" name="namastock" id="namastock" value="<?php echo $row["NAMA_STOCK"] ?>">
+                            <input type="hidden" name="namastock" id="namastock" value="<?php //echo $row["NAMA_STOCK"] ?>">
                             <input type="hidden" name="qty" value="1">
-                            <input type="hidden" name="harga" value="<?php echo $row["HARGAJUAL1"]; ?>">
-                            <input type="hidden" name="userid" value="<?php echo $_SESSION["username"]; ?>">
-                            <input type="submit" name="addMenu" value="Add" class="btn btn-primary" onclick="addMenu(<?php echo $row["NAMA_STOCK"] ?>)" id="addMenu" style="width : 100%;">
+                            <input type="hidden" name="harga" value="<?php //echo $row["HARGAJUAL1"]; ?>">
+                            <input type="hidden" name="userid" value="<?php //echo $_SESSION["username"]; ?>">
+                            <input type="submit" name="addMenu" value="Add" class="btn btn-primary" onclick="addMenu(<?php //echo $row["NAMA_STOCK"] ?>)" id="addMenu" style="width : 100%;">
                           </form>
                         </div>
                       </div>
-                    </div>
+                    </div>-->
                 <?php
                     }
                 ?>
@@ -287,8 +306,8 @@
         <div class="col-md-5" style="margin-top : 20px ;margin-left: 3.5%;border : 4px solid orange; border-radius: 5px;">
              <div class="checkoutdata">
 
-                  <div class="menu-head">
-                     <img src="./images/logo.PNG" width="150" height="150">
+                  <div class="menu-head" style="padding-top:20px">
+                 <!--    <img src="./images/logo.PNG" width="150" height="150">-->
                      <p>Let's Happy Bellying!<br>Frying now @ Brastagi Tiara<br>Operation Hours(Daily):<br>10:00 a.m - 10:00 p.m</p>
                       <hr style="border-top: dashed 2px;margin:0;">
                       <hr style="border-top: dashed 2px;margin-top:5px;">
@@ -340,7 +359,7 @@
                                         </td>
                                       </tr>
                                 <tr style="border:none;border-bottom : 1px;">
-                                    <td colspan="4" style="border:none;"><input style="width:100%;" class="form-control" disabled type="text" placeholder="Additional note for <?php echo $row['KODE_STOCK']; ?>"></td>
+                                    <td colspan="4" style="border:none;"><input style="width:100%;" class="form-control" disabled type="text" placeholder="Additional note for <?php echo $row['KODE_STOCK']; ?>" value="<?php echo $row['note']; ?>"></td>
                                 </tr>
 
                                     <?php
@@ -440,8 +459,6 @@ $("#showupprint").click(function(){
     }
     
 })
-
-
 
 </script>
 
