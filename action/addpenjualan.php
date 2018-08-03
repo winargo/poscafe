@@ -18,6 +18,7 @@ $sql = "select * from iamsetupseri where no_seri='JL'";
 $query = mysqli_query($conn,$sql);
 $nofaktur = "";
 $total = 0;
+
 $payment = $_POST['payment'];
 
 while($row = mysqli_fetch_array($query))
@@ -49,6 +50,18 @@ if ($count==0) {
         {
             $iatpenjualan1= " INSERT INTO `IATPENJUALAN1` (No_Faktur, KODE_STOCK, NAMA_STOCK, QTY, SATUAN, HARGA_JUAL, DISCOUNT,DISCOUNT_NILAI, JUMLAH, PPN, KODE_PAJAK,KODE_DEPARTEMEN, KODE_PROYEK, HARGA_LIST, QTY_KECIL,KODE_GROUP, PRINT_ITEM, GROUP_PIL, NOMOR_SO,BONUS, SATUAN_BNS, QTY_KECIL_BNS, DO_HARGA_POKOK,NO_ITEM, NO_LOT, NOMOR_KS, PACKING, SATUAN_PACK, NO_SEND, SENDING, STATUS) VALUES ('$nofaktur','".$rowstock['KODE_STOCK']."','".$rowstock['NAMA_STOCK']."','".$row['QTY']."','".$row['UNIT']."','".$row['HARGA']."','',0,0,0,'N','00','',0,1,'',1,'','',1,'',0,0,'$a','','',0,'','',0,'') ";
           
+            $hargajumlah = 0 ;
+            $hargajumlah = $row['QTY'] * $row['HARGA'];
+              $queryadd = "insert into checkout (order_number,KODE_STOCK,QTY,UNIT,HARGA,DISC,DISC_RP,SUBTOTAL,user_id,checkout_status,note,print) value ('$nofaktur','".$rowstock['KODE_STOCK']."','".$row['QTY']."','".$row['UNIT']."','".$row['HARGA']."',0,0,'$hargajumlah','".$_SESSION['username']."',1,'".$row['note']."',0)";
+              $sqladd  = mysqli_query($conn,$queryadd);
+
+              if($sqladd)
+              {
+                echo "TRUE";
+              }
+              else {
+                echo "error 2";
+              }
           $sql  = mysqli_query($conn,$iatpenjualan1);
 
 

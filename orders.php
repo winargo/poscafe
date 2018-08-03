@@ -359,7 +359,7 @@
                                         </td>
                                       </tr>
                                 <tr style="border:none;border-bottom : 1px;">
-                                    <td colspan="4" style="border:none;"><input style="width:100%;" class="form-control" disabled type="text" placeholder="Additional note for <?php echo $row['KODE_STOCK']; ?>" value="<?php echo $row['note']; ?>"></td>
+                                    <td colspan="4" style="border:none;"><input style="width:100%;" class="form-control" disabled type="text" placeholder="No Additional note for <?php echo $row['KODE_STOCK']; ?>" value="<?php echo $row['note']; ?>"></td>
                                 </tr>
 
                                     <?php

@@ -243,10 +243,11 @@
                       </div>
                     <div class="modal-footer" style="width:100%;">
                         <a href="orders.php"><button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:200px;">Back</button></a>
+                        <input type="button" onclick="setpay()" id="save2" class="btn btn-success" value="Match Payment" style="width:200px;" tabindex="10">
 
                         <input name="btnsubmit" type="button" onclick="pay()" id="save1" class="btn btn-primary" value="Pay Transaction" style="width:200px;" tabindex="11">
                         
-                        <input name="btnsubmit" type="button" onclick="printDiv()" class="btn btn-success" value="Print" style="width:200px;display:none;" tabindex="11" id="print1">
+                        <input name="btnsubmit" type="button" onclick="printDiv()" class="btn btn-success" value="Print" style="width:200px;display:none;" tabindex="12" id="print1">
                       </div>
                     </form>
                   <!--  <button class="btn btn-success" id="pay" onclick="pay()">pay</button>-->
@@ -302,7 +303,7 @@
                                         <td class="harga" style="border:none;padding-top:0;padding-bottom:0;"><?php echo asDollars($row['QTY']*$row['HARGA']); ?></td>
                                       </tr>
                                         <tr style="border:none;border-bottom : 1px;">
-                                            <td colspan="4" style="border:none;"><input style="width:100%;" class="form-control" disabled type="text" placeholder="Additional note for <?php echo $row['KODE_STOCK']; ?>" value="<?php echo $row['note']; ?>"></td>
+                                            <td colspan="4" style="border:none;"><input style="width:100%;" class="form-control" disabled type="text" placeholder="No Additional note for <?php echo $row['KODE_STOCK']; ?>" value="<?php echo $row['note']; ?>"></td>
                                         </tr>
                                     <?php
                                     $no++;
@@ -418,6 +419,13 @@ return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
             $("#print1").show();            
     
         }
+
+    }
+    
+    function setpay(){
+        var total = parseFloat(document.getElementById("total").value);
+        
+        document.getElementById("payment").value = total;
 
     }
     

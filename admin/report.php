@@ -195,8 +195,8 @@ $totalsales1 = 0;
                    
                     <div class="card">
                         <div class="body">
-                           <table class="table table-hover">
-                    <caption>Report Daily Sales</caption>
+                           <table class="table table-hover" id="tabledaily">
+                               <caption>Report Daily Sales &nbsp;<button onclick="exportToExcel()" class="btn btn-success">Excel</button></caption>
                     <thead>
                         <tr>
                             <th>No</th>
@@ -295,8 +295,8 @@ $totalsales1 = 0;
                     <div class="card">
                         
                         <div class="body">
-                           <table class="table table-hover">
-                                <caption>Report Sales Per item</caption>
+                           <table class="table table-hover" id="tabledaily1">
+                                <caption>Report Sales Per item &nbsp;<button onclick="exportToExcel1()" class="btn btn-success">Excel</button></caption>
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -405,6 +405,67 @@ $totalsales1 = 0;
             $("#tableperitem").show();
         });
         
+    </script>
+    
+    <script>
+    function exportToExcel(){
+        var htmls = "";
+                    var uri = 'data:application/vnd.ms-excel;base64,';
+                    var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'; 
+                    var base64 = function(s) {
+                        return window.btoa(unescape(encodeURIComponent(s)))
+                    };
+
+                    var format = function(s, c) {
+                        return s.replace(/{(\w+)}/g, function(m, p) {
+                            return c[p];
+                        })
+                    };
+        
+                    var html  = document.getElementById("tabledaily").innerHTML;
+
+                    htmls = html;
+
+                    var ctx = {
+                        worksheet : 'Worksheet',
+                        table : htmls
+                    }
+
+
+                    var link = document.createElement("a");
+                    link.download = "export.xls";
+                    link.href = uri + base64(format(template, ctx));
+                    link.click();
+        }
+        function exportToExcel1(){
+        var htmls = "";
+                    var uri = 'data:application/vnd.ms-excel;base64,';
+                    var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'; 
+                    var base64 = function(s) {
+                        return window.btoa(unescape(encodeURIComponent(s)))
+                    };
+
+                    var format = function(s, c) {
+                        return s.replace(/{(\w+)}/g, function(m, p) {
+                            return c[p];
+                        })
+                    };
+        
+                    var html  = document.getElementById("tabledaily1").innerHTML;
+
+                    htmls = html;
+
+                    var ctx = {
+                        worksheet : 'Worksheet',
+                        table : htmls
+                    }
+
+
+                    var link = document.createElement("a");
+                    link.download = "export.xls";
+                    link.href = uri + base64(format(template, ctx));
+                    link.click();
+        }
     </script>
 </body>
 
