@@ -19,7 +19,7 @@
         $row = mysqli_fetch_array($result);
       // If result matched $myusername and $mypassword, table row must be 1 row
 		echo $row[0];
-      if(($username==$row[0])/*===true*/) {
+      if(($username==$row[0] )/*===true*/) {
           $_SESSION['error']="<b style='color: red;'>Username Is already Registered</b>";
               header("Location: ../pages/usermanagement.php");
             exit;
@@ -36,7 +36,9 @@
                 exit;
             }   
             else{
-            echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
+            $_SESSION['error'] = "ERROR: Could not able to execute $sql. " . mysqli_error($link);
+                header("Location: ../pages/usermanagement.php");
+            exit;
             };
         
         // Close connection
