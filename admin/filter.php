@@ -182,33 +182,27 @@ $totaldue = 0;
                             
                       <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Report Daily Sales</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
+                        <button onclick="window.history.go(-1); return false;" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">X</span>
                         </button>
                       </div>
                       <div class="modal-body">
-                        <form action="../action/filter.php" method="post">
+                        <form action="filter.php" method="post">
                            <div class="form-group">
-
-                               <input type="hidden"  id="date2">
+                                <input type="hidden" name="filtered" value="a">
                                From
-                                <input type="date" name="date1" value="<?php echo date('Y-m-d')?>">&nbsp;&nbsp;/ &nbsp;&nbsp;
-                               <input type="date" name="date2" value="<?php echo date('Y-m-d')?>">
-                                
+                                <input type="date" name="date1" value="<?php if(isset($_POST['date1'])){  echo date("Y-m-d",strtotime($_POST['date1']));        }else {echo date('Y-m-d');}?>">&nbsp;&nbsp;/ &nbsp;&nbsp;
+                               <input type="date" name="date2" value="<?php if(isset($_POST['date2'])){  echo date("Y-m-d",strtotime($_POST['date2']));        }else {echo date('Y-m-d');}?>">
                             </div>
                             <div class="form-group">
                                 From
-                                <input type="time"  placeholder="Time" name="time1" value="<?php echo date("h:i") ?>">&nbsp;&nbsp;/&nbsp;&nbsp;
-                                <input type="time"  placeholder="Time" name="time2" value="<?php echo date("h:i") ?>">
+                                <input type="time"  placeholder="Time" name="time1" value="<?php if(isset($_POST['time1'])){  echo date("H:i",strtotime($_POST['time1']));}else {echo date('H:i');}?>">&nbsp;&nbsp;/&nbsp;&nbsp;
+                                <input type="time"  placeholder="Time" name="time2" value="<?php if(isset($_POST['time2'])){  echo date("H:i",strtotime($_POST['time2']));}else {echo date('H:i');}?>">
                             </div>
                             <div class="form-group">
                                 <input type="submit" class="btn btn-success" value="Filter">
                             </div>
                         </form>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
                       </div>
                         </div>
                     </div>
@@ -223,13 +217,16 @@ $totaldue = 0;
                         <div class="body">
                             
                             <?php
-                                if(isset($_SESSION['filtered'])){
-                                    
-                                 ?>
-                            
-                            
-                           <table class="table table-hover">
-                    <caption>Report Daily Per item</caption>
+                                if(isset($_POST['filtered'])){
+                                   // echo $_POST['filtered'];
+                                }
+                                       else{
+                                      //     echo "";
+                                       }
+                                if(isset($_POST['filtered']) && $_POST['filtered']!=""){
+                                    echo"
+                                    <table class='table table-hover' id='datatablecustom'>
+                    <caption>Report Daily Sales Per item&nbsp;";echo date("d/m/y",strtotime($_POST['date1']))." - ".date("d/m/y",strtotime($_POST['date2']))  ;  echo"&nbsp;</caption><button onclick='exportToExcel()' class='btn btn-success'>Excel</button>
                     <thead>
                         <tr>
                             <th>No</th>
@@ -243,30 +240,38 @@ $totaldue = 0;
                         </tr>
                     </thead>
                     <tbody>
-                        <?php 
+                                    ";
                             include "../config/connection.php";
-                            
-                            $sql = "select * from iappenjualan";
+
+                                    
+                            $tmpdt1 = strtotime($_POST['date1']);
+                            $tmpdt2 = strtotime($_POST['date2']);
+                            $tmptm1 = strtotime($_POST['time1']);
+                            $tmptm2 = strtotime($_POST['time2']);
+                                    
+                            $date1 = date("Y/m/d", $tmpdt1);
+                            $date2 = date("Y/m/d", $tmpdt2);
+                                    
+                            $time1 = date("H:i", $tmptm1);
+                            $time2 = date("H:i", $tmptm2);
+                                    
+                            $sql = "select * from iappenjualan where tanggal between '$date1' and '$date2' and time(tanggal) BETWEEN '$time1' and '$time2' ";
                             $query = mysqli_query($conn,$sql);
                             $count = 1;
                             while($row = mysqli_fetch_array($query))
                             {
-                                ?>
-                                <tr>
-                                    <td><?php echo $count; ?></td>
-                                    <td><?php echo $row['NO_FAKTUR']; ?></td>
-                                    <td><?php  
-                                    
-                                        $comp = preg_split('/ +/', $row['TANGGAL']);
-                                        $date=date_create($comp[0]);
-                                        echo date_format($date,"d/m/Y")." ";
-                                        $date1=date_create($comp[1]);
-                                        
-                                        ?></td>
-                                    <td><?php echo date_format($date1,"H:i a"); ?></td>
-                                    <td><?php 
-                                        
-                                include "../config/connection.php";
+                                echo "<tr><td>";
+                                echo $count;
+                                echo "</td><td>";
+                                echo $row['NO_FAKTUR'];
+                                echo "</td><td>";
+                                $comp = preg_split('/ +/', $row['TANGGAL']);
+                                $date=date_create($comp[0]);
+                                echo date_format($date,"d/m/Y")." ";
+                                $date1=date_create($comp[1]);
+                                echo "</td><td>";
+                                echo date_format($date1,"H:i a");
+                                echo "</td><td>";
                             
                                     $sql1 = "select * from iatpenjualan1 where no_faktur='".$row['NO_FAKTUR']."'";
                                     $query1 = mysqli_query($conn,$sql1);
@@ -278,8 +283,7 @@ $totaldue = 0;
                                         $totalqty+=$row1['QTY'];
                                     }
                                         echo $total1;
-                                        ?></td>
-                                        <td><?php 
+                                        echo "</td><td>";
                                                 $q4 = "select * from iappenjualan where no_faktur='".$row['NO_FAKTUR']."'";
                                                 $s4 = mysqli_query($conn,$q4);
                                                 $qty = 0;
@@ -291,30 +295,33 @@ $totaldue = 0;
                                                     $morepay = $row4['BAYAR']-$row4['JUMLAH_FAKTUR_RP'];
                                                     $totalpayment += $row4['BAYAR'];
                                                     $totaldue += $morepay;
-                          ?></td>
-                                    <td><?php echo asDollars($row4['BAYAR'])?></td>
-                                    <td><?php echo asDollars($morepay)?></td>
-                                     <?php 
+                                                    echo "</td><td>";
+                                                    echo asDollars($row4['BAYAR']);
+                                                    echo"</td><td>";
+                                                    echo asDollars($morepay);
+                                                    echo"</td>";
                                                 }
-                                    ?>   
-                                </tr>
-                                <?php
+                                echo"</tr>";
                                 $count++;
                             }
-                        ?>
+                                    echo"
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="4" style="text-align:center;"><b>Grand Total</b></td>
-                            <td><b><?php echo $totalqty?></b></td>
-                            <td><b><?php echo asDollars($totalsales)?></b></td>
-                            <td><b><?php echo asDollars($totalpayment)?></b></td>
-                            <td><b><?php echo asDollars($totaldue)?></b></td>
+                            <td colspan='4' style='text-align:center;'><b>Grand Total</b></td>
+                            <td><b>";
+                                    echo $totalqty;
+                                    echo"</b></td><td><b>";
+                                    echo asDollars($totalsales);
+                                    echo"</b></td><td><b>"; 
+                                    echo asDollars($totalpayment); echo"</b></td><td><b>";
+                                    echo asDollars($totaldue);
+                                    echo "</b></td>
                         </tr>
                     </tfoot>
                 </table>
-                            <?php
-                            
+                            ";
+                            $_POST['filtered']="";
                                 }
                                        else{
                                     
@@ -424,6 +431,35 @@ $totaldue = 0;
       //      $("#tableperitem").show();
       //  });
       //  
+        function exportToExcel(){
+        var htmls = "";
+                    var uri = 'data:application/vnd.ms-excel;base64,';
+                    var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'; 
+                    var base64 = function(s) {
+                        return window.btoa(unescape(encodeURIComponent(s)))
+                    };
+
+                    var format = function(s, c) {
+                        return s.replace(/{(\w+)}/g, function(m, p) {
+                            return c[p];
+                        })
+                    };
+        
+                    var html  = document.getElementById("datatablecustom").innerHTML;
+
+                    htmls = html;
+
+                    var ctx = {
+                        worksheet : 'Worksheet',
+                        table : htmls
+                    }
+
+
+                    var link = document.createElement("a");
+                    link.download = "export.xls";
+                    link.href = uri + base64(format(template, ctx));
+                    link.click();
+        }
     </script>
 </body>
 

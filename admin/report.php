@@ -176,8 +176,8 @@ $totalsales1 = 0;
             <div class="row" style="margin-bottom:20px;">
                <div class="col-md-4">&nbsp;</div>
                 <div class="col-md-6">
-                    <button class="btn btn-success" id="dailybtn">Report Daily Sales</button>
-                    <button class="btn btn-success" id="peritembtn">Report Sales Per item</button>
+                    <button class="btn btn-success" id="dailybtn" style="padding:20px;">Report Daily Sales</button>
+                    <button class="btn btn-success" id="peritembtn" style="padding:20px;">Report Sales Per item</button>
                 </div>
             </div>
             <div class="row clearfix">
