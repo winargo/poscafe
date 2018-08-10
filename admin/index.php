@@ -1,6 +1,22 @@
 ﻿<!DOCTYPE html>
 <html>
 
+    <?php
+    date_default_timezone_set('Asia/Jakarta');
+function asDollars($value) {
+    return 'Rp' . number_format($value);
+    
+  }
+    
+    $totalqty = 0;
+$totalsales = 0;
+$totalpayment = 0;
+$totaldue = 0;
+
+$totalqty1 = 0;
+$totalsales1 = 0;
+    
+    ?>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -34,7 +50,7 @@
 
 <body class="theme-red">
     <!-- Page Loader -->
-    <div class="page-loader-wrapper">
+    <div class="page-loader-wrapper" style="display:none;">
         <div class="loader">
             <div class="preloader">
                 <div class="spinner-layer pl-red">
@@ -156,8 +172,117 @@
         <!-- #END# Right Sidebar -->
     </section>
 
-    <section class="content">
-        </section>
+    
+ <section class="content">
+        <div class="container-fluid">
+            <!-- Changelogs -->
+            <div class="row" style="margin-bottom:20px;">
+               <div class="col-md-4">&nbsp;</div>
+                <h2>List of Latest Sales</h2>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tabledaily">
+                  <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+
+                  </div>
+                </div>
+                   
+                    <div class="card">
+                        <div class="body">
+                           <table class="table table-hover" id="tabledaily">
+                               <caption>Report Daily Sales &nbsp;<button onclick="exportToExcel()" class="btn btn-success">Excel</button></caption>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Order Number</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Quantity(Total)</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Amt(Due)</th>       
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                            include "../config/connection.php";
+                            
+                            $sql = "select * from iappenjualan order by TANGGAL ASC";
+                            $query = mysqli_query($conn,$sql);
+                            $count = 1;
+                            while($row = mysqli_fetch_array($query))
+                            {
+                                ?>
+                                <tr>
+                                    <td><?php echo $count; ?></td>
+                                    <td><?php echo $row['NO_FAKTUR']; ?></td>
+                                    <td><?php  
+                                    
+                                        $comp = preg_split('/ +/', $row['TANGGAL']);
+                                        $date=date_create($comp[0]);
+                                        echo date_format($date,"d/m/Y")." ";
+                                        $date1=date_create($comp[1]);
+                                        
+                                        ?></td>
+                                    <td><?php echo date_format($date1,"H:i a"); ?></td>
+                                    <td><?php 
+                                        
+                                include "../config/connection.php";
+                            
+                                    $sql1 = "select * from iatpenjualan1 where no_faktur='".$row['NO_FAKTUR']."'";
+                                    $query1 = mysqli_query($conn,$sql1);
+                                    $count1 = 1;
+                                    $total1 = 0;
+                                    while($row1 = mysqli_fetch_array($query1))
+                                    {
+                                        $total1 += $row1['QTY'];
+                                        $totalqty+=$row1['QTY'];
+                                    }
+                                        echo $total1;
+                                        ?></td>
+                                        <td><?php 
+                                                $q4 = "select * from iappenjualan where no_faktur='".$row['NO_FAKTUR']."'";
+                                                $s4 = mysqli_query($conn,$q4);
+                                                $qty = 0;
+                                                $morepay = 0;
+                                                while ($row4 = mysqli_fetch_array($s4)) {
+                                                    echo asDollars($row4['JUMLAH_FAKTUR_RP']);
+                                                    $totalsales += $row4['JUMLAH_FAKTUR_RP'];
+
+                                                    $morepay = $row4['BAYAR']-$row4['JUMLAH_FAKTUR_RP'];
+                                                    $totalpayment += $row4['BAYAR'];
+                                                    $totaldue += $morepay;
+                          ?></td>
+                                    <td><?php echo asDollars($row4['BAYAR'])?></td>
+                                    <td><?php echo asDollars($morepay)?></td>
+                                     <?php 
+                                                }
+                                    ?>   
+                                </tr>
+                                <?php
+                                $count++;
+                            }
+                        ?>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" style="text-align:center;"><b>Grand Total</b></td>
+                            <td><b><?php echo $totalqty?></b></td>
+                            <td><b><?php echo asDollars($totalsales)?></b></td>
+                            <td><b><?php echo asDollars($totalpayment)?></b></td>
+                            <td><b><?php echo asDollars($totaldue)?></b></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
 
     <!-- Jquery Core Js -->
     <script src="plugins/jquery/jquery.min.js"></script>

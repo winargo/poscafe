@@ -6,10 +6,15 @@ function asDollars($value) {
     
   }
 
+include "../config/connection.php";
+
 $totalqty = 0;
 $totalsales = 0;
 $totalpayment = 0;
 $totaldue = 0;
+
+$totalqty1 = 0;
+$totalsales1 = 0;
 ?>
 <html>
 
@@ -46,7 +51,7 @@ $totaldue = 0;
 
 <body class="theme-red">
     <!-- Page Loader -->
-    <div class="page-loader-wrapper">
+    <div class="page-loader-wrapper" style="display:none;">
         <div class="loader">
             <div class="preloader">
                 <div class="spinner-layer pl-red">
@@ -187,28 +192,132 @@ $totaldue = 0;
                         </button>
                       </div>
                       <div class="modal-body">
-                        <form action="../action/filter.php" method="post">
+                        <form action="filtersalesperitem.php" method="post">
                            <div class="form-group">
 
-                               <input type="hidden"  id="date2">
+                               <input type="hidden"  name="filtered" value="a">
+                               <p>Filter By Product Category</p>
                                From
-                                <input type="date" name="date1" value="<?php echo date('Y-m-d')?>">&nbsp;&nbsp;/ &nbsp;&nbsp;
-                               <input type="date" name="date2" value="<?php echo date('Y-m-d')?>">
-                                
+                                <select name="category1" class="custom-select" style="width:30%;">
+                                    <?php
+                                    $sql = "select * from iamproduk";
+                                    $query = mysqli_query($conn,$sql);
+                                    $count = 1;
+                                    while($row = mysqli_fetch_array($query))
+                                    {
+                                        if(isset($_POST['category1'] ) && $_POST['category1']!=""){
+                                            if($_POST['category1']==$row['KODE_PRODUK'])
+                                            {
+                                                echo "<option value='".$row['KODE_PRODUK']."' selected>".$row['NAMA_PRODUK']."</option>";
+                                            }
+                                            else{
+                                                echo "<option value='".$row['KODE_PRODUK']."'>".$row['NAMA_PRODUK']."</option>";
+                                            }
+                                        }
+                                           else{
+                                               echo "<option value='".$row['KODE_PRODUK']."'>".$row['NAMA_PRODUK']."</option>";
+                                           }
+                                        
+
+                                    }
+                                    
+                                    ?>
+                                </select>
+                               
+                               To 
+                               <select name="category2" class="custom-select" style="width:30%;">
+                                  <?php
+                            
+                                    $sql = "select * from iamproduk";
+                                    $query = mysqli_query($conn,$sql);
+                                    $count = 1;
+                                    while($row = mysqli_fetch_array($query))
+                                    {
+
+                                        if(isset($_POST['category2']) && $_POST['category2']!=""){
+                                            if($_POST['category2']==$row['KODE_PRODUK'])
+                                            {
+                                                echo "<option value='".$row['KODE_PRODUK']."' selected>".$row['NAMA_PRODUK']."</option>";
+                                            }
+                                            else{
+                                                echo "<option value='".$row['KODE_PRODUK']."'>".$row['NAMA_PRODUK']."</option>";
+                                            }
+                                        }
+                                           else{
+                                               echo "<option value='".$row['KODE_PRODUK']."'>".$row['NAMA_PRODUK']."</option>";
+                                           }
+
+                                    }
+                                   ?>
+                                </select>
+
                             </div>
                             <div class="form-group">
+                                <p>Filter By Stock Code</p>
                                 From
-                                <input type="time"  placeholder="Time" name="time1" value="<?php echo date("h:i") ?>">&nbsp;&nbsp;/&nbsp;&nbsp;
-                                <input type="time"  placeholder="Time" name="time2" value="<?php echo date("h:i") ?>">
+                                <select name="stock1" class="custom-select" style="width:30%;">
+                                    <?php
+                                    $sql = "select * from iamstock";
+                                    $query = mysqli_query($conn,$sql);
+                                    $count = 1;
+                                    while($row = mysqli_fetch_array($query))
+                                    {
+                                        
+                                        if(isset($_POST['stock1']) && $_POST['stock1']!=""){
+                                            if($_POST['stock1']==$row['KODE_STOCK'])
+                                            {
+                                                echo "<option value='".$row['KODE_STOCK']."' selected>".$row['KODE_STOCK']."</option>";
+
+                                            }
+                                            else{
+                                                echo "<option value='".$row['KODE_STOCK']."'>".$row['KODE_STOCK']."</option>";
+
+                                            }
+                                        }
+                                           else{
+                                               echo "<option value='".$row['KODE_STOCK']."'>".$row['KODE_STOCK']."</option>";
+
+                                           }
+                                        
+                                    }
+                                    
+                                    ?>
+                                </select>
+                               
+                               To 
+                               <select name="stock2" class="custom-select" style="width:30%;">
+                                  <?php
+                            
+                                    $sql = "select * from iamSTOCK";
+                                    $query = mysqli_query($conn,$sql);
+                                    $count = 1;
+                                    while($row = mysqli_fetch_array($query))
+                                    {
+
+                                        if(isset($_POST['stock2']) && $_POST['stock2']!=""){
+                                            if($_POST['stock2']==$row['KODE_STOCK'])
+                                            {
+                                                echo "<option value='".$row['KODE_STOCK']."' selected>".$row['KODE_STOCK']."</option>";
+                                            }
+                                            else{
+                                                echo "<option value='".$row['KODE_STOCK']."'>".$row['KODE_STOCK']."</option>";
+
+
+                                            }
+                                        }
+                                           else{
+                                               echo "<option value='".$row['KODE_STOCK']."'>".$row['KODE_STOCK']."</option>";
+
+                                           }
+
+                                    }
+                                   ?>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <input type="submit" class="btn btn-success" value="Filter">
                             </div>
                         </form>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
                       </div>
                         </div>
                     </div>
@@ -223,98 +332,62 @@ $totaldue = 0;
                         <div class="body">
                             
                             <?php
-                                if(isset($_SESSION['filtered'])){
+                                if(isset($_POST['filtered'])|| $_POST['filtered']!="" ){
                                     
                                  ?>
                             
                             
-                           <table class="table table-hover">
-                    <caption>Report Daily Per item</caption>
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Order Number</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Quantity(Total)</th>
-                            <th>Total</th>
-                            <th>Payment</th>
-                            <th>Amt(Due)</th>       
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php 
-                            include "../config/connection.php";
-                            
-                            $sql = "select * from iappenjualan";
-                            $query = mysqli_query($conn,$sql);
-                            $count = 1;
-                            while($row = mysqli_fetch_array($query))
-                            {
-                                ?>
-                                <tr>
-                                    <td><?php echo $count; ?></td>
-                                    <td><?php echo $row['NO_FAKTUR']; ?></td>
-                                    <td><?php  
-                                    
-                                        $comp = preg_split('/ +/', $row['TANGGAL']);
-                                        $date=date_create($comp[0]);
-                                        echo date_format($date,"d/m/Y")." ";
-                                        $date1=date_create($comp[1]);
+                           <table class="table table-hover" id="tabledaily1">
+                                <caption>Report Sales Per item &nbsp;<button onclick="exportToExcel1()" class="btn btn-success">Excel</button></caption>
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Stock Code</th>
+                                        <th>Stock Name</th>
+                                        <th>Total QTY</th>
+                                        <th>Total Price</th>
+                                </thead>
+                                <tbody>
+                                    <?php        
+                                        include "../config/connection.php";
                                         
-                                        ?></td>
-                                    <td><?php echo date_format($date1,"H:i a"); ?></td>
-                                    <td><?php 
                                         
-                                include "../config/connection.php";
-                            
-                                    $sql1 = "select * from iatpenjualan1 where no_faktur='".$row['NO_FAKTUR']."'";
-                                    $query1 = mysqli_query($conn,$sql1);
-                                    $count1 = 1;
-                                    $total1 = 0;
-                                    while($row1 = mysqli_fetch_array($query1))
-                                    {
-                                        $total1 += $row1['QTY'];
-                                        $totalqty+=$row1['QTY'];
-                                    }
-                                        echo $total1;
-                                        ?></td>
-                                        <td><?php 
-                                                $q4 = "select * from iappenjualan where no_faktur='".$row['NO_FAKTUR']."'";
-                                                $s4 = mysqli_query($conn,$q4);
-                                                $qty = 0;
-                                                $morepay = 0;
-                                                while ($row4 = mysqli_fetch_array($s4)) {
-                                                    echo asDollars($row4['JUMLAH_FAKTUR_RP']);
-                                                    $totalsales += $row4['JUMLAH_FAKTUR_RP'];
 
-                                                    $morepay = $row4['BAYAR']-$row4['JUMLAH_FAKTUR_RP'];
-                                                    $totalpayment += $row4['BAYAR'];
-                                                    $totaldue += $morepay;
-                          ?></td>
-                                    <td><?php echo asDollars($row4['BAYAR'])?></td>
-                                    <td><?php echo asDollars($morepay)?></td>
-                                     <?php 
-                                                }
-                                    ?>   
-                                </tr>
-                                <?php
-                                $count++;
-                            }
-                        ?>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="4" style="text-align:center;"><b>Grand Total</b></td>
-                            <td><b><?php echo $totalqty?></b></td>
-                            <td><b><?php echo asDollars($totalsales)?></b></td>
-                            <td><b><?php echo asDollars($totalpayment)?></b></td>
-                            <td><b><?php echo asDollars($totaldue)?></b></td>
-                        </tr>
-                    </tfoot>
-                </table>
+                                        $sql = "select * from iamstock where KODE_STOCK between '".$_POST['stock1']."' and '".$_POST['stock2']."' and KODE_PRODUK in (select KODE_PRODUK from iamproduk where KODE_PRODUK between '".$_POST['category1']."' and '".$_POST['category2']."')";
+                                        $query = mysqli_query($conn,$sql);
+                                        $count = 1;
+                                        while($row = mysqli_fetch_array($query))
+                                        {
+                                            echo "<tr><td>"; echo $count; echo "</td>";
+                                            echo "<td>"; echo $row['KODE_STOCK']; echo "</td>";
+                                            echo "<td>"; echo $row['NAMA_STOCK']; echo "</td>";
+                                            $sqlcountstock = "Select * from iatpenjualan1 where kode_stock='".$row['KODE_STOCK']."'";
+                                            $query1 = mysqli_query($conn,$sqlcountstock);
+                                            $totalsalesdata =0;
+                                            $totalqtydata = 0 ;
+                                            while($row1 = mysqli_fetch_array($query1))
+                                            {
+                                                $totalsalesdata = $totalsalesdata + $row1['HARGA_JUAL']* $row1['QTY'];
+                                                $totalsales1 = $totalsales1 + $row1['HARGA_JUAL']* $row1['QTY'];
+                                                $totalqtydata = $totalqtydata + $row1['QTY'] ;
+                                                $totalqty1 = $totalqty1 +  $row1['QTY'] ;
+                                            }
+                                            echo "<td>"; echo $totalqtydata; echo "</td>";
+                                            echo "<td>"; echo asDollars($totalsalesdata); echo "</td></tr>";
+                                            $count++;
+                                        }
+                                    ?>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3" style="text-align:center;"><b>Grand Total</b></td>
+                                        <td><b><?php echo $totalqty1?></b></td>
+                                        <td><b><?php echo asDollars($totalsales1)?></b></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
                             <?php
-                            
+                           
                                 }
                                        else{
                                     
@@ -424,6 +497,36 @@ $totaldue = 0;
       //      $("#tableperitem").show();
       //  });
       //  
+        
+        function exportToExcel1(){
+        var htmls = "";
+                    var uri = 'data:application/vnd.ms-excel;base64,';
+                    var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'; 
+                    var base64 = function(s) {
+                        return window.btoa(unescape(encodeURIComponent(s)))
+                    };
+
+                    var format = function(s, c) {
+                        return s.replace(/{(\w+)}/g, function(m, p) {
+                            return c[p];
+                        })
+                    };
+        
+                    var html  = document.getElementById("tabledaily1").innerHTML;
+
+                    htmls = html;
+
+                    var ctx = {
+                        worksheet : 'Worksheet',
+                        table : htmls
+                    }
+
+
+                    var link = document.createElement("a");
+                    link.download = "export.xls";
+                    link.href = uri + base64(format(template, ctx));
+                    link.click();
+        }
     </script>
 </body>
 
