@@ -299,6 +299,19 @@
             <div class="form-group" id="reprint">
                 <label for="3">Reprint Order</label>
                 <input type="text" class="form-control" id="3" name="print" placeholder="enter Order No" value="" required>
+                <?php
+                                        if(!isset($_SESSION["error1"])){
+                                            $_SESSION["error1"]="";
+                                        }
+                                        else if($_SESSION["error1"]!=""){
+                                        echo '<p>'.$_SESSION["error1"].'</p>';
+                                           echo' <script>
+                                                $("#formprint").show();
+                                                var data = 1;
+                                            </script>';
+                                            $_SESSION["error1"]="";
+                                        }
+                                        ?>
                 <button type="submit" class="btn btn-success "style="margin-top:20px;margin-bottom:20px;">Check</button>
             </div>
         </form>
@@ -444,7 +457,11 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+    if(data == 1){
+        
+    }else{
     $("#formprint").hide();
+    }
 })
     
     

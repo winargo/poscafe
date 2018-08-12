@@ -506,11 +506,11 @@
     </div>
     <div class="col-md-12" id="testdiv" style="text-align:center;padding:0;">
         <?php
-            if($total==0){
-                echo "<button class='btn btn-primary' id='btnss' style='margin-top:20px;width: 300px;' disabled>Print</button>";
-            }else{
-                echo "<button class='btn btn-primary' id='btnss' style='margin-top:20px;width: 300px;' onclick='printDiv()' >Print</button>";
-            }
+            //if($total==0){
+            //    echo "<button class='btn btn-primary' id='btnss' style='margin-top:20px;width: 300px;' disabled>Print</button>";
+           // }else{
+           //     echo "<button class='btn btn-primary' id='btnss' style='margin-top:20px;width: 300px;' onclick='printDiv()' >Print</button>";
+            //}
         ?>
         
     </div>

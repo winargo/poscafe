@@ -26,12 +26,27 @@ while($row = mysqli_fetch_array($query))
 }
 
 if($count>=1){
-    $_SESSION['print']=$row['NO_FAKTUR'];
-    header("Location: ../print.php");
-    exit();
+    $sql = "update checkout set print='2' where order_number='".$_POST['print']."'";
+              $query = mysqli_query($conn,$sql);
+              if($query)
+              {
+                $_SESSION['print']=$_POST['print'];
+                header("Location: ../print.php");
+                exit();
+              }
+              else
+              {
+              $_SESSION['error1']=  $_SESSION['error']."<b style='color: red;'>ERROR: Could not able to execute $sql. " . mysqli_error($link)."</b>";
+              header("Location: ../orders.php");
+              exit();
+              }
+    
+    
+    
 }
 else{
     $_SESSION['print']="";
+    $_SESSION['error1']=  $_SESSION['error']."<b style='color: red;'>Number is not Available</b>";
     header("Location: ../orders.php");
     exit();
 }
