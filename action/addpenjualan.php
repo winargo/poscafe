@@ -52,7 +52,7 @@ if ($count==0) {
           
             $hargajumlah = 0 ;
             $hargajumlah = $row['QTY'] * $row['HARGA'];
-              $queryadd = "insert into checkout (order_number,KODE_STOCK,QTY,UNIT,HARGA,DISC,DISC_RP,SUBTOTAL,user_id,checkout_status,note,print) value ('$nofaktur','".$rowstock['KODE_STOCK']."','".$row['QTY']."','".$row['UNIT']."','".$row['HARGA']."',0,0,'$hargajumlah','".$_SESSION['username']."',1,'".$row['note']."',0)";
+              $queryadd = "insert into checkout (order_number,KODE_STOCK,NAMA_STOCK,QTY,UNIT,HARGA,DISC,DISC_RP,SUBTOTAL,user_id,checkout_status,note,print) value ('$nofaktur','".$rowstock['KODE_STOCK']."','".$rowstock['NAMA_STOCK']."','".$row['QTY']."','".$row['UNIT']."','".$row['HARGA']."',0,0,'$hargajumlah','".$_SESSION['username']."',1,'".$row['note']."',0)";
               $sqladd  = mysqli_query($conn,$queryadd);
 
               if($sqladd)
