@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2018 at 02:20 PM
+-- Generation Time: Aug 17, 2018 at 12:08 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -21,43 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `ias`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cart`
---
-
-CREATE TABLE `cart` (
-  `KODE_STOCK` varchar(100) NOT NULL,
-  `QTY` int(5) NOT NULL,
-  `HARGA` double NOT NULL,
-  `UNIT` varchar(20) NOT NULL,
-  `DISC` int(11) NOT NULL,
-  `DISC_RP` double NOT NULL,
-  `SUBTOTAL` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `category`
---
-
-CREATE TABLE `category` (
-  `category_id` int(11) NOT NULL,
-  `category_code` varchar(20) NOT NULL,
-  `category_name` varchar(100) NOT NULL,
-  `extra_category_1` varchar(100) NOT NULL,
-  `extra_category_2` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `category`
---
-
-INSERT INTO `category` (`category_id`, `category_code`, `category_name`, `extra_category_1`, `extra_category_2`) VALUES
-(1, 'lolOL', 'lol', 'lolol', 'lol');
 
 -- --------------------------------------------------------
 
@@ -159,7 +122,15 @@ CREATE TABLE `iamproduk` (
 --
 
 INSERT INTO `iamproduk` (`KODE_PRODUK`, `TDK_AKTIF`, `NAMA_PRODUK`, `NAMA_SUB_PRODUK`, `NAMA_SUB_PRODUK2`, `USER_ID`, `KOMISI_HEAD`, `KOMISI_SALES`, `KODE_DEPT`) VALUES
-('BUNS', 0, 'HAMREAD', 'BREAD1', 'BREAD2', 'riandy', '0.0000', '0.0000', '');
+('BF', 0, 'BEEF', '', '', 'riandy', '0.0000', '0.0000', ''),
+('BUNSHI', 0, 'BREAD', 'BREAD1', 'BREAD2', 'riandy', '0.0000', '0.0000', ''),
+('CC', 0, 'CHEESE', '', '', 'riandy', '0.0000', '0.0000', ''),
+('CHICK', 0, 'CHICKEN', '-', '-', 'riandy', '0.0000', '0.0000', ''),
+('CRC', 0, 'CHEESE EXTRA MOLOTENESE', '', '', 'riandy', '0.0000', '0.0000', ''),
+('DJ', 0, 'DRINK JUICE', '', '', 'riandy', '0.0000', '0.0000', ''),
+('Drink', 0, 'Soft Drink', '', '', 'riandy', '0.0000', '0.0000', ''),
+('HAM', 0, 'HAMBURGER', 'BREAD3', 'BREAD3', 'tester1', '0.0000', '0.0000', ''),
+('TK', 0, 'TAKO', 'MEAT', '-', 'riandy', '0.0000', '0.0000', '');
 
 -- --------------------------------------------------------
 
@@ -210,6 +181,13 @@ CREATE TABLE `iamsetupseri` (
   `MULTI_LOKASI` smallint(6) NOT NULL DEFAULT '0',
   `PILIH_FAKTUR` varchar(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `iamsetupseri`
+--
+
+INSERT INTO `iamsetupseri` (`NO_SERI`, `TDK_AKTIF`, `NO_URUT`, `PILIHAN`, `USER_ID`, `KODE_LOKASI`, `MULTI_LOKASI`, `PILIH_FAKTUR`) VALUES
+('JL', 0, '1808150001.0000', '', 'SA', '', 0, '0');
 
 -- --------------------------------------------------------
 
@@ -277,6 +255,16 @@ CREATE TABLE `iamstock` (
   `SMS_GET` smallint(6) NOT NULL DEFAULT '0',
   `PCT_SUSUT` decimal(19,4) NOT NULL DEFAULT '1.0000'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `iamstock`
+--
+
+INSERT INTO `iamstock` (`KODE_STOCK`, `TDK_AKTIF`, `KODE_BARCODE`, `NAMA_STOCK`, `KODE_TYPE`, `KODE_PRODUK`, `KEMAS1`, `SATUAN2`, `KEMAS2`, `SATUAN3`, `KEMAS3`, `SATUAN4`, `KEMAS4`, `SATUANREPORT`, `SATUANTRANSAKSI`, `NO_SERI`, `NO_LOT`, `HARGA_BELI`, `HARGAPOKOK`, `PROFIT`, `ONGKOS`, `HARGAMINIMUM`, `HARGAJUAL1`, `HARGAJUAL2`, `HARGAJUAL3`, `HARGAJUAL4`, `HARGAJUAL5`, `HARGAJUAL6`, `MINIMUMSTK`, `MAXIMUMSTK`, `ACC_PERSEDIAAN`, `ACC_HARGAPOKOK`, `ACC_PENJUALAN`, `ACC_RETURPENJUALAN`, `MEREK`, `RAK`, `BUATAN`, `UKURAN`, `BERAT`, `SALDOAWAL`, `NAMA_SUB_PRODUK`, `NAMA_SUB_PRODUK2`, `IMAGEDIR`, `USER_ID`, `ACC_PEMBELIAN`, `ACC_RETURPEMBELIAN`, `ACC_BIAYAEXPEDISI`, `KODE_MASTER`, `KODE_MATAUANG`, `HARGAMAXIMUM`, `HIDE_PRICELIST`, `KOMISI`, `KODE_STOCKNUM`, `DISCOUNT_DEF`, `SMS_CODE`, `SMS_SPR`, `SMS_GET`, `PCT_SUSUT`) VALUES
+('adsds', 0, '', 'HAMBURGER', 'Stock', 'HAM', 'SAK', '0.0000', '', '0.0000', '', '0.0000', '', '', '', 0, 0, '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '30000.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '', '', '', '', '', '', '', '', '', '0.00', 'BREAD3', 'BREAD3', './uploads/ER63592422Capture.PNG', 'tester1', '', '', '', '', 'IDR', '0.0000', 0, '0.0000', '', '', '', '', 0, '1.0000'),
+('CK STK', 0, '', 'CHICKEN STEAK', 'Stock', 'CHICK', 'PCS', '0.0000', '', '0.0000', '', '0.0000', '', '', '', 0, 0, '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '60000.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '', '', '', '', '', '', '', '', '', '0.00', '-', '-', './uploads/ER57514700download.jpg', 'riandy', '', '', '', '', 'IDR', '0.0000', 0, '0.0000', '', '', '', '', 0, '1.0000'),
+('Fries', 0, '', 'French Fries', 'Stock', 'TK', 'PKG', '0.0000', '', '0.0000', '', '0.0000', '', '', '', 0, 0, '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '50000.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '', '', '', '', '', '', '', '', '', '0.00', 'MEAT', '-', './uploads/ER35653985download (1).jpg', 'riandy', '', '', '', '', 'IDR', '0.0000', 0, '0.0000', '', '', '', '', 0, '1.0000'),
+('TAKO TT', 0, '', 'TAKOYAKI TAM TAM', 'Stock', 'TK', 'BOWL', '0.0000', '', '0.0000', '', '0.0000', '', '', '', 0, 0, '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '20000.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '', '', '', '', '', '', '', '', '', '0.00', 'MEAT', '-', './uploads/ER66701340download.jpg', 'riandy', '', '', '', '', 'IDR', '0.0000', 0, '0.0000', '', '', '', '', 0, '1.0000');
 
 -- --------------------------------------------------------
 
@@ -358,6 +346,24 @@ CREATE TABLE `iappenjualan` (
   `TGL_TAGIH` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `iappenjualan`
+--
+
+INSERT INTO `iappenjualan` (`NO_FAKTUR`, `KODE_LOKASI`, `KODE_CUSTOMER`, `TANGGAL`, `J_TEMPO`, `KODE_MATAUANG`, `KURS_TUKAR`, `KODE_SALESMAN`, `JUMLAH`, `JUMLAH_FAKTUR_RP`, `DISCOUNT`, `RETUR_PANJAR`, `BAYAR`, `USER_ID`, `FAKTUR_DO`, `KETERANGAN`, `KET_ANGSURAN`, `TERBILANG`, `DN`, `TGL_TAGIH`) VALUES
+('1807200007', 'web', 'CASH', '2018-07-20 02:30:30', '2018-07-20 02:30:30', 'IDR', '1.0000', 'web', '130000.0000', '130000.0000', '0.0000', '0.0000', '800000.0000', 'riandy', 0, '', '', NULL, '0.0000', NULL),
+('1807200008', 'web', 'CASH', '2018-07-20 02:30:42', '2018-07-20 02:30:42', 'IDR', '1.0000', 'web', '110000.0000', '110000.0000', '0.0000', '0.0000', '200000.0000', 'riandy', 0, '', '', NULL, '0.0000', NULL),
+('1807200009', 'web', 'CASH', '2018-07-20 03:21:07', '2018-07-20 03:21:07', 'IDR', '1.0000', 'web', '80000.0000', '80000.0000', '0.0000', '0.0000', '90000.0000', 'Riandy', 0, '', '', NULL, '0.0000', NULL),
+('1807200010', 'web', 'CASH', '2018-07-20 03:26:17', '2018-07-20 03:26:17', 'IDR', '1.0000', 'web', '80000.0000', '80000.0000', '0.0000', '0.0000', '90000.0000', 'riandy', 0, '', '', NULL, '0.0000', NULL),
+('1807200011', 'web', 'CASH', '2018-07-20 03:28:32', '2018-07-20 03:28:32', 'IDR', '1.0000', 'web', '80000.0000', '80000.0000', '0.0000', '0.0000', '90000.0000', 'Riandy', 0, '', '', NULL, '0.0000', NULL),
+('1808030001', 'web', 'CASH', '2018-08-04 12:25:55', '2018-08-04 12:25:55', 'IDR', '1.0000', 'web', '390000.0000', '390000.0000', '0.0000', '0.0000', '390000.0000', 'riandy', 0, '', '', NULL, '0.0000', NULL),
+('1808040001', 'web', 'CASH', '2018-08-04 12:27:50', '2018-08-04 12:27:50', 'IDR', '1.0000', 'web', '100000.0000', '100000.0000', '0.0000', '0.0000', '100000.0000', 'riandy', 0, '', '', NULL, '0.0000', NULL),
+('1808040002', 'web', 'CASH', '2018-12-31 12:44:38', '2018-08-04 12:44:38', 'IDR', '1.0000', 'web', '200000.0000', '200000.0000', '0.0000', '0.0000', '600000.0000', 'riandy', 0, '', '', NULL, '0.0000', NULL),
+('1808040003', 'web', 'CASH', '2018-08-04 12:47:10', '2018-08-04 12:47:10', 'IDR', '1.0000', 'web', '80000.0000', '80000.0000', '0.0000', '0.0000', '80000.0000', 'riandy', 0, '', '', NULL, '0.0000', NULL),
+('1808040004', 'web', 'CASH', '2018-08-04 12:50:13', '2018-08-04 12:50:13', 'IDR', '1.0000', 'web', '110000.0000', '110000.0000', '0.0000', '0.0000', '110000.0000', 'riandy', 0, '', '', NULL, '0.0000', NULL),
+('1808110001', 'web', 'CASH', '2018-08-11 08:02:00', '2018-08-11 08:02:00', 'IDR', '1.0000', 'web', '90000.0000', '90000.0000', '0.0000', '0.0000', '90000.0000', 'riandy', 0, '', '', NULL, '0.0000', NULL),
+('1808140001', 'web', 'CASH', '2018-08-14 08:48:09', '2018-08-14 08:48:09', 'IDR', '1.0000', 'web', '110000.0000', '110000.0000', '0.0000', '0.0000', '110000.0000', 'riandy', 0, '', '', NULL, '0.0000', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -405,6 +411,24 @@ CREATE TABLE `iatpenjualan` (
   `EXPORT` smallint(6) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `iatpenjualan`
+--
+
+INSERT INTO `iatpenjualan` (`NO_FAKTUR`, `KODE_LOKASI`, `KODE_CUSTOMER`, `DIKIRIM_KE`, `TANGGAL`, `NOMOR_PO`, `KODE_MATAUANG`, `KURS_TUKAR`, `HARGA_PILIHAN`, `KODE_EXPEDISI`, `KODE_SALESMAN`, `KETERANGAN`, `JUMLAH_FAKTUR`, `DISCOUNT_KHUSUS`, `DISCOUNT_NILAI`, `PPN_NILAI`, `JUMLAH_FAKTUR_RP`, `USER_ID`, `CARA_BAYAR`, `NO_TAGIHAN`, `FAKTUR_DO`, `PRINT_FAKTUR`, `PRINT_SJALAN`, `KODE_SUB_CUSTOMER`, `EXPORT`) VALUES
+('1807200007', 'web', 'CASH', '-', '2018-07-20 02:30:30', '', 'IDR', '1.0000', '1', '', 'CASH', '', '130000.0000', '0.0000', '0.0000', '0.0000', '130000.0000', 'riandy', 'CASH', '', 0, 0, 0, '', 0),
+('1807200008', 'web', 'CASH', '-', '2018-07-20 02:30:42', '', 'IDR', '1.0000', '1', '', 'CASH', '', '110000.0000', '0.0000', '0.0000', '0.0000', '110000.0000', 'riandy', 'CASH', '', 0, 0, 0, '', 0),
+('1807200009', 'web', 'CASH', '-', '2018-07-20 03:21:07', '', 'IDR', '1.0000', '1', '', 'CASH', '', '80000.0000', '0.0000', '0.0000', '0.0000', '80000.0000', 'Riandy', 'CASH', '', 0, 0, 0, '', 0),
+('1807200010', 'web', 'CASH', '-', '2018-07-20 03:26:17', '', 'IDR', '1.0000', '1', '', 'CASH', '', '80000.0000', '0.0000', '0.0000', '0.0000', '80000.0000', 'riandy', 'CASH', '', 0, 0, 0, '', 0),
+('1807200011', 'web', 'CASH', '-', '2018-07-20 03:28:32', '', 'IDR', '1.0000', '1', '', 'CASH', '', '80000.0000', '0.0000', '0.0000', '0.0000', '80000.0000', 'Riandy', 'CASH', '', 0, 0, 0, '', 0),
+('1808030001', 'web', 'CASH', '-', '2018-08-04 12:25:55', '', 'IDR', '1.0000', '1', '', 'CASH', '', '390000.0000', '0.0000', '0.0000', '0.0000', '390000.0000', 'riandy', 'CASH', '', 0, 0, 0, '', 0),
+('1808040001', 'web', 'CASH', '-', '2018-08-04 12:27:50', '', 'IDR', '1.0000', '1', '', 'CASH', '', '100000.0000', '0.0000', '0.0000', '0.0000', '100000.0000', 'riandy', 'CASH', '', 0, 0, 0, '', 0),
+('1808040002', 'web', 'CASH', '-', '2018-08-04 12:44:38', '', 'IDR', '1.0000', '1', '', 'CASH', '', '200000.0000', '0.0000', '0.0000', '0.0000', '200000.0000', 'riandy', 'CASH', '', 0, 0, 0, '', 0),
+('1808040003', 'web', 'CASH', '-', '2018-08-04 12:47:10', '', 'IDR', '1.0000', '1', '', 'CASH', '', '80000.0000', '0.0000', '0.0000', '0.0000', '80000.0000', 'riandy', 'CASH', '', 0, 0, 0, '', 0),
+('1808040004', 'web', 'CASH', '-', '2018-08-04 12:50:13', '', 'IDR', '1.0000', '1', '', 'CASH', '', '110000.0000', '0.0000', '0.0000', '0.0000', '110000.0000', 'riandy', 'CASH', '', 0, 0, 0, '', 0),
+('1808110001', 'web', 'CASH', '-', '2018-08-11 08:02:00', '', 'IDR', '1.0000', '1', '', 'CASH', '', '90000.0000', '0.0000', '0.0000', '0.0000', '90000.0000', 'riandy', 'CASH', '', 0, 0, 0, '', 0),
+('1808140001', 'web', 'CASH', '-', '2018-08-14 08:48:09', '', 'IDR', '1.0000', '1', '', 'CASH', '', '110000.0000', '0.0000', '0.0000', '0.0000', '110000.0000', 'riandy', 'CASH', '', 0, 0, 0, '', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -448,6 +472,34 @@ CREATE TABLE `iatpenjualan1` (
   `SENDING` smallint(6) NOT NULL DEFAULT '0',
   `STATUS` varchar(10) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `iatpenjualan1`
+--
+
+INSERT INTO `iatpenjualan1` (`NO_FAKTUR`, `KODE_STOCK`, `NAMA_STOCK`, `QTY`, `SATUAN`, `HARGA_JUAL`, `DISCOUNT`, `DISCOUNT_NILAI`, `JUMLAH`, `PPN`, `KODE_PAJAK`, `KODE_DEPARTEMEN`, `KODE_PROYEK`, `HARGA_LIST`, `QTY_KECIL`, `KODE_GROUP`, `PRINT_ITEM`, `GROUP_PIL`, `NOMOR_SO`, `BONUS`, `SATUAN_BNS`, `QTY_KECIL_BNS`, `DO_HARGA_POKOK`, `QTY_RDO`, `QTY_RETUR`, `NO_ITEM`, `QTY_TDO`, `NO_LOT`, `NOMOR_KS`, `PACKING`, `SATUAN_PACK`, `DISCOUNT_PIUTANG`, `NO_SEND`, `SENDING`, `STATUS`) VALUES
+('1807200007', 'Fries', 'French Fries', '2.0000', 'pcs', '50000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 1, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1807200007', 'adsds', 'HAMBURGER', '1.0000', 'pcs', '30000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 2, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1807200008', 'adsds', 'HAMBURGER', '2.0000', 'pcs', '30000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 1, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1807200008', 'Fries', 'French Fries', '1.0000', 'pcs', '50000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 2, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1807200009', 'Fries', 'French Fries', '1.0000', 'pcs', '50000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 1, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1807200009', 'adsds', 'HAMBURGER', '1.0000', 'pcs', '30000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 2, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1807200010', 'adsds', 'HAMBURGER', '1.0000', 'pcs', '30000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 1, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1807200010', 'Fries', 'French Fries', '1.0000', 'pcs', '50000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 2, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1807200011', 'Fries', 'French Fries', '1.0000', 'pcs', '50000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 1, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1807200011', 'adsds', 'HAMBURGER', '1.0000', 'pcs', '30000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 2, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1808030001', 'Fries', 'French Fries', '3.0000', 'pcs', '50000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 1, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1808030001', 'CK STK', 'CHICKEN STEAK', '4.0000', 'pcs', '60000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 2, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1808040001', 'Fries', 'French Fries', '2.0000', 'pcs', '50000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 1, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1808040002', 'Fries', 'French Fries', '4.0000', 'pcs', '50000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 1, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1808040003', 'adsds', 'HAMBURGER', '1.0000', 'pcs', '30000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 1, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1808040003', 'Fries', 'French Fries', '1.0000', 'pcs', '50000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 2, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1808040004', 'Fries', 'French Fries', '1.0000', 'pcs', '50000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 1, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1808040004', 'CK STK', 'CHICKEN STEAK', '1.0000', 'pcs', '60000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 2, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1808110001', 'CK STK', 'CHICKEN STEAK', '1.0000', 'pcs', '60000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 1, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1808110001', 'adsds', 'HAMBURGER', '1.0000', 'pcs', '30000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 2, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1808140001', 'CK STK', 'CHICKEN STEAK', '1.0000', 'pcs', '60000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 1, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, ''),
+('1808140001', 'Fries', 'French Fries', '1.0000', 'pcs', '50000.0000', '', '0.0000', '0.0000', '0.0000', 'N', '00', '', '0.0000', '1.0000', '', 1, '', '', '1.0000', '', '0.0000', '0.0000', '0.0000', '0.0000', 2, '0.0000', '', '', '0.0000', '', '0.0000', '', 0, '');
 
 -- --------------------------------------------------------
 
@@ -578,6 +630,13 @@ CREATE TABLE `xparam` (
   `NILAI_PARAM` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `xparam`
+--
+
+INSERT INTO `xparam` (`KODE_PARAM`, `NAMA_PARAM`, `NILAI_PARAM`) VALUES
+(1, 'DATERESET', '15/08/2018');
+
 -- --------------------------------------------------------
 
 --
@@ -616,9 +675,8 @@ CREATE TABLE `xuser` (
 --
 
 INSERT INTO `xuser` (`USER_ID`, `USER_NAME`, `ADMIN`, `PASSWORD`, `KODE_LOKASI`, `MULTI_LOKASI`, `ONLINE`, `TANGGAL1`, `TANGGAL2`, `STATUS`) VALUES
-('Andy', 'DY', 0, '202cb962ac59075b964b07152d234b70', '', 0, 1, '2018-06-26 23:55:32', NULL, 1),
-('Riandy', 'rw', 1, '81dc9bdb52d04dc20036dbd8313ed055', '', 0, 1, '2018-06-22 00:24:41', NULL, 1),
-('tester1', 'tester', 0, 'f5d1278e8109edd94e1e4197e04873b9', '', 0, 1, '2018-06-25 21:32:46', NULL, 1);
+('NINGSIH', 'NN', 0, '6512bd43d9caa6e02c990b0a82652dca', '', 0, 0, '2018-08-04 19:55:22', NULL, 1),
+('Riandy', 'rw', 1, '81dc9bdb52d04dc20036dbd8313ed055', '', 0, 1, '2018-06-22 00:24:41', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -637,12 +695,6 @@ CREATE TABLE `xuserlog` (
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `category`
---
-ALTER TABLE `category`
-  ADD PRIMARY KEY (`category_id`);
 
 --
 -- Indexes for table `iamexpedisi`
@@ -848,25 +900,10 @@ ALTER TABLE `iamstockseri`
   ADD CONSTRAINT `FK_IAMSTOCKSERI_IAMSTOCK` FOREIGN KEY (`KODE_STOCK`) REFERENCES `iamstock` (`KODE_STOCK`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
--- Constraints for table `iappenjualan`
---
-ALTER TABLE `iappenjualan`
-  ADD CONSTRAINT `FK_IAPPENJUALAN_IAMCUSTOMER1` FOREIGN KEY (`KODE_CUSTOMER`) REFERENCES `iamcustomer` (`KODE_CUSTOMER`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_IAPPENJUALAN_IAMLOKASI` FOREIGN KEY (`KODE_LOKASI`) REFERENCES `iamlokasi` (`KODE_LOKASI`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_IAPPENJUALAN_IAMMATA_UANG` FOREIGN KEY (`KODE_MATAUANG`) REFERENCES `iammata_uang` (`KODE_MATAUANG`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_IAPPENJUALAN_IAMSALESMAN` FOREIGN KEY (`KODE_SALESMAN`) REFERENCES `iamsalesman` (`KODE_SALESMAN`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
 -- Constraints for table `iatpenjualan1`
 --
 ALTER TABLE `iatpenjualan1`
   ADD CONSTRAINT `FK_IATPENJUALAN1_IAMSTOCK` FOREIGN KEY (`KODE_STOCK`) REFERENCES `iamstock` (`KODE_STOCK`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
---
--- Constraints for table `pospenjualan1`
---
-ALTER TABLE `pospenjualan1`
-  ADD CONSTRAINT `FK_POSPENJUALAN1_IAMSTOCK` FOREIGN KEY (`KODE_STOCK`) REFERENCES `iamstock` (`KODE_STOCK`) ON DELETE NO ACTION ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
