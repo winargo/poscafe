@@ -24,6 +24,7 @@ if($_SESSION['username']!=""){
     
 
     <script src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/login.js"></script>
     <link rel="stylesheet" href="./css/login.css">
 
@@ -32,32 +33,21 @@ if($_SESSION['username']!=""){
   <body>
 
     <hgroup>
-  <img class="logo" src="./images/logo.png">
+        <a href="./index.php"><img class="logo" src="./images/logo.png"></a>
 </hgroup>
-<form method="post" action="./action/checklogin.php">
-  <div class="group">
-    <input type="text" name="username"><span class="highlight"></span><span class="bar"></span>
-    <label>Username</label>
-  </div>
-  <div class="group">
-    <input type="password" name="password"><span class="highlight"></span><span class="bar"></span>
-    <label>Password</label>
-  </div>
-  <?php
-        if($_SESSION["error"]==null){
-            $_SESSION["error"]="";
-        }
-        else if($_SESSION["error"]!=""){
-        echo '<p>'.$_SESSION["error"].'</p>';
-            $_SESSION["error"]="";
-        }
-        ?>
-  <button type="submit" class="button buttonBlue">Login
+      
+<form method="post" action="./absence.php">
+    <input name="absencedata" type="hidden" value="in">
+ <button type="submit" class="button buttonBlue" style="background-color:red;">Clock in
     <div class="ripples waves-effect buttonRipples"><span class="ripplesCircle"></span></div>
   </button>
-    <a href=".\absencechoice.php"><button type="button" class="button buttonBlue" style="background-color:blue;">Absence
+</form>
+      
+<form method="post" action="./absence.php">
+    <input name="absencedata" type="hidden" value="out">
+ <button type="submit" class="button buttonBlue" style="background-color:green;">Clock out
     <div class="ripples waves-effect buttonRipples"><span class="ripplesCircle"></span></div>
-  </button></a>
+  </button>
 </form>
 <footer>
 </footer>
