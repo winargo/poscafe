@@ -408,6 +408,107 @@
         </div>
     </section>
     
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Changelogs -->
+            <div class="block-header">
+                <h2>Absence User Management</h2>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                &nbsp;
+                                <div style="width:49%;float:left;">
+                                    <h2>Absence List
+                                      <?php
+                                        if($_SESSION["error"]==null){
+                                            $_SESSION["error"]="";
+                                        }
+                                        else if($_SESSION["error"]!=""){
+                                        echo '<p>'.$_SESSION["error"].'</p>';
+                                           echo' <script>
+                                                $(document).ready(function(){
+                                                $("#showCoupon").trigger("click");
+                                            });
+
+                                            </script>';
+                                            $_SESSION["error"]="";
+                                        }
+                                        ?>
+                               </h2>
+                                </div>
+                                <div style="width:49%;float:left;">
+                                    &nbsp;
+                                    <button type="button" class="btn btn-success" style="float:right;margin-top:-6px;" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">New Absence</button>
+                                </div>
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <table class="table">
+                <tr>
+                    <th>No</th>
+                    <th>Absence ID</th>
+                    <th>Absence Name</th>
+                    <th>Created</th>
+                    <th>Option</th>
+                </tr>
+                                   
+                                <?php
+                   
+                    include('../../config/db_connect.php');
+                    //$user=$_SESSION["useradmin"];
+                    $sql = "Select * from `iamabsence`" ;
+                                // where username!='".$user."'
+                    $result = mysqli_query($conn,$sql);
+                    $a=1;
+                    while( $row = mysqli_fetch_assoc( $result ) ){
+                        
+            echo "
+            <tr>
+              <td id='1'>$a</td>
+              <td>".$row['absence_id']."</td>
+                <td>".$row['absence_name']."</td>";
+                        
+                        $date=date_create($row['absence_createdate']);
+                                echo "<td>".date_format($date,"d/m/Y")."</td>";
+              echo "</td>
+              <td>
+            
+            <div class='dropdown'>
+                                <button class='dropbtn'>Option</button>
+                                <div class='dropdown-content'>
+                                    
+                                    <form id='submit2form' action='change_password.php' method='post'>
+                                        <input type='hidden' name='username' value='".$row['absence_id']."'>
+                                        <input type='hidden' name='command' value='clear'>
+                                        <a><button id='notbutton' type='submit'>Change Password</button></a>
+                                        
+                                    </form>
+                                    <form id='submit3form' action='.\action\deleteaccount.php' method='post'>
+                                        <input type='hidden' name='username' value='".$row['absence_id']."'>
+                                        <input type='hidden' name='command' value='clear'>
+                                        <a onclick='return confirm('are you sure to DELETE ?')'><button id='notbutton' type='submit' >Delete</button></a>
+                                        
+                                    </form>
+                                </div>
+                            </div>
+            
+            </td>
+            </tr>";
+                    $a++;
+                    }
+                    ?>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    
         
     <div id="id01" class="modal">
       <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
