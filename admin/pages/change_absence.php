@@ -1,15 +1,8 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <?php
     session_start();
-    include('..\..\config\blockadmin.php');
     if($_SESSION['error'])
-        
-        $_SESSION['tempuser']=null;
-
-    if($_SESSION['error1'])
-        
-        $_SESSION['tempuser']=null;
     ?>
 <head>
     <meta charset="UTF-8">
@@ -28,8 +21,6 @@
 
     <!-- Bootstrap Core Css -->
     <link href="../plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
-    
-    <link href="../../bootstrap/css/bootstrap.css" rel="stylesheet">
 
     <!-- Waves Effect Css -->
     <link href="../plugins/node-waves/waves.css" rel="stylesheet" />
@@ -323,191 +314,54 @@
                             <h2>
                                 &nbsp;
                                 <div style="width:49%;float:left;">
-                                    <h2>User List
-                                      <?php
+                                    <h2>Change Passcode for Absence ID <?php 
+                                if(!isset($_POST['absenceid'])){
+
+                                }
+                                else{
+                                    $_SESSION['tempuser']=$_POST['absenceid'];
+                                }
+                            echo $_SESSION['tempuser']; ?>
+                               </h2>
+                                </div>
+                            </h2>
+                        </div>
+                        <div class="body">
+                          <div class="container">
+                                <h2>Change Passcode</h2>
+                                <hr>
+                                <form action="./action/changeabsence.php" method="post">
+                                        <div class="form-group">
+                                            <label for="old_password">Old Passcode</label>
+                                            <input type="number" name="old_password" class="form-control" style="background-color:lightgrey;padding : 5px;">
+                                            <span class="form_error"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="password">New Passcode</label>
+                                            <input type="number" name="password" class="form-control" style="background-color:lightgrey;padding : 5px;">
+                                            <span class="form_error"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="re_password">Retype Passcode</label>
+                                            <input type="number" name="re_password" class="form-control" style="background-color:lightgrey;padding : 5px;">
+                                            <span class="form_error"></span>
+                                        </div>
+
+                                    <?php
                                         if($_SESSION["error"]==null){
                                             $_SESSION["error"]="";
                                         }
                                         else if($_SESSION["error"]!=""){
-                                        echo '<p>'.$_SESSION["error"].'</p>';
-                                           echo' <script>
-                                                $(document).ready(function(){
-                                                $("#showCoupon").trigger("click");
-                                            });
-
-                                            </script>';
+                                        echo "<p style='color:red;'>".$_SESSION["error"]."</p>";
                                             $_SESSION["error"]="";
                                         }
                                         ?>
-                               </h2>
-                                </div>
-                                <div style="width:49%;float:left;">
-                                    &nbsp;
-                                    <button type="button" class="btn btn-success" style="float:right;margin-top:-6px;" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">New User</button>
-                                </div>
-                            </h2>
-                        </div>
-                        <div class="body">
-                            <table class="table">
-                <tr>
-                    <th>No</th>
-                    <th>Username</th>
-                    <th>Status</th>
-                    <th>Online</th>
-                    <th>Option</th>
-                </tr>
-                                   
-                                <?php
-                   
-                    include('../../config/db_connect.php');
-                    //$user=$_SESSION["useradmin"];
-                    $sql = "Select * from `xuser` where user_id!='".$_SESSION['username']."'" ;
-                                // where username!='".$user."'
-                    $result = mysqli_query($conn,$sql);
-                    $a=1;
-                    while( $row = mysqli_fetch_assoc( $result ) ){
-                        
-            echo "
-            <tr>
-              <td id='1'>$a</td>
-              <td>".$row['USER_ID']."</td>";
-                        if($row['STATUS']==1){
-                            echo "<td>Active</td>";
-                        }
-                        else{
-                            echo "<td>Unactive</td>";
-                        }
-              
-                        if ($row['ONLINE']==0){echo "<td style='color:red;'>Offline</td>";}else{echo "<td style='color:green;'>Online</td>";};
-              echo "</td>
-              <td>
-            
-            <div class='dropdown'>
-                                <button class='dropbtn'>Option</button>
-                                <div class='dropdown-content'>
                                     
-                                    <form id='submit2form' action='change_password.php' method='post'>
-                                        <input type='hidden' name='username' value='".$row['USER_ID']."'>
-                                        <input type='hidden' name='command' value='clear'>
-                                        <a><button id='notbutton' type='submit'>Change Password</button></a>
-                                        
-                                    </form>
-                                    <form id='submit3form' action='.\action\deleteaccount.php' method='post'>
-                                        <input type='hidden' name='username' value='".$row['USER_ID']."'>
-                                        <input type='hidden' name='command' value='clear'>
-                                        <a onclick='return confirm('are you sure to DELETE ?')'><button id='notbutton' type='submit' >Delete</button></a>
-                                        
-                                    </form>
-                                </div>
+                                    <input type="submit" id="save" class="btn btn-primary" value="Change Password" tabindex="11">
+                                </form>
                             </div>
-            
-            </td>
-            </tr>";
-                    $a++;
-                    }
-                    ?>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-    
-    <section class="content">
-        <div class="container-fluid">
-            <!-- Changelogs -->
-            <div class="block-header">
-                <h2>Absence User Management</h2>
-            </div>
-            <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card">
-                        <div class="header">
-                            <h2>
-                                &nbsp;
-                                <div style="width:49%;float:left;">
-                                    <h2>Absence List
-                                      <?php
-                                        if($_SESSION["error1"]==null){
-                                            $_SESSION["error1"]="";
-                                        }
-                                        else if($_SESSION["error1"]!=""){
-                                        echo '<p>'.$_SESSION["error1"].'</p>';
-                                           echo' <script>
-                                                $(document).ready(function(){
-                                                $("#showCoupon").trigger("click");
-                                            });
-
-                                            </script>';
-                                            $_SESSION["error1"]="";
-                                        }
-                                        ?>
-                               </h2>
-                                </div>
-                                <div style="width:49%;float:left;">
-                                    &nbsp;
-                                    <button type="button" class="btn btn-success" style="float:right;margin-top:-6px;" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">New Absence</button>
-                                </div>
-                            </h2>
-                        </div>
-                        <div class="body">
-                            <table class="table">
-                <tr>
-                    <th>No</th>
-                    <th>Absence ID</th>
-                    <th>Absence Name</th>
-                    <th>Created</th>
-                    <th>Option</th>
-                </tr>
-                                   
-                                <?php
-                   
-                    include('../../config/db_connect.php');
-                    //$user=$_SESSION["useradmin"];
-                    $sql = "Select * from `iamabsence`" ;
-                                // where username!='".$user."'
-                    $result = mysqli_query($conn,$sql);
-                    $a=1;
-                    while( $row = mysqli_fetch_assoc( $result ) ){
-                        
-            echo "
-            <tr>
-              <td id='1'>$a</td>
-              <td>".$row['absence_id']."</td>
-                <td>".$row['absence_name']."</td>";
-                        
-                        $date=date_create($row['absence_createdate']);
-                                echo "<td>".date_format($date,"d/m/Y")."</td>";
-              echo "</td>
-              <td>
-            
-            <div class='dropdown'>
-                                <button class='dropbtn'>Option</button>
-                                <div class='dropdown-content'>
-                                    
-                                    <form id='submit2form' action='change_absence.php' method='post'>
-                                        <input type='hidden' name='absenceid' value='".$row['absence_id']."'>
-                                        <input type='hidden' name='command' value='clear'>
-                                        <a><button id='notbutton' type='submit'>Change Password</button></a>
-                                        
-                                    </form>
-                                    <form id='submit3form' action='.\action\deleteabsence.php' method='post'>
-                                        <input type='hidden' name='absenceid' value='".$row['absence_id']."'>
-                                        <input type='hidden' name='command' value='clear'>
-                                        <a onclick='return confirm('are you sure to DELETE ?')'><button id='notbutton' type='submit' >Delete</button></a>
-                                        
-                                    </form>
-                                </div>
-                            </div>
-            
-            </td>
-            </tr>";
-                    $a++;
-                    }
-                    ?>
-                            </table>
                         </div>
                     </div>
                 </div>
@@ -556,47 +410,6 @@
         </div>
       </form>
     </div>
-    
-    <div id="id02" class="modal">
-      <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
-      <form class="modal-content" action="../config/addabsence.php" method="post">
-        <div class="container">
-          <h1>New Absence</h1>
-          <p>Please fill in this form to Add new Absence.</p>
-          <hr>
-          <label for="email"><b>Absence ID</b></label>
-          <input type="text" placeholder="Enter User's Absence id" name="absenceid" required>
-            <label for="email"><b>Absence Name</b></label>
-          <input type="text" placeholder="Enter Name" name="absencename" required>
-            <div class="form-group">
-                <label for="email"><b>PassCode</b></label>
-                  <input style="background-color:lightgrey;padding:8px;" class="form-control" type="number" placeholder="Enter Passcode" name="passcode" required>
-            </div>
-          <div class="clearfix">
-            <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn" style="
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    float: left;
-  width: 50%;
-    opacity: 0.9;">Cancel</button>
-            <button type="submit" class="signupbtn" style="    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    float: left;
-  width: 50%;
-    opacity: 0.9;">Sign Up</button>
-          </div>
-        </div>
-      </form>
-    </div>
 
     <!-- Jquery Core Js -->
     <script src="../plugins/jquery/jquery.min.js"></script>
@@ -621,5 +434,6 @@
     
     
 </body>
-
+    
+    
 </html>

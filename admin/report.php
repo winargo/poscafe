@@ -175,9 +175,12 @@ $totalsales1 = 0;
             <!-- Changelogs -->
             <div class="row" style="margin-bottom:20px;">
                <div class="col-md-4">&nbsp;</div>
-                <div class="col-md-6">
-                    <button class="btn btn-success" id="dailybtn" style="padding:20px;">Report Daily Sales</button>
-                    <button class="btn btn-success" id="peritembtn" style="padding:20px;">Report Sales Per item</button>
+                <div class="col-md-10">
+                    <button class="btn btn-success" id="dailybtn" style="margin-top:10px;padding:20px;">Report Daily Sales</button>
+                    <button class="btn btn-success" id="peritembtn" style="margin-top:10px;padding:20px;">Report Sales Per item</button>
+                    <button class="btn btn-success" id="clockbtn" style="margin-top:10px;padding:20px;">Report Clock IN / OUT</button>
+                    <button class="btn btn-success" id="hourlybtn" style="margin-top:10px;padding:20px;">Report Hourly Sales</button>
+                    <button class="btn btn-success" id="xreadingbtn" style="margin-top:10px;padding:20px;">Summary Report(X Reading)</button>
                 </div>
             </div>
             <div class="row clearfix">
@@ -347,6 +350,212 @@ $totalsales1 = 0;
                 </div>
             </div>
 <!--            end table daily per item-->
+            <!--            table daily per item-->
+        <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="reportclock">
+                    <a href="./filtersalesperitem.php"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                  Custom Report(Report of Clock In and Out)
+                </button>
+                      </a>
+                    <div class="card">
+                        
+                        <div class="body">
+                            <?php        
+                                        include "../config/connection.php";
+
+                                        $sql = "select distinct(DATE_DATA) from iatabsence";
+                                        $query = mysqli_query($conn,$sql);
+                                        $count = 0;
+                                        while($row = mysqli_fetch_array($query))
+                                        {
+                                            ?>
+                            
+                                        <table class="table table-hover" id="tabledaily1">
+                                            <caption>Report Sales Per item &nbsp;<button onclick="exportToExcel1()" class="btn btn-success">Excel</button></caption>
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Absence ID</th>
+                                                    <th>Absence Name</th>
+                                                    <th>Time IN</th>
+                                                    <th>Time OUT</th>
+                                                    <th>Total Hours</th>
+                                            </thead>
+                                            <tbody>
+                                                <?php        
+                                                    include "../config/connection.php";
+
+                                                    $sql = "select * from iatabsence where date_date='$row[count]'";
+                                                    $query = mysqli_query($conn,$sql);
+                                                    $count = 1;
+                                                    while($row = mysqli_fetch_array($query))
+                                                    {
+                                                        echo "<tr><td>"; echo $count; echo "</td>";
+                                                        echo "<td>"; echo $row['KODE_STOCK']; echo "</td>";
+                                                        echo "<td>"; echo $row['NAMA_STOCK']; echo "</td>";
+                                                        $sqlcountstock = "Select * from iatpenjualan1 where kode_stock='".$row['KODE_STOCK']."'";
+                                                        $query1 = mysqli_query($conn,$sqlcountstock);
+                                                        $totalsalesdata =0;
+                                                        $totalqtydata = 0 ;
+                                                        while($row1 = mysqli_fetch_array($query1))
+                                                        {
+                                                            $totalsalesdata = $totalsalesdata + $row1['HARGA_JUAL']* $row1['QTY'];
+                                                            $totalsales1 = $totalsales1 + $row1['HARGA_JUAL']* $row1['QTY'];
+                                                            $totalqtydata = $totalqtydata + $row1['QTY'] ;
+                                                            $totalqty1 = $totalqty1 +  $row1['QTY'] ;
+                                                        }
+                                                        echo "<td>"; echo $totalqtydata; echo "</td>";
+                                                        echo "<td>"; echo asDollars($totalsalesdata); echo "</td></tr>";
+                                                        $count++;
+                                                    }
+                                                ?>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="3" style="text-align:center;"><b>Grand Total</b></td>
+                                                    <td><b><?php echo $totalqty1?></b></td>
+                                                    <td><b><?php echo asDollars($totalsales1)?></b></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                            
+                            <?php
+                                            
+                                        }
+                                    ?>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!--            end table daily per item-->
+
+            <!--            table daily per item-->
+        <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="hourlysales">
+                    <a href="./filtersalesperitem.php"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                  Custom Report(Report Hourly Sales)
+                </button>
+                      </a>
+                    <div class="card">
+                        
+                        <div class="body">
+                           <table class="table table-hover" id="tabledaily1">
+                                <caption>Report Sales Per item &nbsp;<button onclick="exportToExcel1()" class="btn btn-success">Excel</button></caption>
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Stock Code</th>
+                                        <th>Stock Name</th>
+                                        <th>Total QTY</th>
+                                        <th>Total Price</th>
+                                </thead>
+                                <tbody>
+                                    <?php        
+                                        include "../config/connection.php";
+
+                                        $sql = "select * from iamstock";
+                                        $query = mysqli_query($conn,$sql);
+                                        $count = 1;
+                                        while($row = mysqli_fetch_array($query))
+                                        {
+                                            echo "<tr><td>"; echo $count; echo "</td>";
+                                            echo "<td>"; echo $row['KODE_STOCK']; echo "</td>";
+                                            echo "<td>"; echo $row['NAMA_STOCK']; echo "</td>";
+                                            $sqlcountstock = "Select * from iatpenjualan1 where kode_stock='".$row['KODE_STOCK']."'";
+                                            $query1 = mysqli_query($conn,$sqlcountstock);
+                                            $totalsalesdata =0;
+                                            $totalqtydata = 0 ;
+                                            while($row1 = mysqli_fetch_array($query1))
+                                            {
+                                                $totalsalesdata = $totalsalesdata + $row1['HARGA_JUAL']* $row1['QTY'];
+                                                $totalsales1 = $totalsales1 + $row1['HARGA_JUAL']* $row1['QTY'];
+                                                $totalqtydata = $totalqtydata + $row1['QTY'] ;
+                                                $totalqty1 = $totalqty1 +  $row1['QTY'] ;
+                                            }
+                                            echo "<td>"; echo $totalqtydata; echo "</td>";
+                                            echo "<td>"; echo asDollars($totalsalesdata); echo "</td></tr>";
+                                            $count++;
+                                        }
+                                    ?>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3" style="text-align:center;"><b>Grand Total</b></td>
+                                        <td><b><?php echo $totalqty1?></b></td>
+                                        <td><b><?php echo asDollars($totalsales1)?></b></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!--            end table daily per item-->
+
+            <!--            table daily per item-->
+        <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="xreading">
+                    <a href="./filtersalesperitem.php"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                  Custom Report(X-Reading)
+                </button>
+                      </a>
+                    <div class="card">
+                        
+                        <div class="body">
+                           <table class="table table-hover" id="tabledaily1">
+                                <caption>Report Sales Per item &nbsp;<button onclick="exportToExcel1()" class="btn btn-success">Excel</button></caption>
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Stock Code</th>
+                                        <th>Stock Name</th>
+                                        <th>Total QTY</th>
+                                        <th>Total Price</th>
+                                </thead>
+                                <tbody>
+                                    <?php        
+                                        include "../config/connection.php";
+
+                                        $sql = "select * from iamstock";
+                                        $query = mysqli_query($conn,$sql);
+                                        $count = 1;
+                                        while($row = mysqli_fetch_array($query))
+                                        {
+                                            echo "<tr><td>"; echo $count; echo "</td>";
+                                            echo "<td>"; echo $row['KODE_STOCK']; echo "</td>";
+                                            echo "<td>"; echo $row['NAMA_STOCK']; echo "</td>";
+                                            $sqlcountstock = "Select * from iatpenjualan1 where kode_stock='".$row['KODE_STOCK']."'";
+                                            $query1 = mysqli_query($conn,$sqlcountstock);
+                                            $totalsalesdata =0;
+                                            $totalqtydata = 0 ;
+                                            while($row1 = mysqli_fetch_array($query1))
+                                            {
+                                                $totalsalesdata = $totalsalesdata + $row1['HARGA_JUAL']* $row1['QTY'];
+                                                $totalsales1 = $totalsales1 + $row1['HARGA_JUAL']* $row1['QTY'];
+                                                $totalqtydata = $totalqtydata + $row1['QTY'] ;
+                                                $totalqty1 = $totalqty1 +  $row1['QTY'] ;
+                                            }
+                                            echo "<td>"; echo $totalqtydata; echo "</td>";
+                                            echo "<td>"; echo asDollars($totalsalesdata); echo "</td></tr>";
+                                            $count++;
+                                        }
+                                    ?>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3" style="text-align:center;"><b>Grand Total</b></td>
+                                        <td><b><?php echo $totalqty1?></b></td>
+                                        <td><b><?php echo asDollars($totalsales1)?></b></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!--            end table daily per item-->
+
 
         </div>
     </section>
@@ -394,15 +603,50 @@ $totalsales1 = 0;
     <!-- Demo Js -->
     <script src="js/demo.js"></script>
     <script>
-        $("#tabledaily").hide();
-        $("#tableperitem").hide();
+            $("#tabledaily").hide();
+            $("#tableperitem").hide();
+            $("#reportclock").hide();
+            $("#xreading").hide();
+            $("#hourlysales").hide();
+        
         $("#dailybtn").click(function(){
             $("#tabledaily").show();
             $("#tableperitem").hide();
+            $("#reportclock").hide();
+            $("#xreading").hide();
+            $("#hourlysales").hide();
         });
+        
         $("#peritembtn").click(function(){
             $("#tabledaily").hide();
             $("#tableperitem").show();
+            $("#reportclock").hide();
+            $("#xreading").hide();
+            $("#hourlysales").hide();
+        });
+        
+        $("#clockbtn").click(function(){
+            $("#tabledaily").hide();
+            $("#tableperitem").hide();
+            $("#reportclock").show();
+            $("#xreading").hide();
+            $("#hourlysales").hide();
+        });
+        
+        $("#hourlybtn").click(function(){
+            $("#tabledaily").hide();
+            $("#tableperitem").hide();
+            $("#reportclock").hide();
+            $("#xreading").hide();
+            $("#hourlysales").show();
+            
+        });$("#xreadingbtn").click(function(){
+            $("#tabledaily").hide();
+            $("#tableperitem").hide();
+            $("#reportclock").hide();
+            $("#xreading").show();
+            $("#hourlysales").hide();
+            
         });
         
     </script>

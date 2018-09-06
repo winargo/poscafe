@@ -2,6 +2,8 @@
 <html>
 
     <?php
+    session_start();
+    include('..\config\blockadmin.php');
     date_default_timezone_set('Asia/Jakarta');
 function asDollars($value) {
     return 'Rp' . number_format($value);

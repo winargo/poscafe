@@ -7,7 +7,7 @@
         $result = mysqli_query($conn,$sql);
 
 
-                $sql="delete from `xuser` where user_id='".$_POST['username']."'";
+                $sql="delete from `iamabsence` where absence_id='".$_POST['absenceid']."'";
 
 
             if(mysqli_query($conn, $sql)){
@@ -15,7 +15,7 @@
                 exit;
             }   
             else{
-                $_SESSION['error']= "ERROR: Could not able to execute $sql. " . mysqli_error($link);
+                $_SESSION['error1']= "ERROR: Could not able to execute $sql. " . mysqli_error($link);
             };
 
         mysqli_close($link);
