@@ -4,7 +4,7 @@
     </div>
     <div class="body">
         <pre>
-AdminBSB - Material Design/
+Happy Belly/
 ├─── css
 │   └─── Css files
 ├─── images

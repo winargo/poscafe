@@ -12,7 +12,7 @@
     ?>
 <head>
     <meta charset="UTF-8">
-    <title>Happy Belly</title>
+    <title> Happy Belly</title>
     <!--    boostrap css-->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 
@@ -58,7 +58,7 @@
         </ul>
         <div class="btn-group float-right"  style="margin-right : 5%;">
              <button class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Add Menu</button>
-            <a href="viewmenu.php" type="button" class="btn btn-success float-right">EditMenu</a>
+            <a href="viewmenu.php" ><input type="button" class="btn btn-success float-right" value="EditMenu"></a>
               <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <?php
                   echo $_SESSION['usernamedb'];
@@ -68,6 +68,7 @@
                <?php
                   if($_SESSION["admin"]==1){
                       echo "<a class='dropdown-item' href='.\admin\index.php'>Admin page</a>";
+                      echo "<a class='dropdown-item' href='.\settings.php'>Settings</a>";
                   }
                   ?>
                 <a class="dropdown-item" href="./action/logout.php">Logout</a>
@@ -183,8 +184,8 @@
     </nav>
     <!-- #Top Bar -->
 
-    <div class="row">
-        <div class="col-md-7">
+    <div class="row" style="padding-top:20px;">
+        <div class="col-md-6">
             <form id="formdatapayment" action="./action/addpenjualan.php"  method="post">
                 <div class="form-group">
                             <label for="4">Select Payment</label>
@@ -242,7 +243,7 @@
 <!--                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                       </div>
                     <div class="modal-footer" style="width:100%;">
-                        <a href="orders.php"><button type="button" class="btn btn-secondary" data-dismiss="modal" style="width:200px;">Back</button></a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="window.history.go(-1); return false;">Back</button>
                         <input type="button" onclick="setpay()" id="save2" class="btn btn-success" value="Match Payment" style="width:200px;" tabindex="10">
 
                         <input name="btnsubmit" type="button" onclick="pay()" id="save1" class="btn btn-primary" value="Pay Transaction" style="width:200px;" tabindex="11">
@@ -253,7 +254,7 @@
                   <!--  <button class="btn btn-success" id="pay" onclick="pay()">pay</button>-->
         </div>
 
-        <div class="col-md-4" style="border : 4px solid orange; border-radius: 5px;">
+        <div class="col-md-5" style="border : 4px solid orange; border-radius: 5px; margin-left:5%;">
              <div class="checkoutdata" id="printarea" style="text-align:center;background-color:white;">
 
                   <div class="menu-head" style="text-align:center;margin-top:20px;">

@@ -13,7 +13,7 @@
             $_SESSION["usernamedb"]="";
             $_SESSION["admin"] = 0;
             $_SESSION["username"]="";
-        header ("Location: ..\index.php");
+        header ("Location: ../index.php");
           exit();
       }
 ?>

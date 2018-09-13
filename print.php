@@ -18,7 +18,7 @@
 };
     </script>
     <meta charset="UTF-8">
-    <title>Happy Belly</title>
+    <title> Happy Belly</title>
     <!--    boostrap css-->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 
@@ -74,6 +74,7 @@
                <?php
                   if($_SESSION["admin"]==1){
                       echo "<a class='dropdown-item' href='.\admin\index.php'>Admin page</a>";
+                      echo "<a class='dropdown-item' href='.\settings.php'>Settings</a>";
                   }
                   ?>
                 <a class="dropdown-item" href="./action/logout.php">Logout</a>

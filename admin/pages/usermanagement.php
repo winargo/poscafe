@@ -83,7 +83,7 @@
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand" href="widgets/../../index.php">ADMINBSB - MATERIAL DESIGN</a>
+                <a class="navbar-brand" href="widgets/../../index.php"> Happy Belly</a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
@@ -110,8 +110,8 @@
                     <img src="../images/user.png" width="48" height="48" alt="User" />
                 </div>
                 <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">John Doe</div>
-                    <div class="email">john.doe@example.com</div>
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Administrator</div>
+                    <div class="email"> Happy Belly</div>
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
@@ -156,7 +156,7 @@
             <!-- Footer -->
             <div class="legal">
                 <div class="copyright">
-                    &copy; 2016 - 2017 <a href="javascript:void(0);">AdminBSB - Material Design</a>.
+                    &copy; 2018<a href="javascript:void(0);"> Happy Belly</a>.
                 </div>
                 <div class="version">
                     <b>Version: </b> 1.0.5
@@ -458,6 +458,7 @@
                     <th>No</th>
                     <th>Absence ID</th>
                     <th>Absence Name</th>
+                    <th>Absence Default Out Time</th>
                     <th>Created</th>
                     <th>Option</th>
                 </tr>
@@ -476,7 +477,8 @@
             <tr>
               <td id='1'>$a</td>
               <td>".$row['absence_id']."</td>
-                <td>".$row['absence_name']."</td>";
+              <td>".$row['absence_name']."</td>
+                <td>".$row['time_out']."</td>";
                         
                         $date=date_create($row['absence_createdate']);
                                 echo "<td>".date_format($date,"d/m/Y")."</td>";
@@ -571,6 +573,10 @@
             <div class="form-group">
                 <label for="email"><b>PassCode</b></label>
                   <input style="background-color:lightgrey;padding:8px;" class="form-control" type="number" placeholder="Enter Passcode" name="passcode" required>
+            </div>
+            <div class="form-group">
+                <label for="email"><b>Time OUT</b></label>
+                  <input style="background-color:lightgrey;padding:8px;" class="form-control" type="time" placeholder="Time" name="timeout" value="<?php echo date('h:i'); ?>" required>
             </div>
           <div class="clearfix">
             <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn" style="

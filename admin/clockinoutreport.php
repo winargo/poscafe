@@ -8,8 +8,8 @@ function asDollars($value) {
 
 include "../config/connection.php";
 
-$filtered = "";
 $totalqty = 0;
+$filtered = "";
 $totalsales = 0;
 $totalpayment = 0;
 $totaldue = 0;
@@ -23,7 +23,7 @@ $totalsales1 = 0;
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>rReport</title>
+    <title>Clock In / Out Report</title>
     <!-- Favicon-->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 
@@ -187,133 +187,78 @@ $totalsales1 = 0;
                         <div class="body">
                             
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Report Daily Sales Per Item</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Report Clock IN and Out</h5>
                         <button onclick="window.history.go(-1); return false;" type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">X</span>
                         </button>
                       </div>
                       <div class="modal-body">
-                        <form action="filtersalesperitem.php" method="post">
+                        <form action="clockinoutreport.php" method="post">
                            <div class="form-group">
 
                                <input type="hidden"  name="filtered" value="a">
-                               <p>Filter By Product Category</p>
+                               <p>Filter By Date</p>
                                From
-                                <select name="category1" class="custom-select" style="width:30%;">
-                                    <?php
-                                    $sql = "select * from iamproduk";
-                                    $query = mysqli_query($conn,$sql);
-                                    $count = 1;
-                                    while($row = mysqli_fetch_array($query))
-                                    {
-                                        if(isset($_POST['category1'] ) && $_POST['category1']!=""){
-                                            if($_POST['category1']==$row['KODE_PRODUK'])
-                                            {
-                                                echo "<option value='".$row['KODE_PRODUK']."' selected>".$row['NAMA_PRODUK']."</option>";
-                                            }
-                                            else{
-                                                echo "<option value='".$row['KODE_PRODUK']."'>".$row['NAMA_PRODUK']."</option>";
-                                            }
-                                        }
-                                           else{
-                                               echo "<option value='".$row['KODE_PRODUK']."'>".$row['NAMA_PRODUK']."</option>";
-                                           }
-                                        
-
-                                    }
-                                    
-                                    ?>
-                                </select>
-                               
-                               To 
-                               <select name="category2" class="custom-select" style="width:30%;">
-                                  <?php
-                            
-                                    $sql = "select * from iamproduk";
-                                    $query = mysqli_query($conn,$sql);
-                                    $count = 1;
-                                    while($row = mysqli_fetch_array($query))
-                                    {
-
-                                        if(isset($_POST['category2']) && $_POST['category2']!=""){
-                                            if($_POST['category2']==$row['KODE_PRODUK'])
-                                            {
-                                                echo "<option value='".$row['KODE_PRODUK']."' selected>".$row['NAMA_PRODUK']."</option>";
-                                            }
-                                            else{
-                                                echo "<option value='".$row['KODE_PRODUK']."'>".$row['NAMA_PRODUK']."</option>";
-                                            }
-                                        }
-                                           else{
-                                               echo "<option value='".$row['KODE_PRODUK']."'>".$row['NAMA_PRODUK']."</option>";
-                                           }
-
-                                    }
-                                   ?>
-                                </select>
-
+                                <input type="date" name="date1" value="<?php if(isset($_POST['date1'])){  echo date("Y-m-d",strtotime($_POST['date1']));        }else {echo date('Y-m-d');}?>">&nbsp;&nbsp; to &nbsp;&nbsp;
+                               <input type="date" name="date2" value="<?php if(isset($_POST['date2'])){  echo date("Y-m-d",strtotime($_POST['date2']));        }else {echo date('Y-m-d');}?>">
                             </div>
+                            
+                            <p>Filter By Name</p>
                             <div class="form-group">
-                                <p>Filter By Stock Code</p>
-                                From
-                                <select name="stock1" class="custom-select" style="width:30%;">
+                               From
+                                <select name="absence1" class="custom-select" style="width:30%;">
                                     <?php
-                                    $sql = "select * from iamstock";
+                                    $sql = "select * from iamabsence order by absence_id asc";
                                     $query = mysqli_query($conn,$sql);
                                     $count = 1;
                                     while($row = mysqli_fetch_array($query))
                                     {
-                                        
-                                        if(isset($_POST['stock1']) && $_POST['stock1']!=""){
-                                            if($_POST['stock1']==$row['KODE_STOCK'])
+                                        if(isset($_POST['absence1'] ) && $_POST['absence1']!=""){
+                                            if($_POST['absence1']==$row['absence_name'])
                                             {
-                                                echo "<option value='".$row['KODE_STOCK']."' selected>".$row['KODE_STOCK']."</option>";
-
+                                                echo "<option value='".$row['absence_id']."' selected>".$row['absence_name']."</option>";
                                             }
                                             else{
-                                                echo "<option value='".$row['KODE_STOCK']."'>".$row['KODE_STOCK']."</option>";
-
+                                                echo "<option value='".$row['absence_id']."'>".$row['absence_name']."</option>";
                                             }
                                         }
                                            else{
-                                               echo "<option value='".$row['KODE_STOCK']."'>".$row['KODE_STOCK']."</option>";
-
+                                               echo "<option value='".$row['absence_id']."'>".$row['absence_name']."</option>";
                                            }
                                         
+
                                     }
                                     
                                     ?>
                                 </select>
                                
                                To 
-                               <select name="stock2" class="custom-select" style="width:30%;">
-                                  <?php
-                            
-                                    $sql = "select * from iamSTOCK";
+                               <select name="absence2" class="custom-select" style="width:30%;">
+                                    <?php
+                                    $sql = "select * from iamabsence order by absence_id asc";
                                     $query = mysqli_query($conn,$sql);
                                     $count = 1;
                                     while($row = mysqli_fetch_array($query))
                                     {
-
-                                        if(isset($_POST['stock2']) && $_POST['stock2']!=""){
-                                            if($_POST['stock2']==$row['KODE_STOCK'])
+                                        if(isset($_POST['absence2'] ) && $_POST['absence2']!=""){
+                                            if($_POST['absence2']==$row['absence_name'])
                                             {
-                                                echo "<option value='".$row['KODE_STOCK']."' selected>".$row['KODE_STOCK']."</option>";
+                                                echo "<option value='".$row['absence_id']."' selected>".$row['absence_name']."</option>";
                                             }
                                             else{
-                                                echo "<option value='".$row['KODE_STOCK']."'>".$row['KODE_STOCK']."</option>";
-
-
+                                                echo "<option value='".$row['absence_id']."'>".$row['absence_name']."</option>";
                                             }
                                         }
                                            else{
-                                               echo "<option value='".$row['KODE_STOCK']."'>".$row['KODE_STOCK']."</option>";
-
+                                               echo "<option value='".$row['absence_id']."'>".$row['absence_name']."</option>";
                                            }
+                                        
 
                                     }
-                                   ?>
+                                    
+                                    ?>
                                 </select>
+
                             </div>
                             <div class="form-group">
                                 <input type="submit" class="btn btn-success" value="Filter">
@@ -333,57 +278,194 @@ $totalsales1 = 0;
                         <div class="body">
                             
                             <?php
-                                if(isset($_POST['filtered']) && $_POST['filtered']!="" ){
+                                if(isset($_POST['filtered'])&& $_POST['filtered']!="" ){
                                     
                                  ?>
                             
                             
                            <table class="table table-hover" id="tabledaily1">
-                                <caption>Report Sales Per item &nbsp;<button onclick="exportToExcel1()" class="btn btn-success">Excel</button></caption>
+                                <caption>Report Clock IN and OUT &nbsp;<button onclick="exportToExcel1()" class="btn btn-success">Excel</button></caption>
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Stock Code</th>
-                                        <th>Stock Name</th>
-                                        <th>Total QTY</th>
-                                        <th>Total Price</th>
+                                        <th>Absence Name</th>
+                                        <th>Time IN</th>
+                                        <th>Time OUT</th>
+                                        <th>Total Time</th>
                                 </thead>
                                 <tbody>
-                                    <?php        
-                                        include "../config/connection.php";
-                                        
-                                        
+                                   <?php        
+                                    include "../config/connection.php";
+                                    
+                                    $tmpdt1 = strtotime($_POST['date1']);
+                                    $tmpdt2 = strtotime($_POST['date2']);
 
-                                        $sql = "select * from iamstock where KODE_STOCK between '".$_POST['stock1']."' and '".$_POST['stock2']."' and KODE_PRODUK in (select KODE_PRODUK from iamproduk where KODE_PRODUK between '".$_POST['category1']."' and '".$_POST['category2']."')";
-                                        $query = mysqli_query($conn,$sql);
-                                        $count = 1;
-                                        while($row = mysqli_fetch_array($query))
-                                        {
-                                            echo "<tr><td>"; echo $count; echo "</td>";
-                                            echo "<td>"; echo $row['KODE_STOCK']; echo "</td>";
-                                            echo "<td>"; echo $row['NAMA_STOCK']; echo "</td>";
-                                            $sqlcountstock = "Select * from iatpenjualan1 where kode_stock='".$row['KODE_STOCK']."'";
-                                            $query1 = mysqli_query($conn,$sqlcountstock);
-                                            $totalsalesdata =0;
-                                            $totalqtydata = 0 ;
-                                            while($row1 = mysqli_fetch_array($query1))
-                                            {
-                                                $totalsalesdata = $totalsalesdata + $row1['HARGA_JUAL']* $row1['QTY'];
-                                                $totalsales1 = $totalsales1 + $row1['HARGA_JUAL']* $row1['QTY'];
-                                                $totalqtydata = $totalqtydata + $row1['QTY'] ;
-                                                $totalqty1 = $totalqty1 +  $row1['QTY'] ;
+                                    $date1 = date("Y/m/d", $tmpdt1);
+                                    $date2 = date("Y/m/d", $tmpdt2);
+
+                                    $sql = "select * from iatabsence where DATE_DATA between '$date1' and '$date2' and absence_id between '".$_POST['absence1']."' and '".$_POST['absence2']."'  order by absence_id,date_data desc";
+                                    $tmptm3=null;
+                                    $query = mysqli_query($conn,$sql);
+                                    $count = 0;
+                                    $subtotalall = 0;
+                                    $totalall = 0;
+                                    $number= 1;
+                                    $checkdone="0";
+                                    while($row = mysqli_fetch_array($query))
+                                    {
+                                        
+                                        //echo date('d F Y',strtotime($row['DATE_DATA']));
+                                        if($checkdone!=$row['absence_id']){
+                                            if($count!=0){
+                                                echo "<tr>";
+                                                echo '<td colspan="3" style="text-align:center;"><b>Total Hours for '; 
+                                                
+                                                $sql1 = "select * from iamabsence where absence_id='$checkdone'";
+                                                $query1 = mysqli_query($conn,$sql1);
+                                                while($row1 = mysqli_fetch_array($query1))
+                                                {
+                                                    echo $row1['absence_name'];
+                                                }
+                                                
+                                                $hour = floor($subtotalall / (60*60));
+
+                                                $mins = floor(($subtotalall - $hour * (60*60)) / (60));
+                                                
+                                                echo "</b></td>";
+                                                echo "<td><b>"; echo '<td>'.$hour.' Hours '.$mins.' Minutes</td></tr>'; echo "</b></td>";
+                                                echo "</tr>";
+                                                $subtotalall=0;
+                                                
+                                                echo '<tr style="border:none;"><td colspan="5" style="border:none;"></td></tr>';
+                                                echo '<tr style="border:none;"><td colspan="5" style="border:none;"></td></tr>';
+                                                echo '<tr style="border:none;"><td colspan="5" style="border:none;"></td></tr>';
+                                                echo '<tr style="border:none;"><td colspan="5" style="border:none;"></td></tr>';
+                                                $count=0;
                                             }
-                                            echo "<td>"; echo $totalqtydata; echo "</td>";
-                                            echo "<td>"; echo asDollars($totalsalesdata); echo "</td></tr>";
-                                            $count++;
+                                            
+                                            
+                                            $sql1 = "select * from iamabsence where absence_id='".$row['absence_id']."'";
+                                                $query1 = mysqli_query($conn,$sql1);
+                                                while($row1 = mysqli_fetch_array($query1))
+                                                {
+                                                    echo '<tr><td colspan="5" style="text-align:center;">'; echo $row1['absence_name'];   echo'</td></tr>';
+                                                }
+                                            
+                                            $checkdone=$row['absence_id'];
+                                            $number=1;
+                                            $count=1;
+                                            
                                         }
-                                    ?>
+                                        echo "<tr><td>"; echo $number; echo "</td>";
+                                        echo "<td>"; echo date('d F Y',strtotime($row['DATE_DATA'])); echo "</td>";
+                                        $sql2 = "select * from iamabsence where absence_id='".$row['absence_id']."'";
+                                        $query2 = mysqli_query($conn,$sql2);
+                                        while($row2 = mysqli_fetch_array($query2))
+                                        {
+                                            $tmptm3=strtotime($row2['time_out']);
+                                            $tmptm1 = strtotime($row['DATE_IN']);
+                                            $tmptm2 = strtotime($row['DATE_OUT']);
+
+
+
+
+
+                                           /* $diff = abs(strtotime($date2) - strtotime($date1));
+
+                                            $years = floor($diff / (365*60*60*24));
+                                            $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+                                            $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+
+                                            printf("%d years, %d months, %d days\n", $years, $months, $days);*/
+
+                                            $time1 = date("H:i A", $tmptm1);
+                                            $time2 = date("H:i A", $tmptm2);
+                                            $time3 = date("H:i A", $tmptm3);
+
+
+                                            echo "<td>"; echo $time1; echo "</td>";
+                                            if($row['DATE_OUT']=='00:00:00' ){
+                                                $checkTime = $tmptm3;
+
+                                                $loginTime = $tmptm1;
+                                                $diff = $checkTime - $loginTime;
+
+                                                $totalall = $totalall+$diff;
+                                                $subtotalall = $subtotalall + $diff;
+
+                                                echo "<td>"; echo $time2; echo "('$time3')</td>";
+
+                                                $temp = abs($diff);
+                                                $hour = floor($diff / (60*60));
+
+                                                $mins = floor(($diff - $hour * (60*60)) / (60));
+
+
+                                                echo '<td>'.$hour.' Hours '.$mins.' Minutes</td></tr>';
+                                            }
+                                            else{
+                                                $checkTime = $tmptm2;
+
+                                                $loginTime = $tmptm1;
+                                                $diff = $checkTime - $loginTime;
+
+                                                $totalall = $totalall+$diff;
+                                                $subtotalall = $subtotalall + $diff;
+
+                                                echo "<td>"; echo $time2; echo "</td>";
+
+                                                $temp = abs($diff);
+                                                $hour = floor($diff / (60*60));
+
+                                                $mins = floor(($diff - $hour * (60*60)) / (60));
+
+
+                                                echo '<td>'.$hour.' Hours '.$mins.' Minutes</td></tr>';
+                                            }
+                                        }
+                                        
+                                        $number++;
+                                        
+                                        
+                                        
+                                    }
+                                    
+                                        $hour = 0;
+                                        $mins = 0;
+                                        $hour = floor($subtotalall / (60*60));
+
+                                        $mins = floor(($subtotalall - $hour * (60*60)) / (60));
+
+
+                                        
+                                        ?>
+                                            <tr>
+                                                <td colspan="3" style="text-align:center;"><b>Total Hours for 
+                                                    <?php echo $checkdone;  ?></b></td>
+                                                <td><b><?php echo '<td>'.$hour.' Hours '.$mins.' Minutes</td></tr>'; ?></b></td>
+                                            </tr>
+                                    
+                                    <?php
+                                         echo '<tr style="border:none;"><td colspan="5" style="border:none;"></td></tr>';
+                                        echo '<tr style="border:none;"><td colspan="5" style="border:none;"></td></tr>';
+                                        echo '<tr style="border:none;"><td colspan="5" style="border:none;"></td></tr>';
+                                        echo '<tr style="border:none;"><td colspan="5" style="border:none;"></td></tr>';
+                                        $hour = 0;
+                                        $mins = 0;
+                                            $hour = 0;
+                                            $mins = 0;
+                                            $hour = floor($totalall / (60*60));
+
+                                            $mins = floor(($totalall - $hour * (60*60)) / (60));
+                                ?>
+                                  
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="3" style="text-align:center;"><b>Grand Total</b></td>
-                                        <td><b><?php echo $totalqty1?></b></td>
-                                        <td><b><?php echo asDollars($totalsales1)?></b></td>
+                                        <td colspan="3" style="text-align:center;"><b>Total Hours ALL</b></td>
+                                            
+                                            
+                                        <td><b><?php echo '<td>'.$hour.' Hours '.$mins.' Minutes</td>'; ?></b></td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -395,8 +477,8 @@ $totalsales1 = 0;
                             ?>
                             
                            <table class="table table-hover">
-                    <caption>Report Daily Per item (No Selection)</caption>
-                </table>
+                    <caption>Report Clock In and Out (No Selection)</caption>
+                        </table>
                                  <?php   
                                 }
                             
@@ -524,7 +606,7 @@ $totalsales1 = 0;
 
 
                     var link = document.createElement("a");
-                    link.download = "export.xls";
+                    link.download = "customClockinandout.xls";
                     link.href = uri + base64(format(template, ctx));
                     link.click();
         }

@@ -11,17 +11,17 @@
     $querydate = mysqli_query($conn,$sql);
     
     while($row = mysqli_fetch_array($querydate)){
-        if($row['NILAI_PARAM']==date("d/m/Y")){
+        if($row['NILAI_PARAM']==date("m/Y")){
             
         }
         else{
          //   echo "tidak sama";
-            $sql = "update xparam set nilai_param='".date("d/m/Y")."' where nama_param='DATERESET'";
+            $sql = "update xparam set nilai_param='".date("m/Y")."' where nama_param='DATERESET'";
             $query = mysqli_query($conn,$sql);
             
             if($query)
             {    
-                $sql = "update iamsetupseri set no_urut=".date("ymd")."0001"." where no_seri='JL'";
+                $sql = "update iamsetupseri set no_urut=".date("ym")."00001"." where no_seri='JL'";
                 $query = mysqli_query($conn,$sql);
 
                 if($query)
@@ -37,7 +37,7 @@
     }
     
     if($angka==0){
-        $sql = "insert into xparam (KODE_PARAM,NAMA_PARAM,NILAI_PARAM) VALUES(1,'DATERESET','".date("d/m/Y")."')";
+        $sql = "insert into xparam (KODE_PARAM,NAMA_PARAM,NILAI_PARAM) VALUES(1,'DATERESET','".date("m/Y")."')";
             $query = mysqli_query($conn,$sql);
             
             if($query)
@@ -58,7 +58,7 @@
     ?>
 <head>
     <meta charset="UTF-8">
-    <title>Happy Belly</title>
+    <title> Happy Belly</title>
     <!--    boostrap css-->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 
@@ -143,6 +143,7 @@
                <?php
                   if($_SESSION["admin"]==1){
                       echo "<a class='dropdown-item' href='.\admin\index.php'>Admin page</a>";
+                      echo "<a class='dropdown-item' href='.\settings.php'>Settings</a>";
                   }
                   ?>
                   <a class="dropdown-item" id="showupprint">Re-print</a>
@@ -371,9 +372,21 @@
                                           </form>
                                         </td>
                                       </tr>
+                                <?php
+                                if($row['note']==""){
+                                ?>
+                                
+                                <?php
+                                    }   
+                                else{
+                                ?>
+                                
                                 <tr style="border:none;border-bottom : 1px;">
                                     <td colspan="4" style="border:none;"><input style="width:100%;" class="form-control" disabled type="text" placeholder="No Additional note for <?php echo $row['KODE_STOCK']; ?>" value="<?php echo $row['note']; ?>"></td>
                                 </tr>
+                                <?php
+                                }   
+                                ?>
 
                                     <?php
                                     $no++;

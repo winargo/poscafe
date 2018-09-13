@@ -2,11 +2,14 @@
 <?php
 date_default_timezone_set('Asia/Jakarta');
 function asDollars($value) {
-    return 'Rp ' . number_format($value);
+    return 'Rp' . number_format($value);
     
   }
 
+include "../config/connection.php";
+
 $totalqty = 0;
+$filtered = "";
 $totalsales = 0;
 $totalpayment = 0;
 $totaldue = 0;
@@ -20,7 +23,7 @@ $totalsales1 = 0;
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>rReport</title>
+    <title>Clock In / Out Report</title>
     <!-- Favicon-->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 
@@ -49,7 +52,7 @@ $totalsales1 = 0;
 
 <body class="theme-red">
     <!-- Page Loader -->
-    <div class="page-loader-wrapper">
+    <div class="page-loader-wrapper" style="display:none;">
         <div class="loader">
             <div class="preloader">
                 <div class="spinner-layer pl-red">
@@ -175,353 +178,51 @@ $totalsales1 = 0;
             <!-- Changelogs -->
             <div class="row" style="margin-bottom:20px;">
                <div class="col-md-4">&nbsp;</div>
-                <div class="col-md-10">
-                    <button class="btn btn-success" id="dailybtn" style="margin-top:10px;padding:20px;">Report Daily Sales</button>
-                    <button class="btn btn-success" id="peritembtn" style="margin-top:10px;padding:20px;">Report Sales Per item</button>
-                    <button class="btn btn-success" id="clockbtn" style="margin-top:10px;padding:20px;">Report Clock IN / OUT</button>
-                    <button class="btn btn-success" id="hourlybtn" style="margin-top:10px;padding:20px;">Report Hourly Sales</button>
-                    <button class="btn btn-success" id="xreadingbtn" style="margin-top:10px;padding:20px;">Summary Report(X Reading)</button>
-                </div>
             </div>
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tabledaily">
-                  <a href="./filter.php"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                  Custom Report(Report Daily Sales)
-                </button>
-                      </a>
                   <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-
-                  </div>
-                </div>
                    
                     <div class="card">
                         <div class="body">
-                           <table class="table table-hover" id="tabledaily">
-                               <caption>Report Daily Sales &nbsp;<button onclick="exportToExcel()" class="btn btn-success">Excel</button></caption>
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Order Number</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Quantity(Total)</th>
-                            <th>Total</th>
-                            <th>Payment</th>
-                            <th>Amt(Due)</th>       
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php 
-                            include "../config/connection.php";
                             
-                            $sql = "select * from iappenjualan order by TANGGAL DESC";
-                            $query = mysqli_query($conn,$sql);
-                            $count = 1;
-                            while($row = mysqli_fetch_array($query))
-                            {
-                                ?>
-                                <tr>
-                                    <td><?php echo $count; ?></td>
-                                    <td><?php echo $row['NO_FAKTUR']; ?></td>
-                                    <td><?php  
-                                    
-                                        $comp = preg_split('/ +/', $row['TANGGAL']);
-                                        $date=date_create($comp[0]);
-                                        echo date_format($date,"d/m/Y")." ";
-                                        $date1=date_create($comp[1]);
-                                        
-                                        ?></td>
-                                    <td><?php echo date_format($date1,"H:i a"); ?></td>
-                                    <td><?php 
-                                        
-                                include "../config/connection.php";
-                            
-                                    $sql1 = "select * from iatpenjualan1 where no_faktur='".$row['NO_FAKTUR']."'";
-                                    $query1 = mysqli_query($conn,$sql1);
-                                    $count1 = 1;
-                                    $total1 = 0;
-                                    while($row1 = mysqli_fetch_array($query1))
-                                    {
-                                        $total1 += $row1['QTY'];
-                                        $totalqty+=$row1['QTY'];
-                                    }
-                                        echo $total1;
-                                        ?></td>
-                                        <td><?php 
-                                                $q4 = "select * from iappenjualan where no_faktur='".$row['NO_FAKTUR']."'";
-                                                $s4 = mysqli_query($conn,$q4);
-                                                $qty = 0;
-                                                $morepay = 0;
-                                                while ($row4 = mysqli_fetch_array($s4)) {
-                                                    echo asDollars($row4['JUMLAH_FAKTUR_RP']);
-                                                    $totalsales += $row4['JUMLAH_FAKTUR_RP'];
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Report Clock IN and Out</h5>
+                        <button onclick="window.history.go(-1); return false;" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">X</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form action="customhourlysales.php" method="post">
+                           <div class="form-group">
 
-                                                    $morepay = $row4['BAYAR']-$row4['JUMLAH_FAKTUR_RP'];
-                                                    $totalpayment += $row4['BAYAR'];
-                                                    $totaldue += $morepay;
-                          ?></td>
-                                    <td><?php echo asDollars($row4['BAYAR'])?></td>
-                                    <td><?php echo asDollars($morepay)?></td>
-                                     <?php 
-                                                }
-                                    ?>   
-                                </tr>
-                                <?php
-                                $count++;
-                            }
-                        ?>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="4" style="text-align:center;"><b>Grand Total</b></td>
-                            <td><b><?php echo $totalqty?></b></td>
-                            <td><b><?php echo asDollars($totalsales)?></b></td>
-                            <td><b><?php echo asDollars($totalpayment)?></b></td>
-                            <td><b><?php echo asDollars($totaldue)?></b></td>
-                        </tr>
-                    </tfoot>
-                </table>
+                               <input type="hidden"  name="filtered" value="a">
+                               <p>Filter By Date</p>
+                               From
+                                <input type="date" name="date1" value="<?php if(isset($_POST['date1'])){  echo date("Y-m-d",strtotime($_POST['date1']));        }else {echo date('Y-m-d');}?>">&nbsp;&nbsp; to &nbsp;&nbsp;
+                               <input type="date" name="date2" value="<?php if(isset($_POST['date2'])){  echo date("Y-m-d",strtotime($_POST['date2']));        }else {echo date('Y-m-d');}?>">
+                            </div>
+                            
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-success" value="Filter">
+                            </div>
+                        </form>
+                      </div>
                         </div>
                     </div>
                 </div>
             </div>
             
 <!--            table daily per item-->
-        <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="tableperitem">
-                    <a href="./filtersalesperitem.php"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                  Custom Report(Report Sales Per item)
-                </button>
-                      </a>
-                    <div class="card">
-                        
-                        <div class="body">
-                           <table class="table table-hover" id="tabledaily1">
-                                <caption>Report Sales Per item &nbsp;<button onclick="exportToExcel1()" class="btn btn-success">Excel</button></caption>
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Stock Code</th>
-                                        <th>Stock Name</th>
-                                        <th>Total QTY</th>
-                                        <th>Total Price</th>
-                                </thead>
-                                <tbody>
-                                    <?php        
-                                        include "../config/connection.php";
-
-                                        $sql = "select * from iamstock";
-                                        $query = mysqli_query($conn,$sql);
-                                        $count = 1;
-                                        while($row = mysqli_fetch_array($query))
-                                        {
-                                            echo "<tr><td>"; echo $count; echo "</td>";
-                                            echo "<td>"; echo $row['KODE_STOCK']; echo "</td>";
-                                            echo "<td>"; echo $row['NAMA_STOCK']; echo "</td>";
-                                            $sqlcountstock = "Select * from iatpenjualan1 where kode_stock='".$row['KODE_STOCK']."'";
-                                            $query1 = mysqli_query($conn,$sqlcountstock);
-                                            $totalsalesdata =0;
-                                            $totalqtydata = 0 ;
-                                            while($row1 = mysqli_fetch_array($query1))
-                                            {
-                                                $totalsalesdata = $totalsalesdata + $row1['HARGA_JUAL']* $row1['QTY'];
-                                                $totalsales1 = $totalsales1 + $row1['HARGA_JUAL']* $row1['QTY'];
-                                                $totalqtydata = $totalqtydata + $row1['QTY'] ;
-                                                $totalqty1 = $totalqty1 +  $row1['QTY'] ;
-                                            }
-                                            echo "<td>"; echo $totalqtydata; echo "</td>";
-                                            echo "<td>"; echo asDollars($totalsalesdata); echo "</td></tr>";
-                                            $count++;
-                                        }
-                                    ?>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="3" style="text-align:center;"><b>Grand Total</b></td>
-                                        <td><b><?php echo $totalqty1?></b></td>
-                                        <td><b><?php echo asDollars($totalsales1)?></b></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-<!--            end table daily per item-->
-            <!--            table daily per item-->
-        <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="reportclock">
-                    <a href="./clockinoutreport.php"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                  Custom Report(Report of Clock In and Out)
-                </button>
-                      </a>
-                    <div class="card">
-                        
-                        <div class="body">
-                            <table class="table table-hover" id="tableclock">
-                                <caption>Report ClockIn &amp; ClockOut &nbsp;<button onclick="exportToExcelclock()" class="btn btn-success">Excel</button></caption>
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Absence ID</th>
-                                        <th>Absence Name</th>
-                                        <th>Time IN</th>
-                                        <th>Time OUT</th>
-                                        <th>Total Hours</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                    <?php        
-                                    include "../config/connection.php";
-
-                                    $sql = "select distinct(DATE_DATA) as data from iatabsence order by date_data desc";
-                                    $query = mysqli_query($conn,$sql);
-                                    $count = 0;
-                                    $subtotalall = 0;
-                                    $totalall = 0;
-                                    $number= 1;
-                                    while($row = mysqli_fetch_array($query))
-                                    {
-                                        $subtotalall=0;
-                                        echo '<tr><td colspan="6" style="text-align:center;">'; echo date('d F Y',strtotime($row['data'])); echo'</td></tr>';
-                                                $sql1 = "select * from iatabsence where date_data='".$row['data']."'";
-                                                $query1 = mysqli_query($conn,$sql1);
-                                                while($row1 = mysqli_fetch_array($query1))
-                                                {
-                                                    echo "<tr><td>"; echo $number; echo "</td>";
-                                                    $number++;
-                                                        $sql2= "select * from iamabsence where absence_id='".$row1['absence_id']."'";
-                                                        $query2 = mysqli_query($conn,$sql2);
-                                                        while($row2 = mysqli_fetch_array($query2))
-                                                        {
-                                                            echo "<td>"; echo $row2['absence_id']; echo "</td>";
-                                                            echo "<td>"; echo $row2['absence_name']; echo "</td>";
-
-                                                            $tmptm1 = strtotime($row1['DATE_IN']);
-                                                            $tmptm2 = strtotime($row1['DATE_OUT']);
-                                                            $tmptm3 = strtotime($row2['time_out']);
-                                                        
-                                                            
-                                                            
-                                                        
-
-                                                           /* $diff = abs(strtotime($date2) - strtotime($date1));
-
-                                                            $years = floor($diff / (365*60*60*24));
-                                                            $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
-                                                            $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
-
-                                                            printf("%d years, %d months, %d days\n", $years, $months, $days);*/
-
-                                                            $time1 = date("H:i A", $tmptm1);
-                                                            $time2 = date("H:i A", $tmptm2);
-                                                            $time3 = date("H:i A", $tmptm3);
-                                                            
-                                                            
-                                                            echo "<td>"; echo $time1; echo "</td>";
-                                                            if($row1['DATE_OUT']=='00:00:00' ){
-                                                                $checkTime = $tmptm3;
-
-                                                                $loginTime = $tmptm1;
-                                                                $diff = $checkTime - $loginTime;
-                                                                
-                                                                $totalall = $totalall+$diff;
-                                                                $subtotalall = $subtotalall + $diff;
-                                                                
-                                                                echo "<td>"; echo $time2; echo "('$time3')</td>";
-                                                                
-                                                                $temp = abs($diff);
-                                                                $hour = floor($diff / (60*60));
-                                                                
-                                                                $mins = floor(($diff - $hour * (60*60)) / (60));
-                                                                
-                                                                
-                                                                echo '<td>'.$hour.' Hours '.$mins.' Minutes</td></tr>';
-                                                            }
-                                                            else{
-                                                                $checkTime = $tmptm2;
-                                                                
-                                                                $loginTime = $tmptm1;
-                                                                $diff = $checkTime - $loginTime;
-                                                                
-                                                                $totalall = $totalall+$diff;
-                                                                $subtotalall = $subtotalall + $diff;
-                                                                
-                                                                echo "<td>"; echo $time2; echo "</td>";
-                                                                
-                                                                $temp = abs($diff);
-                                                                $hour = floor($diff / (60*60));
-                                                                
-                                                                $mins = floor(($diff - $hour * (60*60)) / (60));
-                                                                
-                                                                
-                                                                echo '<td>'.$hour.' Hours '.$mins.' Minutes</td></tr>';
-                                                            }
-                                                            
-                                                        }
-
-                                                }
-                                        
-                                        $hour = 0;
-                                        $mins = 0;
-                                        $hour = floor($subtotalall / (60*60));
-
-                                        $mins = floor(($subtotalall - $hour * (60*60)) / (60));
-
-
-                                        
-                                        ?>
-                                            <tr>
-                                                <td colspan="4" style="text-align:center;"><b>Total Hours for <?php echo date('d F Y',strtotime($row['data'])); ?></b></td>
-                                                <td><b><?php echo '<td>'.$hour.' Hours '.$mins.' Minutes</td></tr>'; ?></b></td>
-                                            </tr>
-                                    
-                                    <?php
-                                         echo '<tr style="border:none;"><td colspan="7" style="border:none;"></td></tr>';
-                                        echo '<tr style="border:none;"><td colspan="7" style="border:none;"></td></tr>';
-                                        echo '<tr style="border:none;"><td colspan="7" style="border:none;"></td></tr>';
-                                        echo '<tr style="border:none;"><td colspan="7" style="border:none;"></td></tr>';
-                                        $hour = 0;
-                                        $mins = 0;
-                                        $count++;
-                                    }
-                                            $hour = 0;
-                                            $mins = 0;
-                                            $hour = floor($totalall / (60*60));
-
-                                            $mins = floor(($totalall - $hour * (60*60)) / (60));
-                                ?>
-                                    
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td colspan="4" style="text-align:center;"><b>Total All Hours</b></td>
-                                                <td><b><?php echo '<td>'.$hour.' Hours '.$mins.' Minutes</td></tr>'; $hour = 0;
-                                        $mins = 0;?></b></td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-<!--            end table daily per item-->
-
-            <!--            table daily per item-->
-        <div class="row clearfix">
+            <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="hourlysales">
-                    <a href="./customhourlysales.php"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                  Custom Report(Report Hourly Sales)
-                </button>
-                      </a>
+                   
                     <div class="card">
                         
                         <div class="body">
                             <table class="table table-hover" id="tablehour">
                                 <caption>Report Hourly Sales <button onclick="exportToExcelhour()" class="btn btn-success">Excel</button></caption>
+                                
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -530,14 +231,50 @@ $totalsales1 = 0;
                                         <th>Total Sales</th>
                                     </tr>
                                 </thead>
+            <?php?>
+            <?php?>
+            <?php?>
+            <?php
+                                error_reporting(0);
+                                
+                $tmpdt1 = strtotime($_POST['date1']);
+                $tmpdt2 = strtotime($_POST['date2']);
+
+                $date1 = date("Y/m/d", $tmpdt1);
+                $date2 = date("Y/m/d", $tmpdt2);
+
+                $sql = "select * from iappenjualan where tanggal between '$date1' and '$date2' order by tanggal desc";
+                                        
+                $query = mysqli_query($conn,$sql);
+                $count = 0;
+                $subtotalall = 0;
+                $date1 = null;
+
+                $number= 1;
+                $tempprice=0;
+                $count=0;
+                while($row = mysqli_fetch_array($query))
+                {
+            
+            ?>
+            
+        
+                            
+                                
                                 <tbody>
                                     
                                     
-                                    <?php  
-                                    $date = date("Y-m-d");
+                                    <?php
+                                    $tmpdt1 = strtotime($row['TANGGAL']);
+                                    $date = date("y-m-d", $tmpdt1);
+                        
+                                    if($date1==$date){
+                                        
+                                    }
+                                    else{
                                     ?>
                                     
-                                    <tr><td colspan="4" style="text-align:center;"><?php echo date("d F Y"); ?> </td></tr>
+                                    <tr><td colspan="4" style="text-align:center;"><?php echo date("d F Y",$tmpdt1); ?> </td></tr>
                                     <tr>
                                         <td>1</td>
                                         <td><?php echo '00:00:00 - 00:59:59'?></td>
@@ -549,7 +286,6 @@ $totalsales1 = 0;
                                         
                                     
                                         $sql1 = "select * from iappenjualan where Date(TANGGAL)='$date' and time(tanggal) BETWEEN '00:00:00' and '00:59:59'";
-                                        
                                         $query1 = mysqli_query($conn,$sql1);
                                         $count = 0;
                                         $subtotalall = 0;
@@ -1130,91 +866,56 @@ $totalsales1 = 0;
                                                 <td><?php echo $totalprice; ?></td>
                                             </tr>
                                         </tfoot>
-                                    </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-<!--            end table daily per item-->
-
-            <!--            table daily per item-->
-        <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="xreading">
-                    <a href="./filtersalesperitem.php"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                  Custom Report(X-Reading)
-                </button>
-                      </a>
-                    <div class="card">
+                                    
                         
-                        <div class="body">
-                           <table class="table table-hover" id="tabledaily1">
-                                <caption>Report X - Reading &nbsp;<button onclick="exportToExcel1()" class="btn btn-success">Excel</button></caption>
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Description</th>
-                                        <th>Total</th>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                        $date = date("Y-m-d");
-                                        ?>
-                                    <tr><td colspan="3" style="text-align:center;"><?php echo date("d F Y"); ?></td></tr>
-                                    <tr>
-                                        
-                                        <td>1</td>
-                                        <td>Net Sales</td>
-                                    <?php  
-
-                                    
-                                        $sql1 = "select * from iappenjualan where Date(TANGGAL)='$date'";
-                                        
-                                        $query1 = mysqli_query($conn,$sql1);
-                                        $temptotal = 0;
-                                        $number= 1;
-                                        while($row1 = mysqli_fetch_array($query1))
-                                        {
-                                            $temptotal = $temptotal + $row1['JUMLAH_FAKTUR_RP'];
-                                        }
-                                        
-                                ?>
-                                        <td><?php echo asDollars($temptotal); ?></td>
-                                    <tr>
-                                        <tr>
-                                        
-                                        <td>1</td>
-                                        <td>Net Sales After Discount</td>
-                                    <?php  
-
-                                    
-                                        $sql1 = "select * from iappenjualan where Date(TANGGAL)='$date'";
-                                        
-                                        $query1 = mysqli_query($conn,$sql1);
-                                        $temptotal = 0;
-                                        $number= 1;
-                                        while($row1 = mysqli_fetch_array($query1))
-                                        {
-                                            $temptotal = $temptotal + $row1['JUMLAH_FAKTUR_RP'] - $row1['DISCOUNT_NILAI'];
-                                        }
-                                        
-                                ?>
-                                        <td><?php echo asDollars($temptotal); ?></td>
-                                    <tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
+            
+<!--            end table daily per item-->
+                <?php
+                                        $date1=$date;
+                                    }
+                }
+            ?>
+                                </table>
+                            </div>
                     </div>
                 </div>
             </div>
-<!--            end table daily per item-->
-
-
         </div>
     </section>
+<!--
+    <section class="content">
+        <div class="row">
+            <div class="col-md-6">
+                <button class="btn">report1</button>
+                <button class="btn">report2</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+               <div class="card">
+                <table class="table table-bordered table-hover">
+                    <caption>report1</caption>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Order Number</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Quantity(Total)</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Amt(Due)</th>       
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>   
+    </section>
+-->
 
     <!-- Jquery Core Js -->
     <script src="plugins/jquery/jquery.min.js"></script>
@@ -1259,84 +960,18 @@ $totalsales1 = 0;
     <!-- Demo Js -->
     <script src="js/demo.js"></script>
     <script>
-            $("#tabledaily").hide();
-            $("#tableperitem").hide();
-            $("#reportclock").hide();
-            $("#xreading").hide();
-            $("#hourlysales").hide();
+    //    $("#tabledaily").hide();
+     //   $("#tableperitem").hide();
+     //   $("#dailybtn").click(function(){
+     //       $("#tabledaily").show();
+     //       $("#tableperitem").hide();
+     //   });
+      //  $("#peritembtn").click(function(){
+      //      $("#tabledaily").hide();
+      //      $("#tableperitem").show();
+      //  });
+      //  
         
-        $("#dailybtn").click(function(){
-            $("#tabledaily").show();
-            $("#tableperitem").hide();
-            $("#reportclock").hide();
-            $("#xreading").hide();
-            $("#hourlysales").hide();
-        });
-        
-        $("#peritembtn").click(function(){
-            $("#tabledaily").hide();
-            $("#tableperitem").show();
-            $("#reportclock").hide();
-            $("#xreading").hide();
-            $("#hourlysales").hide();
-        });
-        
-        $("#clockbtn").click(function(){
-            $("#tabledaily").hide();
-            $("#tableperitem").hide();
-            $("#reportclock").show();
-            $("#xreading").hide();
-            $("#hourlysales").hide();
-        });
-        
-        $("#hourlybtn").click(function(){
-            $("#tabledaily").hide();
-            $("#tableperitem").hide();
-            $("#reportclock").hide();
-            $("#xreading").hide();
-            $("#hourlysales").show();
-            
-        });$("#xreadingbtn").click(function(){
-            $("#tabledaily").hide();
-            $("#tableperitem").hide();
-            $("#reportclock").hide();
-            $("#xreading").show();
-            $("#hourlysales").hide();
-            
-        });
-        
-    </script>
-    
-    <script>
-    function exportToExcel(){
-        var htmls = "";
-                    var uri = 'data:application/vnd.ms-excel;base64,';
-                    var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'; 
-                    var base64 = function(s) {
-                        return window.btoa(unescape(encodeURIComponent(s)))
-                    };
-
-                    var format = function(s, c) {
-                        return s.replace(/{(\w+)}/g, function(m, p) {
-                            return c[p];
-                        })
-                    };
-        
-                    var html  = document.getElementById("tabledaily").innerHTML;
-
-                    htmls = html;
-
-                    var ctx = {
-                        worksheet : 'Worksheet',
-                        table : htmls
-                    }
-
-
-                    var link = document.createElement("a");
-                    link.download = "reportdailysales.xls";
-                    link.href = uri + base64(format(template, ctx));
-                    link.click();
-        }
         function exportToExcel1(){
         var htmls = "";
                     var uri = 'data:application/vnd.ms-excel;base64,';
@@ -1362,65 +997,7 @@ $totalsales1 = 0;
 
 
                     var link = document.createElement("a");
-                    link.download = "reportsalesperitem.xls";
-                    link.href = uri + base64(format(template, ctx));
-                    link.click();
-        }
-        function exportToExcelclock(){
-        var htmls = "";
-                    var uri = 'data:application/vnd.ms-excel;base64,';
-                    var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'; 
-                    var base64 = function(s) {
-                        return window.btoa(unescape(encodeURIComponent(s)))
-                    };
-
-                    var format = function(s, c) {
-                        return s.replace(/{(\w+)}/g, function(m, p) {
-                            return c[p];
-                        })
-                    };
-        
-                    var html  = document.getElementById("tableclock").innerHTML;
-
-                    htmls = html;
-
-                    var ctx = {
-                        worksheet : 'Worksheet',
-                        table : htmls
-                    }
-
-
-                    var link = document.createElement("a");
-                    link.download = "clockinreport.xls";
-                    link.href = uri + base64(format(template, ctx));
-                    link.click();
-        }
-        function exportToExcelhour(){
-        var htmls = "";
-                    var uri = 'data:application/vnd.ms-excel;base64,';
-                    var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'; 
-                    var base64 = function(s) {
-                        return window.btoa(unescape(encodeURIComponent(s)))
-                    };
-
-                    var format = function(s, c) {
-                        return s.replace(/{(\w+)}/g, function(m, p) {
-                            return c[p];
-                        })
-                    };
-        
-                    var html  = document.getElementById("tablehour").innerHTML;
-
-                    htmls = html;
-
-                    var ctx = {
-                        worksheet : 'Worksheet',
-                        table : htmls
-                    }
-
-
-                    var link = document.createElement("a");
-                    link.download = "hourlysalesreport.xls";
+                    link.download = "customClockinandout.xls";
                     link.href = uri + base64(format(template, ctx));
                     link.click();
         }

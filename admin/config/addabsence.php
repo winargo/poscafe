@@ -8,7 +8,7 @@
         $absenceid=isset($_POST['absenceid']) ? $_POST['absenceid'] : '';
         $username=isset($_POST['absencename']) ? $_POST['absencename'] : '';
         $passcode=isset($_POST['passcode']) ? $_POST['passcode'] : '';
-
+        $timeout=isset($_POST['timeout']) ? $_POST['timeout'] : '';
         $sql = "Select absence_id from `iamabsence` where absence_id='$absenceid'" ;
         $result = mysqli_query($conn,$sql);
         if (!$result) {
@@ -27,8 +27,7 @@
             //if($_POST['command']=="clear"){
              //   $sql="update `user` set password='' where username='".$_POST['username']."'";
             //}
-          
-                $sql="insert into `iamabsence` (absence_id,absence_name,absence_password,absence_createdate,user_id) values('$absenceid','$username','$passcode',curdate(),'".$_SESSION['username']."')";
+                $sql="insert into `iamabsence` (absence_id,absence_name,absence_password,time_out,absence_createdate,user_id) values('$absenceid','$username','$passcode','$timeout',curdate(),'".$_SESSION['username']."')";
             //else{
                // $sql="delete from `user` where username='".$_POST['username']."'";
             //}

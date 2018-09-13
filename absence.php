@@ -93,9 +93,9 @@ if(!isset($_SESSION['error'])){
     
     <div class="container">
     <div class="row">
-        <div class="col-md-4 phone" style="background-color:#fafafa;">
-            <div class="row1" >
-                <div class="col-md-12">
+        <div class="col-md-4 phone" style="background-color:#fafafa;width:380px;">
+            <div class="row1" style="width:380px;" >
+                <div style="width:350px; padding-left:5%;">
                     <br>
                 <input type="number" name="password" id="telNumber" class="form-control" onchange="checkpass()" readonly>
                     <br>
