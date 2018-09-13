@@ -258,213 +258,40 @@
       </div>
     </nav>
     <!-- #Top Bar -->
-    <div class="row">
-        <div class="col-md-6" >
-            <div class="row" style="text-align:center; margin-top:20px;margin-bottom:20px;overflow: auto;height:1000px;min-height:500px">
-                <?php
-                    include "./config/connection.php";
-
-                    $sql = "select * from iamproduk where tdk_aktif=0 ORDER BY NAMA_PRODUK ASC";
-                    $query = mysqli_query($conn,$sql);
-                    while($row = mysqli_fetch_array($query)){
-                        ?>
-                <button class="btn btn-primary category" type="submit" onclick="submit('<?php echo $row['KODE_PRODUK'] ?>')"><p style="white-space: normal;"><?php echo $row["NAMA_PRODUK"] ?></p></button>
-                    <form method="post" action="./selectmenu.php" id="<?php echo $row['KODE_PRODUK'] ?>">
-                        <input name = "kodeproduk" type="hidden" value='<?php echo $row["KODE_PRODUK"]?>'>
-                </form>
-                <!--    <div class="col-md-6" style="border-radius:5px;margin-bottom:15px;">
-                        <div class="card" onclick="addMenu()">
-                        <img class="card-img-top" src="<?php //echo $row["IMAGEDIR"] ?>" alt="Card image cap">
-                        <div class="card-body">
-                          <p class="card-title"><?php //echo $row["NAMA_STOCK"]; ?></p>
-                          <p class="card-text"><?php //echo asDollars($row["HARGAJUAL1"]); ?></p>
-                          <p class="card-text"><?php //echo $row["SALDOAWAL"]; ?></p> 
-                          <form action="./action/cekcheckout.php" method="post">
-                            <input type="hidden" name="namastock" id="namastock" value="<?php //echo $row["NAMA_STOCK"] ?>">
-                            <input type="hidden" name="qty" value="1">
-                            <input type="hidden" name="harga" value="<?php //echo $row["HARGAJUAL1"]; ?>">
-                            <input type="hidden" name="userid" value="<?php //echo $_SESSION["username"]; ?>">
-                            <input type="submit" name="addMenu" value="Add" class="btn btn-primary" onclick="addMenu(<?php //echo $row["NAMA_STOCK"] ?>)" id="addMenu" style="width : 100%;">
-                          </form>
-                        </div>
-                      </div>
-                    </div>-->
-                <?php
-                    }
-                ?>
-            </div>
-        </div>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Settings</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <a href="./orders.php"><span aria-hidden="true">&times;</span></a>
+        </button>
+      </div>
+        <form action="./action/settings.php" method="post">
+      <div class="modal-body">
         
-        <form action="./action/cekprint.php" id="formprint" style="margin:0 auto;" method="post">
-            <div class="form-group" id="reprint">
-                <label for="3">Reprint Order</label>
-                <input type="text" class="form-control" id="3" name="print" placeholder="enter Order No" value="" required>
-                <?php
-                                        if(!isset($_SESSION["error1"])){
-                                            $_SESSION["error1"]="";
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Lokasi Stand:</label>
+            <input type="text" value="<?php
+                                     
+                                     
+                                     $sql1 = "select * from xparam where nama_param='LOKASI'";
+                                        
+                                        $query1 = mysqli_query($conn,$sql1);
+                                        $number= 0;
+                                        while($row1 = mysqli_fetch_array($query1))
+                                        {
+                                            echo $row1['NILAI_PARAM'];
                                         }
-                                        else if($_SESSION["error1"]!=""){
-                                        echo '<p>'.$_SESSION["error1"].'</p>';
-                                           echo' <script>
-                                                $("#formprint").show();
-                                                var data = 1;
-                                            </script>';
-                                            $_SESSION["error1"]="";
-                                        }
-                                        ?>
-                <button type="submit" class="btn btn-success "style="margin-top:20px;margin-bottom:20px;">Check</button>
+                                     
+                                     ?>" name="lokasi" class="form-control" id="recipient-name" required>
+          </div>
             </div>
-        </form>
-        
-        <div class="col-md-5" style="margin-top : 20px ;margin-left: 3.5%;border : 4px solid orange; border-radius: 5px;">
-             <div class="checkoutdata">
-
-                  <div class="menu-head" style="padding-top:20px">
-                 <!--    <img src="./images/logo.PNG" width="150" height="150">-->
-                     <p>Let's Happy Bellying!<br>Frying now @ Brastagi Tiara<br>Operation Hours(Daily):<br>10:00 a.m - 10:00 p.m</p>
-                      <hr style="border-top: dashed 2px;margin:0;">
-                      <hr style="border-top: dashed 2px;margin-top:5px;">
-                     <p style="text-align:left;">
-                        Order No : <?php
-                         $sql = "select * from iamsetupseri where no_seri='JL'";
-                        $query = mysqli_query($conn,$sql);
-            
-                        while($row = mysqli_fetch_array($query))
-                        {    
-                            echo str_replace('.0000','',$row['NO_URUT']);
-                        }
-                         ?><br>
-                        Date : <?php
-                            echo date("d/m/Y");?>&nbsp;<?php
-                            echo date("h:i a");
-                            ?><br>
-                         Transaction By: <?php echo $_SESSION['username'] ; ?>
-                     </p>
-
-                      <div class="table-responsive">
-                          <table class="table" style="border:none;">
-                            <thead  style="margin-bottom:5px;border:none">
-                              <tr style="border:none;">
-                                <th class="no" style="border:none;padding-top:0;">No</th>
-                                <th class="nama" style="border:none;padding-top:0;">Description</th>
-                                <th class="harga" style="border:none;padding-top:0;">Amt (Rp.)</th>
-                              </tr>
-                            </thead>
-                            <tbody style="border:none;">
-                              <?php
-                                  include "./config/connection.php";
-
-                                  $sql = "select * from cart where checkout_status = 0";
-                                  $query = mysqli_query($conn,$sql);
-                                  $no = 1;
-                                  while ($row = mysqli_fetch_array($query)) {
-
-                                    ?>
-                                      <tr style="border:none;">
-                                        <td class="no" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $no; ?></td>
-                                        <td class="nama" style="border:none;padding-top:0;padding-bottom:0;"><?php echo $row['KODE_STOCK']."(".$row['QTY'].")"; ?></td>
-                                        <td class="harga" style="border:none;padding-top:0;padding-bottom:0;"><?php echo asDollars($row['QTY']*$row['HARGA']); ?></td>
-                                          <td style="border:none;">
-                                          <form method="post" action=".\action\delcart.php">
-                                              <input type="hidden" name="kodestock" value="<?php echo $row['KODE_STOCK']; ?>">
-                                              <input type="submit" class="btn btn-danger" value="X" style="border-radius:100px;">
-                                          </form>
-                                        </td>
-                                      </tr>
-                                <?php
-                                if($row['note']==""){
-                                ?>
-                                
-                                <?php
-                                    }   
-                                else{
-                                ?>
-                                
-                                <tr style="border:none;border-bottom : 1px;">
-                                    <td colspan="4" style="border:none;"><input style="width:100%;" class="form-control" disabled type="text" placeholder="No Additional note for <?php echo $row['KODE_STOCK']; ?>" value="<?php echo $row['note']; ?>"></td>
-                                </tr>
-                                <?php
-                                }   
-                                ?>
-
-                                    <?php
-                                    $no++;
-                                  }
-                               ?>
-                            </tbody>
-                          </table>
-                          </div>
-                      <hr style="border-top: dashed 2px;margin-top:2px;">
-                      <?php
-                        include "./config/connection.php";
-                        $q4 = "select * from cart where checkout_status = 0";
-                        $s4 = mysqli_query($conn,$q4);
-                        $total = 0;
-                        $qty = 0;
-                        
-                        while ($row = mysqli_fetch_array($s4)) {
-                            $total +=$row["QTY"]*$row["HARGA"];
-                            $qty += $row["QTY"];
-                      ?>
-                      <?php
-                          }
-                          $changetotal = asDollars($total);  
-                          echo "<p style='text-align:left;'>Subtotal($qty)<span style='float:right;'>$changetotal</span></p>";
-                      ?>
-                      <hr style="border-top: dashed 2px;margin-top:2px;">
-                    <p style="text-align:left;margin-left:15%;">
-                        <span style="font-size:25pt">Total
-                        <span style="float:right;">
-                          <?php
-                            include "./config/connection.php";
-                            $q4 = "select * from cart where checkout_status = 0";
-                            $s4 = mysqli_query($conn,$q4);
-                            $total = 0;
-                            $qty = 0;
-
-                            while ($row = mysqli_fetch_array($s4)) {
-                                $total +=$row["QTY"]*$row["HARGA"];
-                                $qty += $row["QTY"];
-                          ?>
-                          <?php
-                              }
-                              $changetotal = asDollars($total);
-                              echo $changetotal;
-                          ?>
-                        </span></span><br>
-
-                        <?php
-                          include "./config/connection.php";
-                          $q4 = "select * from cart where checkout_status = 0";
-                          $s4 = mysqli_query($conn,$q4);
-                          $total = 0;
-                          while ($row = mysqli_fetch_array($s4)) {
-                              $total +=$row["QTY"]*$row["HARGA"];
-                        ?>
-                        <?php
-                            }
-                            $changetotal = asDollars($total);
-                            // echo "<span style='float:right;'>$changetotal</span>";
-                        ?>
-                     </p>
-
-                     <hr style="border-top: dashed 2px;margin-top:5px;">
-
-                     <p style="text-align:center;">
-                        Cater for office meeting , event birthday<br>
-                         Please contact us :<br>
-                         WA : 085922380750<br>
-                         Line : happybellying<br>
-                         Instagram : happybellying<br>
-                     </p>
-                  </div>
-
-               </div>
-                <div class="checkout">
-                    <a href="payment.php"><button class="btn btn-success"><span class="glyphicon glyphicon-print"></span> Check Out</button></a>
-                </div>
+                <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save</button>
             </div>
+            </form>
     </div>
+  </div>
 </body>
 
 <script type="text/javascript">

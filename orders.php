@@ -42,7 +42,13 @@
             
             if($query)
             {    
-                header("Refresh:0");
+                $sql1 = "insert into xparam (KODE_PARAM,NAMA_PARAM,NILAI_PARAM) VALUES(2,'LOKASI','')";
+                $query1= mysqli_query($conn,$sql1);
+
+                if($query1)
+                {    
+                    header("Refresh:0");
+                }
             }
     }
     
